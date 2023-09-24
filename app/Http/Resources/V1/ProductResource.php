@@ -1,0 +1,61 @@
+<?php
+
+namespace App\Http\Resources\V1;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class ProductResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        return [
+            'id' => (int) $this->id,
+            'company_id' => $this->company_id,
+            'name' => $this->name,
+            'category_id' => $this->category_id,
+            'category' => [
+                'id' => $this->category->id,
+                'text' => $this->category->text,
+            ],
+            'unity_id' => $this->unity_id,
+            'unity' => [
+                "id" => $this->unity->id,
+                "name" => $this->unity->name,
+                "abbrev" => $this->unity->abbreviation,
+            ],
+            'brand_id' => $this->brand_id,
+            'brand' => [
+                'id' => $this->brand->id,
+                'name' => $this->brand->name
+            ],
+            'currency_id' => $this->currency_id,
+            'currency' => [
+                "id" => $this->currency->id,
+                "name" => $this->currency->name,
+                "symbol" => $this->currency->symbol,
+            ],
+            'taxmode_id' => $this->taxmode_id,
+            'taxmode' => [
+                "id" => $this->taxmode->id,
+                "name" => $this->taxmode->name,
+                "code" => $this->taxmode->code,
+            ],
+            'clasificacion_sunat_id' => $this->clasificacion_sunat_id,
+            'model' => $this->model,
+            'url' => $this->url,
+            'image' => $this->image,
+            'set_mode' => $this->set_mode,
+            'detail' => $this->detail,
+            'price' => $this->price,
+            'status' => $this->status,
+            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+            'updated_at' => $this->updated_at->format('Y-m-d H:i:s')
+        ];
+    }
+}
