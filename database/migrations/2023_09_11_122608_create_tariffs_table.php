@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('tariffs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('office_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('name');
             $table->integer('rate')->default(10);
             $table->tinyInteger('status')->default(1);

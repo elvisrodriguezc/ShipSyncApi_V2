@@ -18,6 +18,7 @@ class TariffitemResource extends JsonResource
             'id' => (int)$this->id,
             // 'tariff'=>new TariffResource( $this->tariff),
             'tariff_id' => $this->tariff_id,
+            'warehouse_id' => $this->warehouse_id,
             'warehouse' => [
                 'id' => $this->warehouse->id,
                 'name' => $this->warehouse->name,
@@ -31,6 +32,7 @@ class TariffitemResource extends JsonResource
             'producto' => new ProductResource($this->product),
             'image' => $this->product->image,
             'hide' => false,
+            'currency_id' => $this->currency_id,
             'currency' => $this->product->currency->symbol,
             'price' => (float)$this->price,
             'quantity' => 1,

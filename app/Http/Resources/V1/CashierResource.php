@@ -18,6 +18,11 @@ class CashierResource extends JsonResource
             'id' => (int)$this->id,
             'company_id' => $this->company_id,
             'user_id' => $this->user_id,
+            'user' => [
+                'id' => $this->user->id,
+                'name' => $this->user->name,
+                'email' => $this->user->email,
+            ],
             'description' => $this->description,
             'status' => $this->status,
         ];

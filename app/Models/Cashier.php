@@ -16,8 +16,8 @@ class Cashier extends Model
         'status',
     ];
 
-    public function companies(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Company::class, 'company_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

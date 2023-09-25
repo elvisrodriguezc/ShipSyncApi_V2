@@ -75,7 +75,7 @@ class DatabaseSeeder extends Seeder
             'email' => "groend@gmail.com",
             'ubigeodistrito_id' => 2
         ]);
-        \App\Models\Office::factory()->create();
+        \App\Models\Office::factory(3)->create();
         \App\Models\Warehouse::factory(6)->create();
         \App\Models\Category::factory(8)->create();
         \App\Models\Taxmode::factory()->create([
@@ -99,16 +99,19 @@ class DatabaseSeeder extends Seeder
         \App\Models\Product::factory(35)->create();
         \App\Models\Tariff::factory()->create([
             'company_id' => 1,
+            'office_id' => 1,
             'name' => 'Usuario',
             'rate' => 20,
         ]);
         \App\Models\Tariff::factory()->create([
             'company_id' => 1,
+            'office_id' => 1,
             'name' => 'Distribuidor',
             'rate' => 15,
         ]);
         \App\Models\Tariff::factory()->create([
             'company_id' => 2,
+            'office_id' => 1,
             'name' => 'Usuario',
             'rate' => 15,
         ]);

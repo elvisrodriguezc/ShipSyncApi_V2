@@ -19,22 +19,29 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
-        if ($request->mode === "cashier") {
-            $data = QueryBuilder::for(Order::class)
-                ->allowedFilters(['id'])
-                ->defaultSort('-created_at')
-                ->allowedSorts(['id'])
-                ->where('company_id', $user->company_id)
-                ->wherenot('status', 2)
-                ->get();
-        } else {
-            $data = QueryBuilder::for(Order::class)
-                ->allowedFilters(['id'])
-                ->defaultSort('-created_at')
-                ->allowedSorts(['id'])
-                ->where('company_id', $user->company_id)
-                ->get();
+
+        $data = QueryBuilder::for(Order::class)
+            ->allowedFilters(['id'])
+            ->defaultSort('-id')
+            ->allowedSorts(['id'])
+            ->where('company_id', $user->company_id);
+
+        switch ($request->mode) {
+            case "cashier":
+                $data = $data->wherenot('status', 2);
+                break;
+            case "ip":
+                $data = $data->where('status', 2);
+                break;
+            case "customer":
+                // Agregar cualquier lógica adicional para el modo "customer" aquí
+                break;
+            default:
+                // Agregar cualquier lógica adicional para otros modos aquí
+                break;
         }
+
+        $data = $data->get();
 
         return OrderResource::collection($data)
             ->additional([

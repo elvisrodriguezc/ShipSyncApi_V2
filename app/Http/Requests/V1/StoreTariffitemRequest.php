@@ -27,7 +27,7 @@ class StoreTariffitemRequest extends FormRequest
             'product_id' => 'required',
             'currency_id' => 'required',
             'price' => 'required',
-            'status',
+            'status' => 'sometimes',
             'product_id' => 'unique:tariffitems,product_id,NULL,id,tariff_id,' . $this->tariff_id,
         ];
     }

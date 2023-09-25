@@ -18,6 +18,12 @@ class TariffResource extends JsonResource
             'id' => (int)$this->id,
             'name' => $this->name,
             'company_id' => $this->company_id,
+            'office_id' => $this->office_id,
+            'office' => [
+                'id' => $this->office->id,
+                'name' => $this->office->name,
+                'address' => $this->office->address,
+            ],
             'rate' => $this->rate,
             'status' => $this->status,
             // 'tariff_items' => new TariffitemCollection($this->tariffitem),

@@ -22,11 +22,11 @@ class TariffitemController extends Controller
                 ->allowedSorts(['id'])
                 ->get();
         } else {
-            return $data = response()->json([
-                "data" => "Ups, Houston, I don't know what do you need. Please espedify the Tariff parameter and a value",
-                "message" => "Error",
-                "error" => 1
-            ], 400);
+            $data = QueryBuilder::for(Tariffitem::class)
+                ->allowedFilters(['id'])
+                ->defaultSort('-created_at')
+                ->allowedSorts(['type'])
+                ->get();
         }
         return TariffitemResource::collection($data)
             ->additional([

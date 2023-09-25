@@ -23,7 +23,8 @@ class StoreTariffRequest extends FormRequest
     {
         return [
             'company_id',
-            'name' => 'required|unique:tariffs,name',
+            'office_id' => 'required',
+            'name' => 'required',
             'rate' => 'required',
             'status',
         ];

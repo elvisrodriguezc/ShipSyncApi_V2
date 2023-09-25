@@ -23,7 +23,8 @@ class UpdateTariffRequest extends FormRequest
     {
         return [
             'company_id',
-            'name' => 'sometimes|required|unique:tariffs,name',
+            'office_id' => 'sometimes',
+            'name' => 'sometimes|required',
             'rate' => "sometimes|required",
             'status' => "sometimes|required",
         ];
