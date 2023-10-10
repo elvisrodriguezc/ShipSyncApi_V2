@@ -4,6 +4,7 @@ namespace App\Http\Resources\V1;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\URL;
 
 class ProductResource extends JsonResource
 {
@@ -14,10 +15,14 @@ class ProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $imagePath = $this->image;
+        $imageUrl = $imagePath ? URL::to('/') . env('APP_IMAGE_PATH') . '/' . $imagePath : null;
         return [
             'id' => (int) $this->id,
             'company_id' => $this->company_id,
             'name' => $this->name,
+            'model' => $this->model,
+            'detail' => $this->detail,
             'category_id' => $this->category_id,
             'category' => [
                 'id' => $this->category->id,
@@ -47,12 +52,11 @@ class ProductResource extends JsonResource
                 "code" => $this->taxmode->code,
             ],
             'clasificacion_sunat_id' => $this->clasificacion_sunat_id,
-            'model' => $this->model,
             'url' => $this->url,
-            'image' => $this->image,
+            'image' => $imageUrl,
             'set_mode' => $this->set_mode,
-            'detail' => $this->detail,
-            'price' => $this->price,
+            'minimal' => (float)$this->minimal,
+            'price' => (float) $this->price,
             'status' => $this->status,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d H:i:s')

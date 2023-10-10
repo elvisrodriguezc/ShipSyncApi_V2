@@ -23,8 +23,9 @@ class UpdateWarehouseRequest extends FormRequest
     {
         return [
             'office_id' => 'sometimes|required',
-            'warehouse_id' => 'sometimes|required',
             'name' => 'sometimes|required|unique:warehouses,name',
+            'detail' => 'sometimes',
+            'warehouse_id' => 'sometimes|required',
             'isproduction' => 'sometimes|required',
             'status' => 'sometimes|required',
         ];

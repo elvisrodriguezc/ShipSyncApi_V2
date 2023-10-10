@@ -22,22 +22,22 @@ class UpdateProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "company_id" => "sometimes|required",
-            "category_id" => "sometimes|required",
-            "unity_id" => "sometimes|required",
-            "brand_id" => "sometimes|required",
-            "clasificacion_sunat_id" => "sometimes|required",
-            "currency_id" => "sometimes|required",
-            "name" => "sometimes|required|unique:products,name|max:255",
+            "company_id" => "sometimes",
+            "category_id" => "sometimes",
+            "unity_id" => "sometimes",
+            "brand_id" => "sometimes",
+            "clasificacion_sunat_id" => "sometimes",
+            "currency_id" => "sometimes",
+            "name" => "sometimes|max:255",
             "model" => "sometimes",
             "url" => "sometimes",
-            "image" => "sometimes",
-            "set_mode" => "sometimes|required",
-            "detail" => "sometimes|required",
-            "minimal" => "sometimes|required",
-            "price" => "sometimes|required",
-            "taxmode_id" => "sometimes|required",
-            "status" => "sometimes|required"
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:300|dimensions:min_width=200,min_height=200',
+            "set_mode" => "sometimes",
+            "detail" => "sometimes",
+            "minimal" => "sometimes",
+            "price" => "sometimes",
+            "taxmode_id" => "sometimes",
+            "status" => "sometimes"
         ];
     }
 }

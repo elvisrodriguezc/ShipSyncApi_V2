@@ -25,7 +25,7 @@ class StoreOfficeRequest extends FormRequest
             'name' => 'required|unique:offices,name|min:4',
             'ubigeodistrito_id' => 'required',
             'address' => 'required',
-            'phone',
+            'phone' => 'sometimes',
             'email' => 'required|email',
             'status',
         ];

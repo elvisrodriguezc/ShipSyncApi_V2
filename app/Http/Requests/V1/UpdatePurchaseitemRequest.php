@@ -11,7 +11,7 @@ class UpdatePurchaseitemRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,14 @@ class UpdatePurchaseitemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'purchase_id' => 'sometimes',
+            'product_id' => 'sometimes',
+            'unity_id' => 'sometimes',
+            'price' => 'sometimes',
+            'quantity' => 'sometimes',
+            'discount' => 'sometimes',
+            'discount_percent' => 'sometimes',
+            'status' => 'sometimes'
         ];
     }
 }

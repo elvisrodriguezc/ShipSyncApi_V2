@@ -27,7 +27,11 @@ class UbigeodistritoResource extends JsonResource
                     'name' => $this->ubigeoprovincia->ubigeodepartamento->name,
                     'code' => $this->ubigeoprovincia->ubigeodepartamento->code,
                 ]
-            ]
+            ],
+            'poblacion' => $this->poblacion,
+            'superficie' => $this->superficie,
+            'latitud' => $this->x,
+            'longitud' => $this->y,
         ];
     }
 }

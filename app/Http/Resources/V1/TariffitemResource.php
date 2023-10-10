@@ -4,6 +4,7 @@ namespace App\Http\Resources\V1;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\URL;
 
 class TariffitemResource extends JsonResource
 {
@@ -14,6 +15,8 @@ class TariffitemResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $imagePath = $this->product->image;
+        $imageUrl = $imagePath ? URL::to('/') . env('APP_IMAGE_PATH') . '/' . $imagePath : null;
         return [
             'id' => (int)$this->id,
             // 'tariff'=>new TariffResource( $this->tariff),
@@ -30,7 +33,7 @@ class TariffitemResource extends JsonResource
             'icon' => strtolower($this->product->category->icon),
             'detail' => $this->product->detail,
             'producto' => new ProductResource($this->product),
-            'image' => $this->product->image,
+            'image' =>  $imageUrl,
             'hide' => false,
             'currency_id' => $this->currency_id,
             'currency' => $this->product->currency->symbol,

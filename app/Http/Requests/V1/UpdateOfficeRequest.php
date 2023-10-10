@@ -22,12 +22,12 @@ class UpdateOfficeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'sometimes|required|unique:offices,name|min:4',
-            'ubigeodistrito_id' => 'sometimes|required',
-            'address' => 'sometimes|required',
-            'phone',
-            'email' => 'sometimes|required|email',
-            'status',
+            'name' => 'sometimes|unique:offices,name|min:4',
+            'ubigeodistrito_id' => 'sometimes',
+            'address' => 'sometimes',
+            'phone' => 'sometimes',
+            'email' => 'sometimes',
+            'status' => 'sometimes',
         ];
     }
 }

@@ -8,6 +8,8 @@ use App\Http\Requests\V1\StoreProductRequest;
 use App\Http\Requests\V1\UpdateProductRequest;
 use App\Http\Resources\V1\ProductResource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ProductController extends Controller
@@ -39,8 +41,12 @@ class ProductController extends Controller
     {
         $user = Auth::user();
         $formData = $request->validated();
-        $formData['company_id'] = $user->company_id; // Add the company_id field with user company
-        $data = Product::create($formData);
+        $formData['company_id'] = $user->company_id; // Agregar el campo company_id con la compañía del usuario
+        // $data = Product::create($formData);
+        $data = new Product($formData);
+        $path = $request->image->store('products', 'images');
+        $data->image = $path; // Asignar la ruta de la imagen al campo image_url del producto
+        $data->save(); // Guardar los cambios en la base de datos
         return ProductResource::make($data)
             ->additional([
                 'msg' => 'Registro Creado Correctamente',
@@ -48,7 +54,6 @@ class ProductController extends Controller
                 'Error' => 0,
             ]);
     }
-
     /**
      * Display the specified resource.
      */
@@ -62,13 +67,24 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        $product->update($request->validated());
-        return ProductResource::make($product)
-            ->additional([
+        return DB::transaction(function () use ($request, $product) {
+            $formData = $request->validated();
+
+            if ($request->hasFile('image')) {
+                $previousImage = $product->image;
+                if ($previousImage) {
+                    Storage::disk('images')->delete($previousImage);
+                }
+                $path = $request->file('image')->store('products', 'images');
+                $formData['image'] = $path;
+            }
+            $product->update($formData);
+            return ProductResource::make($product)->additional([
                 'msg' => 'Registro Actualizado Correctamente',
                 'title' => 'Producto',
                 'Error' => 0,
             ]);
+        }, 5);
     }
 
     /**

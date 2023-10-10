@@ -69,15 +69,15 @@ class DatabaseSeeder extends Seeder
         \App\Models\Ubigeodistrito::factory(120)->create();
         \App\Models\Office::factory()->create([
             'company_id' => 2,
-            'name' => 'Unidad',
+            'name' => 'Principal',
             'address' => 2,
             'phone' => "084-256555",
             'email' => "groend@gmail.com",
             'ubigeodistrito_id' => 2
         ]);
-        \App\Models\Office::factory(3)->create();
+        \App\Models\Office::factory(1)->create();
         \App\Models\Warehouse::factory(6)->create();
-        \App\Models\Category::factory(8)->create();
+        \App\Models\Category::factory(2)->create();
         \App\Models\Taxmode::factory()->create([
             'name' => 'Gravado',
             'code' => '001',
@@ -96,28 +96,22 @@ class DatabaseSeeder extends Seeder
             'code' => '0',
         ]);
         \App\Models\Unspsc::factory(10)->create();
-        \App\Models\Product::factory(35)->create();
-        \App\Models\Tariff::factory()->create([
-            'company_id' => 1,
-            'office_id' => 1,
-            'name' => 'Usuario',
-            'rate' => 20,
-        ]);
-        \App\Models\Tariff::factory()->create([
-            'company_id' => 1,
-            'office_id' => 1,
-            'name' => 'Distribuidor',
-            'rate' => 15,
-        ]);
-        \App\Models\Tariff::factory()->create([
-            'company_id' => 2,
-            'office_id' => 1,
-            'name' => 'Usuario',
-            'rate' => 15,
-        ]);
-        \App\Models\Tariffitem::factory(50)->create();
+        \App\Models\Product::factory(6)->create();
+        // \App\Models\Tariff::factory()->create([
+        //     'company_id' => 1,
+        //     'office_id' => 1,
+        //     'name' => 'Usuario',
+        //     'rate' => 20,
+        // ]);
+        // \App\Models\Tariff::factory()->create([
+        //     'company_id' => 1,
+        //     'office_id' => 1,
+        //     'name' => 'Distribuidor',
+        //     'rate' => 15,
+        // ]);
+        // \App\Models\Tariffitem::factory(1)->create();
         \App\Models\Table::factory(6)->create();
-        \App\Models\Cashier::factory(2)->create();
+        \App\Models\Cashier::factory(1)->create();
         \App\Models\Idform::factory()->create([
             'name' => 'DNIdentidad',
             'abbrev' => 'DNI',
@@ -161,9 +155,9 @@ class DatabaseSeeder extends Seeder
             'abbrev' => 'ND',
             'code' => '003'
         ]);
-        \App\Models\Order::factory(2)->create();
-        \App\Models\Orderitem::factory(10)->create();
-        \App\Models\Purchase::factory(4)->create();
-        \App\Models\Purchaseitem::factory(12)->create();
+        \App\Models\Order::factory(0)->create();
+        \App\Models\Orderitem::factory(0)->create();
+        \App\Models\Purchase::factory(0)->create();
+        \App\Models\Purchaseitem::factory(0)->create();
     }
 }

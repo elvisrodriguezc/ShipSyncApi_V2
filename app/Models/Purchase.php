@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Purchase extends Model
 {
@@ -19,7 +18,8 @@ class Purchase extends Model
         'guide_number',
         'date',
         'credit',
-        'duedate'
+        'duedate',
+        'status'
     ];
 
     protected $cast = [
@@ -30,16 +30,20 @@ class Purchase extends Model
         'updated_at'
     ];
 
-    public function entity(): BelongsTo
+    public function entity()
     {
-        return $this->belongsTo(Entity::class, 'entity_id');
+        return $this->belongsTo(Entity::class);
     }
-    public function receipttype(): BelongsTo
+    public function receipttype()
     {
-        return $this->belongsTo(Receipttype::class, 'receipttype_id');
+        return $this->belongsTo(Receipttype::class);
     }
-    public function warehouse(): BelongsTo
+    public function warehouse()
     {
-        return $this->belongsTo(Warehouse::class, 'warehouse_id');
+        return $this->belongsTo(Warehouse::class);
+    }
+    public function purchaseitems()
+    {
+        return $this->hasMany(Purchaseitem::class);
     }
 }

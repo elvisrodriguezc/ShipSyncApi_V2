@@ -11,7 +11,7 @@ class StorePurchaseitemRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,14 @@ class StorePurchaseitemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'purchase_id' => 'required',
+            'product_id' => 'required',
+            'unity_id' => 'required',
+            'price' => 'required',
+            'quantity' => 'required',
+            'discount' => 'sometimes',
+            'discount_percent' => 'sometimes',
+            'status' => 'sometimes'
         ];
     }
 }

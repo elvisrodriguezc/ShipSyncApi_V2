@@ -22,17 +22,17 @@ class StoreProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "company_id",
+            "company_id" => "sometimes",
             "category_id" => "required",
             "unity_id" => "required",
             "brand_id" => "required",
             "taxmode_id" => "required",
             "clasificacion_sunat_id",
             "currency_id" => "required",
-            "name" => "required|unique:products,name|max:255",
-            "model",
+            "name" => "required|unique:products,name,NULL,id,company_id," . $this->input('company_id'),
+            "model" => "sometimes",
             "url" => "required",
-            "image" => "required",
+            "image" => "required|image|dimensions:min_width=200,min_height=200|mimes:png,jpg|max:300",
             "set_mode" => "required",
             "detail" => "required",
             "minimal" => "required",

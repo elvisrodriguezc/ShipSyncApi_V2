@@ -11,6 +11,7 @@ class Warehouse extends Model
     protected $fillable = [
         'office_id',
         'warehouse_id',
+        'detail',
         'name',
         'isproduction',
         'status',
@@ -18,5 +19,9 @@ class Warehouse extends Model
     public function office()
     {
         return $this->belongsTo(Office::class);
+    }
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
     }
 }

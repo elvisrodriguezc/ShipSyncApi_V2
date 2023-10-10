@@ -24,7 +24,6 @@ class OfficeResource extends JsonResource
             'email' => $this->email,
             'status' => $this->status,
             'distrito' => new UbigeodistritoResource($this->ubigeodistrito),
-            // 'stores' => new WarehouseCollection($this->store),
             'warehouses' => WarehouseResource::collection($this->warehouse)
         ];
     }

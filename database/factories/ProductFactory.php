@@ -18,6 +18,7 @@ class ProductFactory extends Factory
     {
         $width = 800;
         $height = 400;
+        $image_name = $this->faker->image('public/storage/products', 400, 300, null, false);
         return [
             'company_id' => $this->faker->numberBetween(1, 2),
             'name' => $this->faker->sentence(3),
@@ -30,7 +31,7 @@ class ProductFactory extends Factory
             'minimal' => $this->faker->randomNumber(2),
             'brand_id' => $this->faker->numberBetween(1, 2),
             'url' => $this->faker->url,
-            'image' => 'https://api.elvisrodriguezc.com/public/img/products/celular.jpg',
+            'image' => 'products/' . $image_name,
             'set_mode' => $this->faker->lexify('???'),
             'unspsc_id' => $this->faker->numberBetween(1, 5),
             'taxmode_id' => 1,

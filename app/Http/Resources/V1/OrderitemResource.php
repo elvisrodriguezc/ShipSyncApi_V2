@@ -4,6 +4,7 @@ namespace App\Http\Resources\V1;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\URL;
 
 class OrderitemResource extends JsonResource
 {
@@ -14,11 +15,13 @@ class OrderitemResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $imagePath = $this->tariffitem->product->image;
+        $imageUrl = $imagePath ? URL::to('/') . env('APP_IMAGE_PATH') . '/' . $imagePath : null;
         return [
             'id' => (int)$this->id,
             'order_id' => $this->order_id,
             'tariffitem_id' => $this->tariffitem_id,
-            'image' => $this->tariffitem->product->image,
+            'image' => $imageUrl,
             'title' => $this->tariffitem->product->name,
             'currency' => $this->tariffitem->product->currency->symbol,
             'tariff_item' => new TariffitemResource($this->tariffitem),

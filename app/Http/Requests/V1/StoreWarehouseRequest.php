@@ -23,8 +23,9 @@ class StoreWarehouseRequest extends FormRequest
     {
         return [
             'office_id' => 'required',
-            'warehouse_id' => 'required',
-            'name' => 'required|unique:warehouses,name',
+            'name' => 'required|unique:warehouses,name,NULL,id,office_id,' . $this->input('office_id'),
+            'warehouse_id' => 'sometimes',
+            'detail' => 'sometimes',
             'isproduction' => 'required',
         ];
     }
