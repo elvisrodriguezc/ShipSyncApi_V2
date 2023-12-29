@@ -17,8 +17,7 @@ class TariffFactory extends Factory
     public function definition(): array
     {
         return [
-            'company_id' => $this->faker->numberBetween(1, 2),
-            'office_id' => $this->faker->numberBetween(1, 2),
+            'warehouse_id' => $this->faker->numberBetween(1, 2),
             'name' => $this->faker->word,
             'rate' => $this->faker->numberBetween(10, 20),
         ];

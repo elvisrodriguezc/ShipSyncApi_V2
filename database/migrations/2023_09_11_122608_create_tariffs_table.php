@@ -13,13 +13,12 @@ return new class extends Migration
     {
         Schema::create('tariffs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('office_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->string('name');
             $table->integer('rate')->default(10);
+            $table->foreignId('warehouse_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->unique(['warehouse_id', 'name']);
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
-            $table->unique(['company_id', 'name']);
         });
     }
 

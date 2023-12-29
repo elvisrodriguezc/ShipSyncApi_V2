@@ -10,8 +10,7 @@ class Tariff extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'company_id',
-        'office_id',
+        'warehouse_id',
         'name',
         'rate',
         'status',
@@ -39,26 +38,26 @@ class Tariff extends Model
         });
 
         self::created(function ($tariff) {
-            $user = Auth::user();
-            $products = Product::where('set_mode', 'like', '%P%')
-                ->where([
-                    ['status', '=', 1],
-                    ['company_id', '=', $user->company_id]
-                ])
-                ->get();
-            $warehouses = Warehouse::where('office_id', $tariff->office_id)
-                ->get();
-            $warehouseFirst = $warehouses[0]->id;
-            foreach ($products as $product) {
-                $tariffItem = new Tariffitem();
-                $tariffItem->tariff_id = $tariff->id;
-                $tariffItem->price = $product->price * (1 + ($tariff->rate / 100));
-                $tariffItem->warehouse_id = $warehouseFirst;
-                $tariffItem->product_id = $product->id;
-                $tariffItem->currency_id = $product->currency_id;
-                $tariffItem->status = 1;
-                $tariffItem->save();
-            }
+            // $user = Auth::user();
+            // $products = Product::where('set_mode', 'like', '%P%')
+            //     ->where([
+            //         ['status', '=', 1],
+            //         ['company_id', '=', $user->company_id]
+            //     ])
+            //     ->get();
+            // $warehouses = Warehouse::where('office_id', $tariff->office_id)
+            //     ->get();
+            // $warehouseFirst = $warehouses[0]->id;
+            // foreach ($products as $product) {
+            //     $tariffItem = new Tariffitem();
+            //     $tariffItem->tariff_id = $tariff->id;
+            //     $tariffItem->price = $product->price * (1 + ($tariff->rate / 100));
+            //     $tariffItem->warehouse_id = $warehouseFirst;
+            //     $tariffItem->product_id = $product->id;
+            //     $tariffItem->currency_id = $product->currency_id;
+            //     $tariffItem->status = 1;
+            //     $tariffItem->save();
+            // }
         });
 
         self::updating(function ($tariff) {

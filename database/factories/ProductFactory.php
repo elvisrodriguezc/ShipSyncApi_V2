@@ -18,7 +18,7 @@ class ProductFactory extends Factory
     {
         $width = 800;
         $height = 400;
-        $image_name = $this->faker->image('public/storage/products', 400, 300, null, false);
+        $image_name = $this->faker->image('public/storage/images/products', 400, 300, null, false);
         return [
             'company_id' => $this->faker->numberBetween(1, 2),
             'name' => $this->faker->sentence(3),

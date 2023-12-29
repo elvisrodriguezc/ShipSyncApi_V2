@@ -7,20 +7,29 @@ use App\Models\Tariff;
 use App\Http\Requests\V1\StoreTariffRequest;
 use App\Http\Requests\V1\UpdateTariffRequest;
 use App\Http\Resources\V1\TariffResource;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class TariffController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $user = Auth::user();
-        $data = QueryBuilder::for(Tariff::class)
-            ->allowedFilters(['text'])
-            ->defaultSort('-created_at')
-            ->allowedSorts(['text'])
-            ->where('company_id', $user->company_id)
-            ->get();
+        if ($request->warehouse) {
+            $data = QueryBuilder::for(Tariff::class)
+                ->allowedFilters(['text'])
+                ->defaultSort('-created_at')
+                ->allowedSorts(['text'])
+                ->where('warehouse_id', $request->warehouse)
+                ->get();
+        } else {
+
+            return $data = response()->json([
+                "data" => "Ups, Houston, I don't know what do you need. Please espedify the Wharehouse parameter and a value",
+                "message" => "Error",
+                "error" => 1
+            ], 400);
+        }
+
 
         return TariffResource::collection($data)
             ->additional([

@@ -17,16 +17,9 @@ class TariffResource extends JsonResource
         return [
             'id' => (int)$this->id,
             'name' => $this->name,
-            'company_id' => $this->company_id,
-            'office_id' => $this->office_id,
-            'office' => [
-                'id' => $this->office->id,
-                'name' => $this->office->name,
-                'address' => $this->office->address,
-            ],
+            'warehouse_id' => $this->warehouse_id,
             'rate' => $this->rate,
             'status' => $this->status,
-            // 'tariff_items' => new TariffitemCollection($this->tariffitem),
             'created_at' => $this->created_at->format('Y-m-d h:i:s'),
             'updated_at' => $this->updated_at->format('Y-m-d h:i:s')
         ];

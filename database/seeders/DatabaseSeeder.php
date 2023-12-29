@@ -97,19 +97,18 @@ class DatabaseSeeder extends Seeder
         ]);
         \App\Models\Unspsc::factory(10)->create();
         \App\Models\Product::factory(6)->create();
-        // \App\Models\Tariff::factory()->create([
-        //     'company_id' => 1,
-        //     'office_id' => 1,
-        //     'name' => 'Usuario',
-        //     'rate' => 20,
-        // ]);
-        // \App\Models\Tariff::factory()->create([
-        //     'company_id' => 1,
-        //     'office_id' => 1,
-        //     'name' => 'Distribuidor',
-        //     'rate' => 15,
-        // ]);
-        // \App\Models\Tariffitem::factory(1)->create();
+        \App\Models\Tariff::factory()->create([
+            'warehouse_id' => 1,
+            'name' => 'Usuario',
+            'rate' => 20,
+        ]);
+        \App\Models\Tariff::factory()->create([
+            'warehouse_id' => 1,
+            'name' => 'Distribuidor',
+            'rate' => 15,
+        ]);
+        \App\Models\Tariffitem::factory(1)->create();
+
         \App\Models\Table::factory(6)->create();
         \App\Models\Cashier::factory(1)->create();
         \App\Models\Idform::factory()->create([
