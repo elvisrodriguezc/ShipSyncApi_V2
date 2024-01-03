@@ -27,10 +27,10 @@ class WarehouseResource extends JsonResource
                 'phone' => $this->office->phone,
                 'email' => $this->office->email,
             ],
-            'whParent' => [
-                "id" => $this->warehouse->id,
-                "name" => $this->warehouse->name,
-            ],
+            // 'whParent' => [
+            //     "id" => $this->warehouse->id,
+            //     "name" => $this->warehouse->name,
+            // ],
             'isproduction' => $this->isproduction === 1 ? 'Producción' : 'No es de Producción',
             'status' => $this->status,
         ];

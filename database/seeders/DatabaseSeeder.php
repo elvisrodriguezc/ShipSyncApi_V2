@@ -14,6 +14,19 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         \App\Models\Company::factory(2)->create();
+        \App\Models\Ubigeodepartamento::factory(20)->create();
+        \App\Models\Ubigeoprovincia::factory(50)->create();
+        \App\Models\Ubigeodistrito::factory(120)->create();
+        \App\Models\Office::factory()->create([
+            'company_id' => 2,
+            'name' => 'Principal',
+            'address' => 2,
+            'phone' => "084-256555",
+            'email' => "groend@gmail.com",
+            'ubigeodistrito_id' => 2
+        ]);
+        \App\Models\Office::factory(1)->create();
+        \App\Models\Warehouse::factory(6)->create();
         \App\Models\User::factory()->create([
             'company_id' => 1,
             'name' => 'Elvis Rodríguez',
@@ -64,19 +77,6 @@ class DatabaseSeeder extends Seeder
             'status' => 1
         ]);
         \App\Models\Brand::factory(5)->create();
-        \App\Models\Ubigeodepartamento::factory(20)->create();
-        \App\Models\Ubigeoprovincia::factory(50)->create();
-        \App\Models\Ubigeodistrito::factory(120)->create();
-        \App\Models\Office::factory()->create([
-            'company_id' => 2,
-            'name' => 'Principal',
-            'address' => 2,
-            'phone' => "084-256555",
-            'email' => "groend@gmail.com",
-            'ubigeodistrito_id' => 2
-        ]);
-        \App\Models\Office::factory(1)->create();
-        \App\Models\Warehouse::factory(6)->create();
         \App\Models\Category::factory(2)->create();
         \App\Models\Taxmode::factory()->create([
             'name' => 'Gravado',
@@ -97,17 +97,17 @@ class DatabaseSeeder extends Seeder
         ]);
         \App\Models\Unspsc::factory(10)->create();
         \App\Models\Product::factory(6)->create();
-        \App\Models\Tariff::factory()->create([
-            'warehouse_id' => 1,
-            'name' => 'Usuario',
-            'rate' => 20,
-        ]);
-        \App\Models\Tariff::factory()->create([
-            'warehouse_id' => 1,
-            'name' => 'Distribuidor',
-            'rate' => 15,
-        ]);
-        \App\Models\Tariffitem::factory(1)->create();
+        // \App\Models\Tariff::factory()->create([
+        //     'warehouse_id' => 1,
+        //     'name' => 'Usuario',
+        //     'rate' => 20,
+        // ]);
+        // \App\Models\Tariff::factory()->create([
+        //     'warehouse_id' => 1,
+        //     'name' => 'Distribuidor',
+        //     'rate' => 15,
+        // ]);
+        // \App\Models\Tariffitem::factory(1)->create();
 
         \App\Models\Table::factory(6)->create();
         \App\Models\Cashier::factory(1)->create();

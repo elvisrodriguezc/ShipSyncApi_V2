@@ -22,8 +22,7 @@ class UpdateTariffRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'company_id',
-            'office_id' => 'sometimes',
+            'warehouse_id' => 'sometimes',
             'name' => 'sometimes|required',
             'rate' => "sometimes|required",
             'status' => "sometimes|required",

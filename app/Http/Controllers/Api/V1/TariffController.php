@@ -17,7 +17,7 @@ class TariffController extends Controller
         if ($request->warehouse) {
             $data = QueryBuilder::for(Tariff::class)
                 ->allowedFilters(['text'])
-                ->defaultSort('-created_at')
+                ->defaultSort('created_at')
                 ->allowedSorts(['text'])
                 ->where('warehouse_id', $request->warehouse)
                 ->get();
@@ -44,9 +44,8 @@ class TariffController extends Controller
      */
     public function store(StoreTariffRequest $request)
     {
-        $user = Auth::user();
+        // $user = Auth::user();
         $tariffData = $request->validated();
-        $tariffData['company_id'] = $user->company_id; // Add the company_id field with user company
         $data = Tariff::create($tariffData);
         return TariffResource::make($data)
             ->additional([

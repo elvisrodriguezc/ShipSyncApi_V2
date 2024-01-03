@@ -22,11 +22,10 @@ class StoreTariffRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'company_id',
-            'office_id' => 'required',
+            'warehouse_id' => 'required',
             'name' => 'required',
             'rate' => 'required',
-            'status',
+            'status' => 'sometimes',
         ];
     }
 }

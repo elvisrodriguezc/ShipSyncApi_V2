@@ -32,7 +32,7 @@ class ProductFactory extends Factory
             'brand_id' => $this->faker->numberBetween(1, 2),
             'url' => $this->faker->url,
             'image' => 'products/' . $image_name,
-            'set_mode' => $this->faker->lexify('???'),
+            'set_mode' => $this->faker->lexify('???p'),
             'unspsc_id' => $this->faker->numberBetween(1, 5),
             'taxmode_id' => 1,
         ];
