@@ -16,6 +16,10 @@ class Tariffitem extends Model
         'price',
         'status',
     ];
+    public function tariff()
+    {
+        return $this->belongsTo(Tariff::class);
+    }
     public function product()
     {
         return $this->belongsTo(Product::class);

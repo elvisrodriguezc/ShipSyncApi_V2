@@ -21,7 +21,7 @@ class UbigeodistritoFactory extends Factory
             'ubigeoprovincia_id' => $this->faker->numberBetween(1, 20),
             'name' => $this->faker->state,
             'code' => 'XX',
-            'Ubigeo' => 'XXXXXX',
+            'ubigeo' => 'XXXXXX',
         ];
     }
 }

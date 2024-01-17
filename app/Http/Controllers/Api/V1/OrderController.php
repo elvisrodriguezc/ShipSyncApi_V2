@@ -26,20 +26,20 @@ class OrderController extends Controller
             ->allowedSorts(['id'])
             ->where('company_id', $user->company_id);
 
-        switch ($request->mode) {
-            case "cashier":
-                $data = $data->wherenot('status', 2);
-                break;
-            case "ip":
-                $data = $data->where('status', 2);
-                break;
-            case "customer":
-                // Agregar cualquier lógica adicional para el modo "customer" aquí
-                break;
-            default:
-                // Agregar cualquier lógica adicional para otros modos aquí
-                break;
-        }
+        // switch ($request->mode) {
+        //     case "cashier":
+        //         $data = $data->wherenot('status', 2);
+        //         break;
+        //     case "ip":
+        //         $data = $data->where('status', 2);
+        //         break;
+        //     case "customer":
+        //         // Agregar cualquier lógica adicional para el modo "customer" aquí
+        //         break;
+        //     default:
+        //         // Agregar cualquier lógica adicional para otros modos aquí
+        //         break;
+        // }
 
         $data = $data->get();
 

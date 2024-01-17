@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "230faf44c156d77968488fc19dc30cbc",
+    "content-hash": "e52bf69d00484fee7ee8bcaa7ec9048e",
     "packages": [
         {
             "name": "brick/math",
@@ -3153,16 +3153,16 @@
         },
         {
             "name": "spatie/laravel-query-builder",
-            "version": "5.3.0",
+            "version": "5.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-query-builder.git",
-                "reference": "77ada3e5d80e682864dc63e429bddf7dd1198c14"
+                "reference": "ff61a9ea32c5b55cbe63de8e3c6e35a201e6b746"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-query-builder/zipball/77ada3e5d80e682864dc63e429bddf7dd1198c14",
-                "reference": "77ada3e5d80e682864dc63e429bddf7dd1198c14",
+                "url": "https://api.github.com/repos/spatie/laravel-query-builder/zipball/ff61a9ea32c5b55cbe63de8e3c6e35a201e6b746",
+                "reference": "ff61a9ea32c5b55cbe63de8e3c6e35a201e6b746",
                 "shasum": ""
             },
             "require": {
@@ -3177,6 +3177,7 @@
                 "mockery/mockery": "^1.4",
                 "orchestra/testbench": "^7.0|^8.0",
                 "pestphp/pest": "^1.20",
+                "phpunit/phpunit": "^9.6.11",
                 "spatie/invade": "^2.0",
                 "spatie/laravel-ray": "^1.28"
             },
@@ -3222,7 +3223,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2023-08-21T10:51:49+00:00"
+            "time": "2024-01-08T09:57:13+00:00"
         },
         {
             "name": "symfony/console",
@@ -8190,5 +8191,5 @@
         "php": "^8.1"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.6.0"
 }

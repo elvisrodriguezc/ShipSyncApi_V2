@@ -13,7 +13,6 @@ class Ubigeodistrito extends Model
         'name',
         'code',
     ];
-    use HasFactory;
     public function ubigeoprovincia()
     {
         return $this->belongsTo(Ubigeoprovincia::class);
