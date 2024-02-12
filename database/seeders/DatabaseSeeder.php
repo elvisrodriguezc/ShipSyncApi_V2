@@ -39,12 +39,6 @@ class DatabaseSeeder extends Seeder
             'email' => 'yeeerequita@gmail.com',
             'password' => Hash::make('password')
         ]);
-        \App\Models\User::factory()->create([
-            'company_id' => 2,
-            'name' => 'Julio Enrique',
-            'email' => 'julio@gmail.com',
-            'password' => Hash::make('password')
-        ]);
         \App\Models\Currency::factory()->create([
             'name' => 'PEN',
             'symbol' => 'S/',

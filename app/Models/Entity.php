@@ -28,6 +28,6 @@ class Entity extends Model
     }
     public function ubigeodistrito(): BelongsTo
     {
-        return $this->belongsTo(Ubigeodistrito::class, 'idform_id');
+        return $this->belongsTo(Ubigeodistrito::class, 'ubigeodistrito_id');
     }
 }
