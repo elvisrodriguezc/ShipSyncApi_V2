@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\V1\CompanyController as V1Company;
 use App\Http\Controllers\Api\V1\CurrencyController as V1Currency;
 use App\Http\Controllers\Api\V1\EntityController as V1Entity;
 use App\Http\Controllers\Api\V1\UnityController as V1Unity;
+use App\Http\Controllers\Api\V1\UserController as V1User;
 use App\Http\Controllers\Api\V1\UbigeodepartamentoController as V1UDpto;
 use App\Http\Controllers\Api\V1\UbigeoprovinciaController as V1UProv;
 use App\Http\Controllers\Api\V1\UbigeodistritoController as V1UDist;
@@ -36,7 +37,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/login', [AuthController::class, 'login']);
-// Route::get('/logout', [AuthController::class, 'logout']);
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::post('/register', [AuthController::class, 'register']);
 

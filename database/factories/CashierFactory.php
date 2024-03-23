@@ -18,7 +18,7 @@ class CashierFactory extends Factory
     {
         return [
             'company_id' => $this->faker->numberBetween(1, 2),
-            'user_id' => $this->faker->numberBetween(1, 3),
+            'user_id' => $this->faker->numberBetween(1, 2),
             'description' => $this->faker->sentence(2),
         ];
     }
