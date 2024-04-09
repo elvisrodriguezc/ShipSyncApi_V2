@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('warehouse_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('entity_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('receipttype_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('company_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->foreignId('warehouse_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->foreignId('entity_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->foreignId('receipttype_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->string('document_serial', 10);
             $table->integer('document_number');
             $table->string('guide_number', 20)->nullable();

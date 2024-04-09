@@ -28,7 +28,7 @@ class EntityController extends Controller
         return EntityResource::collection($data)
             ->additional([
                 'msg' => 'Listado correcto',
-                'title' => 'Entidades',
+                'title' => 'Entidades1',
                 'Error' => 0,
             ]);
     }

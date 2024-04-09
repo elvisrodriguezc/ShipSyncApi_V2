@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('unities', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('company_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->string('name', 50);
             $table->string('abbreviation', 3);
             $table->decimal('value', 8, 2);

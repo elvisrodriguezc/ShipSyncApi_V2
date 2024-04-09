@@ -20,13 +20,19 @@ class EntityResource extends JsonResource
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'company_name' => $this->company_name,
-            'idform_id' => $this->idform_id,
-            'idform_number' => $this->idform_number,
+            'idform' => [
+                'doc' => $this->idform->abbrev,
+                'number' => $this->idform_number,
+            ],
+            'region' => $this->ubigeodistrito->ubigeoprovincia->ubigeodepartamento->name,
+            'provincia' => $this->ubigeodistrito->ubigeoprovincia->name,
+            'distrito' => $this->ubigeodistrito->name,
+            'address' => $this->address,
             'phone' => $this->phone,
             'email' => $this->email,
-            'ubigeodistrito_id' => $this->ubigeodistrito_id,
-            'address' => $this->address,
             'remark' => $this->remark,
+            'value' => (int)$this->id,
+            'label' => $this->company_name,
         ];
     }
 }

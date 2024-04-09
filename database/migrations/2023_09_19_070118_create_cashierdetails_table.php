@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('cashierdetails', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('cashier_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('paymethod_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('cashier_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->foreignId('paymethod_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->decimal('amount', 8, 2);
             $table->text('op_number', 15);
             $table->datetime('date_time');

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('warehousekardexes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('warehouse_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('warehouse_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
+            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
             $table->decimal('prevstock', 8, 2);
             $table->decimal('in', 8, 2);
             $table->decimal('out', 8, 2);

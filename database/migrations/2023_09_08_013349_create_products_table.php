@@ -13,21 +13,21 @@ return new class extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('company_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->string('name');
             $table->text('detail');
             $table->text('barcode')->nullable();
-            $table->foreignId('category_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('unity_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('category_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->foreignId('unity_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->string('model')->nullable();
             $table->string('url');
             $table->string('image');
             $table->string('set_mode', 10);
-            $table->foreignId('currency_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('currency_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->decimal('price', 8, 2);
             $table->decimal('minimal', 8, 2);
-            $table->foreignId('brand_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('taxmode_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('brand_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->foreignId('taxmode_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->foreignId('unspsc_id')
                 ->nullable()
                 ->default(1)

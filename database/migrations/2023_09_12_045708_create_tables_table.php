@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId(
                 'company_id'
-            )->constrained()->onUpdate('cascade')->onDelete('cascade');
+            )->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->string('name');
             $table->tinyInteger('group')->default(1);
             $table->integer('seatcount');

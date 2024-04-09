@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->integer('rate')->default(10);
-            $table->foreignId('warehouse_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('warehouse_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->unique(['warehouse_id', 'name']);
             $table->tinyInteger('status')->default(1);
             $table->timestamps();

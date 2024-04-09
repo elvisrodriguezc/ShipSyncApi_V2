@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('code', 2);
-            $table->foreignId('ubigeodepartamento_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('ubigeodepartamento_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->timestamps();
         });
     }

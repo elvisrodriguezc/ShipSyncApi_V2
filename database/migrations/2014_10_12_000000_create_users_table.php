@@ -16,6 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('warehouse_id');
             $table->string('name');
+            $table->string('user', 20);
+            $table->string('role', 20);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

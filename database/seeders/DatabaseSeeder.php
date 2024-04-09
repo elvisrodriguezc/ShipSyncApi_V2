@@ -29,12 +29,16 @@ class DatabaseSeeder extends Seeder
         \App\Models\Warehouse::factory(6)->create();
         \App\Models\User::factory()->create([
             'company_id' => 1,
+            'user' => 'elvis',
+            'role' => 'admin',
             'name' => 'Elvis Rodríguez',
             'email' => 'elvisrodriguezc@gmail.com',
             'password' => Hash::make('password')
         ]);
         \App\Models\User::factory()->create([
             'company_id' => 2,
+            'user' => 'yeny',
+            'role' => 'admin',
             'name' => 'Yeny Lilian',
             'email' => 'yeeerequita@gmail.com',
             'password' => Hash::make('password')

@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('purchaseitems', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('purchase_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('product_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('unity_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('purchase_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->foreignId('product_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->foreignId('unity_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->float('price');
             $table->float('quantity')->default(1);
             $table->float('discount')->nullable();

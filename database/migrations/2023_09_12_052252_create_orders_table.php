@@ -13,18 +13,18 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('company_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
             $table->integer('number')->nullable();
             $table->tinyInteger('pax')->default(1)->nullable();
             $table->decimal('discount', 11, 2)->default(0)->nullable();
             $table->decimal('total', 11, 2)->default(0);
+            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
+            $table->foreignId('entity_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
+            $table->foreignId('cashier_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
+            $table->foreignId('table_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
+            $table->foreignId('tariff_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
+            $table->foreignId('currency_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
             $table->tinyInteger('status')->default(1);
-            $table->foreignId('company_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('entity_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('cashier_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('table_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('tariff_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('currency_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
