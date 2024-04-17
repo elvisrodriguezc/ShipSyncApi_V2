@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\StoreServicesRequest;
 use App\Http\Resources\V1\ServicesResource;
+use App\Models\Servicedetail;
+use App\Models\Servicedetast;
 use App\Models\Services;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +17,35 @@ class ServicesController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function saveprogram(StoreServicesRequest $request)
+    {
+        $formData = $request->validated();
+        $service = Services::create($formData);
+
+        foreach ($request->programaciones as $programacion) {
+            $vehicle_id = $programacion['vehicle']['id'];
+            $typevalue_id = $programacion['type']['id'];
+
+            // Crear una instancia de Servicedetail
+            $servicedetail = new Servicedetail([
+                'services_id' => $service->id,
+                'vehicle_id' => $vehicle_id,
+                'typevalue_id' => $typevalue_id,
+            ]);
+            $servicedetail->save();
+            foreach ($programacion['personal'] as $persona) {
+                $servicedetast = new Servicedetast([
+                    'servicedetail_id' => $servicedetail->id,
+                    'user_id' => $persona['id'],
+                ]);
+                $servicedetast->save();
+            }
+        }
+
+        return ServicesResource::make($service);
+    }
+
+
     public function index()
     {
         $user = Auth::user();
@@ -48,9 +79,9 @@ class ServicesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Services $services)
+    public function show(Services $myservices)
     {
-        //
+        return ServicesResource::make($myservices);
     }
 
     /**

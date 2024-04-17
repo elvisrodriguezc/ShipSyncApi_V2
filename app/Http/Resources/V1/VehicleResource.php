@@ -19,7 +19,7 @@ class VehicleResource extends JsonResource
             'company_id' => $this->company_id,
             'entity_id' => $this->entity_id,
             'ruc' => $this->ruc,
-            'name' => $this->company_id,
+            'name' => $this->name,
             'matricula' => $this->matricula,
             'marca' => $this->marca,
             'modelo' => $this->modelo,
@@ -30,7 +30,7 @@ class VehicleResource extends JsonResource
             'image' => $this->image,
             'status' => $this->status,
             'value' => $this->id,
-            'label' => $this->matricula,
+            'label' => $this->name . ' ' . $this->matricula,
         ];
     }
 }

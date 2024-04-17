@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Servicedetailassistant;
+use App\Models\Servicedetast;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class ServicedetailassistantPolicy
+class ServicedetastPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -19,7 +19,7 @@ class ServicedetailassistantPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Servicedetailassistant $servicedetailassistant): bool
+    public function view(User $user, Servicedetast $servicedetast): bool
     {
         //
     }
@@ -35,7 +35,7 @@ class ServicedetailassistantPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Servicedetailassistant $servicedetailassistant): bool
+    public function update(User $user, Servicedetast $servicedetast): bool
     {
         //
     }
@@ -43,7 +43,7 @@ class ServicedetailassistantPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Servicedetailassistant $servicedetailassistant): bool
+    public function delete(User $user, Servicedetast $servicedetast): bool
     {
         //
     }
@@ -51,7 +51,7 @@ class ServicedetailassistantPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Servicedetailassistant $servicedetailassistant): bool
+    public function restore(User $user, Servicedetast $servicedetast): bool
     {
         //
     }
@@ -59,7 +59,7 @@ class ServicedetailassistantPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Servicedetailassistant $servicedetailassistant): bool
+    public function forceDelete(User $user, Servicedetast $servicedetast): bool
     {
         //
     }

@@ -3,28 +3,25 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\V1\TypevalueResource;
-use App\Models\Typevalue;
+use App\Http\Resources\V1\ServicedetastResource;
+use App\Models\Servicedetast;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class TypevalueController extends Controller
+class ServicedetastController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        $user = Auth::user();
-        $data = QueryBuilder::for(Typevalue::class)
-            ->where('type_id', $request->type)
+        $data = QueryBuilder::for(Servicedetast::class)
             ->get();
 
-        return TypevalueResource::collection($data)
+        return ServicedetastResource::collection($data)
             ->additional([
                 'msg' => 'Listado correcto',
-                'title' => 'Entidades1',
+                'title' => 'Entidades',
                 'Error' => 0,
             ]);
     }
@@ -40,7 +37,7 @@ class TypevalueController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Typevalue $typevalue)
+    public function show(Servicedetast $servicedetast)
     {
         //
     }
@@ -48,7 +45,7 @@ class TypevalueController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Typevalue $typevalue)
+    public function update(Request $request, Servicedetast $servicedetast)
     {
         //
     }
@@ -56,7 +53,7 @@ class TypevalueController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Typevalue $typevalue)
+    public function destroy(Servicedetast $servicedetast)
     {
         //
     }

@@ -21,12 +21,14 @@ use App\Http\Controllers\Api\V1\PurchaseController as V1Purchase;
 use App\Http\Controllers\Api\V1\PurchaseitemController as V1Purchaseitem;
 use App\Http\Controllers\Api\V1\ServicesController as V1Services;
 use App\Http\Controllers\Api\V1\ServicedetailController as V1Servicedetail;
+use App\Http\Controllers\Api\V1\ServicedetastController as V1Servicedetast;
 use App\Http\Controllers\Api\V1\SunatrucController as V1Sunatruc;
 use App\Http\Controllers\Api\V1\TableController as V1Table;
 use App\Http\Controllers\Api\V1\TariffController as V1Tariff;
 use App\Http\Controllers\Api\V1\TariffitemController as V1Tariffitem;
 use App\Http\Controllers\Api\V1\TaxmodeController as V1Taxmodes;
 use App\Http\Controllers\Api\V1\TypeController as V1Type;
+use App\Http\Controllers\Api\V1\TypevalueController as V1TypeValues;
 use App\Http\Controllers\Api\V1\UbigeodepartamentoController as V1UDpto;
 use App\Http\Controllers\Api\V1\UbigeoprovinciaController as V1UProv;
 use App\Http\Controllers\Api\V1\UbigeodistritoController as V1UDist;
@@ -89,9 +91,12 @@ Route::prefix('/v1')->middleware('auth:sanctum')->group(function () {
         ->only(['index', 'show', 'store', 'update', 'destroy']);
     Route::apiResource('/purchaseitems', V1Purchaseitem::class)
         ->only(['index', 'show', 'store', 'update', 'destroy']);
-    Route::apiResource('/services', V1Services::class)
+    Route::apiResource('/programs', V1Services::class)
         ->only(['index', 'show', 'store', 'update', 'destroy']);
-    Route::apiResource('/servicedetails', V1Servicedetail::class)
+    Route::post('/programsall', [V1Services::class, 'saveprogram']);
+    Route::apiResource('/services', V1Servicedetail::class)
+        ->only(['index', 'show', 'store', 'update', 'destroy']);
+    Route::apiResource('/servicedetasts', V1Servicedetast::class)
         ->only(['index', 'show', 'store', 'update', 'destroy']);
     Route::apiResource('/sunatrucs', V1Sunatruc::class)
         ->only(['index', 'show', 'store', 'update', 'destroy']);
@@ -107,6 +112,8 @@ Route::prefix('/v1')->middleware('auth:sanctum')->group(function () {
     Route::apiResource('/taxmodes', V1Taxmodes::class)
         ->only(['index', 'show', 'store', 'update', 'destroy']);
     Route::apiResource('/tipos', V1Type::class)
+        ->only(['index', 'show', 'store', 'update', 'destroy']);
+    Route::apiResource('/typevalues', V1TypeValues::class)
         ->only(['index', 'show', 'store', 'update', 'destroy']);
     Route::apiResource('/users', V1User::class)
         ->only(['index', 'show', 'store', 'update', 'destroy']);

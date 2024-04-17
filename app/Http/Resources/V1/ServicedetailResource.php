@@ -16,6 +16,14 @@ class ServicedetailResource extends JsonResource
     {
         return [
             'id' => (int)$this->id,
+            'serie' => $this->numerator->serie,
+            'number' => $this->number,
+            'program' => [
+                'id' => $this->services->id,
+                'date' => $this->services->date,
+                'serie' => $this->services->numerator->serie,
+                'number' => $this->services->number,
+            ],
             'typevalue' => [
                 'id' => $this->typevalue->id,
                 'name' => $this->typevalue->name
@@ -26,6 +34,7 @@ class ServicedetailResource extends JsonResource
                 'matricula' => $this->vehicle->matricula,
             ],
             'folios' => $this->vehicle->folios,
+            'personal' => new ServicedetastCollection($this->Servicedetast),
             'status' => $this->vehicle->status
         ];
     }

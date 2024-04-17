@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\StoreServicedetailRequest;
 use App\Http\Resources\V1\ServicedetailResource;
 use App\Models\Servicedetail;
+use App\Models\Servicedetast;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -18,7 +19,11 @@ class ServicedetailController extends Controller
     public function index()
     { {
             $user = Auth::user();
+            // $data = Servicedetast::find(1)->servicedetail_id; // Cambia el 1 por el ID del usuario deseado
+            $serviceDetIds = Servicedetast::where('user_id', $user->id)->pluck('servicedetail_id')->toArray();
+
             $data = QueryBuilder::for(Servicedetail::class)
+                ->whereIn('id', $serviceDetIds)
                 ->get();
 
             return ServicedetailResource::collection($data)

@@ -19,8 +19,10 @@ class ProductResource extends JsonResource
         $imageUrl = $imagePath ? URL::to('/') . env('APP_IMAGE_PATH') . '/' . $imagePath : null;
         return [
             'id' => (int) $this->id,
+            'value' => $this->id,
             'company_id' => $this->company_id,
             'name' => $this->name,
+            'label' => $this->name,
             'model' => $this->model,
             'detail' => $this->detail,
             'category_id' => $this->category_id,

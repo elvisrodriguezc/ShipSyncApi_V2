@@ -11,7 +11,7 @@ class StoreServicedetailRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class StoreServicedetailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'services_id' => 'required',
+            'typevalue_id' => 'required',
+            'vehicle_id' => 'required',
+            'folios' => 'sometimes',
+            'status' => 'sometimes',
         ];
     }
 }

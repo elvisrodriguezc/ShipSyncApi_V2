@@ -5,7 +5,7 @@ namespace App\Http\Resources\V1;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TypevalueResource extends JsonResource
+class ServicedetastResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,11 +16,13 @@ class TypevalueResource extends JsonResource
     {
         return [
             'id' => (int)$this->id,
-            'tipe_id' => $this->type_id,
-            'name' => $this->name,
-            'value' => $this->value,
-            'value' => (int)$this->id,
-            'label' => $this->name,
+            'user' => [
+                'id' => $this->user->id,
+                'name' => $this->user->name,
+                'role' => $this->user->role,
+            ],
+            'status' => $this->status,
+
         ];
     }
 }

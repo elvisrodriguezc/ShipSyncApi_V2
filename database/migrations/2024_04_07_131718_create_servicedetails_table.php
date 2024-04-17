@@ -14,9 +14,12 @@ return new class extends Migration
         Schema::create('servicedetails', function (Blueprint $table) {
             $table->id();
             $table->foreignId('services_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->foreignId('numerator_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->unsignedInteger('number');
             $table->foreignId('typevalue_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->foreignId('vehicle_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
-            $table->unsignedTinyInteger('folios')->nullable();
+            $table->unsignedInteger('initkm')->nullable();
+            $table->unsignedInteger('finalkm')->nullable();
             $table->unsignedTinyInteger('status')->default(1);
             $table->timestamps();
         });
