@@ -13,18 +13,24 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('company_id');
-            $table->unsignedBigInteger('warehouse_id');
-            $table->string('name');
+            $table->foreignId('company_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->foreignId('warehouse_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->string('name', 50);
             $table->string('user', 20);
             $table->string('role', 20);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->foreignId('typevalue_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT')->default(3);
+            $table->string('documento');
+            $table->string('cargo');
+            $table->unsignedTinyInteger('isAF');
+            $table->unsignedTinyInteger('isAFP');
+            $table->foreignId('payrollafp_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT')->default(1);
+            $table->float('salary');
+            $table->float('additionalpay');
             $table->timestamps();
-            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
-            $table->foreign('warehouse_id')->references('id')->on('warehouses')->onDelete('cascade');
             $table->unique(['company_id', 'name']);
         });
     }

@@ -50,7 +50,7 @@ class VehicleController extends Controller
      */
     public function show(Vehicle $vehicle)
     {
-        return VehicleResource::make($tipo);
+        return VehicleResource::make($vehicle);
     }
 
     /**

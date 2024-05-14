@@ -16,6 +16,9 @@ use App\Http\Controllers\Api\V1\OfficeController as V1Office;
 use App\Http\Controllers\Api\V1\OrderController as V1Order;
 use App\Http\Controllers\Api\V1\OrderitemController as V1Orderitem;
 use App\Http\Controllers\Api\V1\PaymethodController as V1Paymet;
+use App\Http\Controllers\Api\V1\PayrollController as V1Payroll;
+use App\Http\Controllers\Api\V1\PayrollafpController as V1PayrollAFP;
+use App\Http\Controllers\Api\V1\PayrollUserController as V1PayrollUser;
 use App\Http\Controllers\Api\V1\ProductController as V1Product;
 use App\Http\Controllers\Api\V1\PurchaseController as V1Purchase;
 use App\Http\Controllers\Api\V1\PurchaseitemController as V1Purchaseitem;
@@ -86,6 +89,12 @@ Route::prefix('/v1')->middleware('auth:sanctum')->group(function () {
     Route::apiResource('/orders', V1Order::class)
         ->only(['index', 'show', 'store', 'update', 'destroy']);
     Route::apiResource('/orderitems', V1Orderitem::class)
+        ->only(['index', 'show', 'store', 'update', 'destroy']);
+    Route::apiResource('/payrolls', V1Payroll::class)
+        ->only(['index', 'show', 'store', 'update', 'destroy']);
+    Route::apiResource('/payrollusers', V1PayrollUser::class)
+        ->only(['index', 'show', 'store', 'update', 'destroy']);
+    Route::apiResource('/afps', V1PayrollAFP::class)
         ->only(['index', 'show', 'store', 'update', 'destroy']);
     Route::apiResource('/purchases', V1Purchase::class)
         ->only(['index', 'show', 'store', 'update', 'destroy']);
