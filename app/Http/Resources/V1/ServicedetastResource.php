@@ -19,6 +19,7 @@ class ServicedetastResource extends JsonResource
             'user' => [
                 'id' => $this->user->id,
                 'name' => $this->user->name,
+                'user' => $this->user->user,
                 'role' => $this->user->role,
             ],
             'status' => $this->status,

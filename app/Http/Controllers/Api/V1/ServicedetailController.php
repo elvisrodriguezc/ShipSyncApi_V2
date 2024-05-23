@@ -17,22 +17,21 @@ class ServicedetailController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    { {
-            $user = Auth::user();
-            // $data = Servicedetast::find(1)->servicedetail_id; // Cambia el 1 por el ID del usuario deseado
-            $serviceDetIds = Servicedetast::where('user_id', $user->id)->pluck('servicedetail_id')->toArray();
+    {
+        $user = Auth::user();
+        // $data = Servicedetast::find(1)->servicedetail_id; // Cambia el 1 por el ID del usuario deseado
+        $serviceDetIds = Servicedetast::where('user_id', $user->id)->pluck('servicedetail_id')->toArray();
 
-            $data = QueryBuilder::for(Servicedetail::class)
-                ->whereIn('id', $serviceDetIds)
-                ->get();
+        $data = QueryBuilder::for(Servicedetail::class)
+            ->whereIn('id', $serviceDetIds)
+            ->get();
 
-            return ServicedetailResource::collection($data)
-                ->additional([
-                    'msg' => 'Listado correcto',
-                    'title' => 'Detalle de Servicio',
-                    'Error' => 0,
-                ]);
-        }
+        return ServicedetailResource::collection($data)
+            ->additional([
+                'msg' => 'Listado correcto',
+                'title' => 'Detalle de Servicios',
+                'Error' => 0,
+            ]);
     }
 
     /**
@@ -56,7 +55,8 @@ class ServicedetailController extends Controller
      */
     public function show(Servicedetail $servicedetail)
     {
-        //
+        dd($servicedetail);
+        return ServicedetailResource::make($servicedetail);
     }
 
     /**

@@ -75,6 +75,10 @@ class DatabaseSeeder extends Seeder
             'status' => 1
         ]);
         \App\Models\Brand::factory(5)->create();
+        \App\Models\Icon::factory()->create([
+            'prefix' => 'fas fa-',
+            'name' => 'address-book',
+        ]);
         \App\Models\Category::factory(2)->create();
         \App\Models\Taxmode::factory()->create([
             'name' => 'Gravado',

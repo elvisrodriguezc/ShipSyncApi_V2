@@ -44,4 +44,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function typevalue()
+    {
+        return $this->belongsTo(Typevalue::class);
+    }
+    public function payrollafp()
+    {
+        return $this->belongsTo(Payrollafp::class);
+    }
 }

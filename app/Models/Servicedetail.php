@@ -10,12 +10,14 @@ class Servicedetail extends Model
     use HasFactory;
     protected $fillable = [
         'services_id',
+        'numerator_id',
+        'number',
         'typevalue_id',
         'vehicle_id',
-        'folios',
+        'initkm',
+        'finalkm',
         'status',
     ];
-    protected $cast = [];
 
     public static function boot()
     {
@@ -57,21 +59,21 @@ class Servicedetail extends Model
         });
     }
 
-    public function numerator()
-    {
-        return $this->belongsTo(Numerator::class);
-    }
-    public function vehicle()
-    {
-        return $this->belongsTo(Vehicle::class);
-    }
     public function services()
     {
         return $this->belongsTo(Services::class);
     }
+    public function numerator()
+    {
+        return $this->belongsTo(Numerator::class);
+    }
     public function typevalue()
     {
         return $this->belongsTo(Typevalue::class);
+    }
+    public function vehicle()
+    {
+        return $this->belongsTo(Vehicle::class);
     }
     public function servicedetast()
     {

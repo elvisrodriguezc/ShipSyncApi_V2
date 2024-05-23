@@ -17,9 +17,10 @@ class CategoryResource extends JsonResource
         return [
             'id' => (int)$this->id,
             'company_id' => $this->company_id,
+            'parent_id' => $this->parent_id,
             'text' => $this->text,
             'type' => strtolower($this->text),
-            'icon' => $this->icon,
+            'icon' => $this->icons->prefix . ' fa-' . $this->icons->name,
             'description' => $this->description,
             'price_rate' => $this->price_rate,
             'status' => $this->status

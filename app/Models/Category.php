@@ -31,6 +31,11 @@ class Category extends Model
         return $this->belongsTo(Company::class, 'company_id');
     }
 
+    public function icons(): BelongsTo
+    {
+        return $this->belongsTo(Icon::class, 'icon_id');
+    }
+
     // protected static function booted(): void
     // {
     //     static::addGlobalScope('creator', function (Builder $builder) {

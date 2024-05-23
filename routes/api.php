@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\V1\CompanyCompleteController;
 use App\Http\Controllers\Api\V1\CompanyController as V1Company;
 use App\Http\Controllers\Api\V1\CurrencyController as V1Currency;
 use App\Http\Controllers\Api\V1\EntityController as V1Entity;
+use App\Http\Controllers\Api\V1\IconController as V1Icon;
 use App\Http\Controllers\Api\V1\NumeratorController as V1Numerator;
 use App\Http\Controllers\Api\V1\OfficeController as V1Office;
 use App\Http\Controllers\Api\V1\OrderController as V1Order;
@@ -69,7 +70,8 @@ Route::prefix('/v1')->middleware('auth:sanctum')->group(function () {
     Route::apiResource('/entities', V1Entity::class)
         ->only(['index', 'show', 'store', 'update', 'destroy']);
     Route::get('/entities/find/{idFormNumber}', [V1Entity::class, 'searchByIdFormNumber']);
-
+    Route::apiResource('/icons', V1Icon::class)
+        ->only(['index', 'show', 'store', 'update', 'destroy']);
     Route::apiResource('/unities', V1Unity::class)
         ->only(['index', 'show', 'store', 'update', 'destroy']);
     Route::apiResource('/paymethods', V1Paymet::class)

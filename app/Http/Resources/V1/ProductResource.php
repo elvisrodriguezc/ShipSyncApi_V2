@@ -25,10 +25,16 @@ class ProductResource extends JsonResource
             'label' => $this->name,
             'model' => $this->model,
             'detail' => $this->detail,
-            'category_id' => $this->category_id,
+            'type' => strtolower($this->category->text),
             'category' => [
                 'id' => $this->category->id,
+                'type' => strtolower($this->category->text),
+                'company_id' => $this->category->company_id,
+                'parent_id' => $this->category->parent_id,
                 'text' => $this->category->text,
+                'icon' => $this->category->icons->prefix . ' fa-' . $this->category->icons->name,
+                'description' => $this->category->description,
+                'price_rate' => $this->category->price_rate,
             ],
             'unity_id' => $this->unity_id,
             'unity' => [
