@@ -39,11 +39,7 @@ class ProductResource extends JsonResource
                 'price_rate' => $this->category->price_rate,
             ],
             'unity_id' => $this->unity_id,
-            'unity' => [
-                "id" => $this->unity->id,
-                "name" => $this->unity->name,
-                "abbrev" => $this->unity->abbreviation,
-            ],
+            'unity' => new UnityResource($this->unity),
             'model' => $this->model,
             'url' => $this->url,
             'image' => $imageUrl,

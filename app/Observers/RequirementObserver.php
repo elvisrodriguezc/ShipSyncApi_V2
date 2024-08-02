@@ -28,9 +28,8 @@ class RequirementObserver
         $user = Auth::user();
         $officeId = Warehouse::where('id', $user->warehouse_id)->pluck('office_id')->first();
         $numerator = Numerator::where('office_id', $officeId)
-            ->where('documenttype_id', 52)
+            ->where('description', 'Requerimiento')
             ->first();
-
         if ($numerator) {
             $numerator->increment('number'); // Incrementar el número en 1
         }

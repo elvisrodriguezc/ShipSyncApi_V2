@@ -14,10 +14,11 @@ class PurchaseObserver
         $user = Auth::user();
         $officeId = Warehouse::where('id', $user->warehouse_id)->pluck('office_id')->first();
         $numerator = Numerator::where('office_id', $officeId)
-            ->where('documenttype_id', 51)
+            ->where('description', 'Compras')
             ->first();
-        $purchase->user_id = $user->id;
         $purchase->company_id = $user->company_id;
+        $purchase->warehouse_id = $user->warehouse_id;
+        $purchase->user_id = $user->id;
         $purchase->numerator_id = $numerator->id;
         $purchase->number = $numerator->number + 1;
     }
@@ -27,7 +28,7 @@ class PurchaseObserver
         $user = Auth::user();
         $officeId = Warehouse::where('id', $user->warehouse_id)->pluck('office_id')->first();
         $numerator = Numerator::where('office_id', $officeId)
-            ->where('documenttype_id', 51)
+            ->where('description', 'Compras')
             ->first();
         if ($numerator) {
             $numerator->increment('number'); // Incrementar el número en 1

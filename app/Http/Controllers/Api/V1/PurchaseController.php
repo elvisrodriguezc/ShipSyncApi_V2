@@ -41,15 +41,15 @@ class PurchaseController extends Controller
         foreach ($request->items as $item) {
             $purchaseItem = Purchaseitem::create([
                 'purchase_id' => $purchase->id,
-                'product_id' => $item["product_id"],
-                'unity_id' => $item['unity_id'],
+                'product_id' => $item["product"]['id'],
+                'unity_id' => $item['unity']['id'],
                 'price' => $item['price'],
                 'quantity' => $item['quantity'],
                 'discount' => $item['discount'],
                 'discount_percent' => $item['discount_percent'],
             ]);
             $stockValue = Warehousekardex::where('warehouse_id', $purchase['warehouse_id'])
-                ->where('product_id', $item['product_id'])
+                ->where('product_id', $item['product']['id'])
                 ->latest('created_at')
                 ->pluck('stock')
                 ->first(); // Obtiene el valor del campo 'stock' del primer registro
@@ -61,14 +61,14 @@ class PurchaseController extends Controller
             }
             Warehousekardex::create([
                 'warehouse_id' => $purchase['warehouse_id'],
-                'product_id' => $item["product_id"],
-                'unity_id' => $item['unity_id'],
+                'product_id' => $item["product"]["id"],
+                'unity_id' => $item['unity']['id'],
                 'in' => $item['quantity'],
                 'out' => 0,
                 'price' => $item['price'],
                 'purchaseitem_id' => $purchaseItem->id,
                 'prevstock' => $prevstock,
-                'stock' => $prevstock + $item['quantity'],
+                'stock' => $prevstock + ($item['quantity'] * $item["unity"]["valor"]),
             ]);
         }
         return PurchaseResource::make($purchase)
