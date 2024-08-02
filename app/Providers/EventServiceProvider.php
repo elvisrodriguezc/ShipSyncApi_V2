@@ -9,6 +9,7 @@ use App\Models\Purchase;
 use App\Models\Requirement;
 use App\Models\Requirementdetail;
 use App\Models\Transfer;
+use App\Models\Unity;
 use App\Models\Warehousekardex;
 use App\Observers\GuidecarrierObserver;
 use App\Observers\OrderitemObserver;
@@ -17,6 +18,7 @@ use App\Observers\PurchaseObserver;
 use App\Observers\RequirementdetailObserver;
 use App\Observers\RequirementObserver;
 use App\Observers\TransferObserver;
+use App\Observers\UnityObserver;
 use App\Observers\WarehousekardexObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -49,6 +51,7 @@ class EventServiceProvider extends ServiceProvider
         Requirement::observe(RequirementObserver::class);
         Requirementdetail::observe(RequirementdetailObserver::class);
         Transfer::observe(TransferObserver::class);
+        Unity::observe(UnityObserver::class);
     }
 
     /**

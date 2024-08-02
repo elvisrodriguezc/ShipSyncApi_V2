@@ -22,10 +22,12 @@ class StoreUnityRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'company_id' => 'sometimes',
+            'typevalues_id' => 'required',
             'name' => 'unique:unities,name|required|string|max:255',
             'abbreviation' => 'unique:unities,abbreviation|required|string|max:3',
             'value' => 'required',
-            'status' => 'required',
+            'status' => 'sometimes',
         ];
     }
 }

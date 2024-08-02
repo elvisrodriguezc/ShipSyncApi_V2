@@ -38,6 +38,7 @@ class UnityController extends Controller
      */
     public function store(StoreUnityRequest $request)
     {
+        // dd($request->validated());
         $unity = Unity::create($request->validated());
         return UnityResource::make($unity)
             ->additional([

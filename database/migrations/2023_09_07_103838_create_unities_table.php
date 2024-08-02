@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('unities', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->foreignId('typevalues_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->string('name', 50);
             $table->string('abbreviation', 3);
             $table->decimal('value', 8, 2);
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
-            $table->unique(['company_id', 'name']);
+            $table->unique(['company_id', 'typevalues_id', 'name']);
         });
     }
 
