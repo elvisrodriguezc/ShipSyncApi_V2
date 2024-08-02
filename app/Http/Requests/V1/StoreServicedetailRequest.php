@@ -25,7 +25,10 @@ class StoreServicedetailRequest extends FormRequest
             'services_id' => 'required',
             'typevalue_id' => 'required',
             'vehicle_id' => 'required',
-            'folios' => 'sometimes',
+            'initkm' => 'sometimes',
+            'finalkm' => 'sometimes',
+            'initkmGPS' => 'sometimes',
+            'finalkmGPS' => 'sometimes',
             'status' => 'sometimes',
         ];
     }

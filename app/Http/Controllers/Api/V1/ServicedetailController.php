@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\StoreServicedetailRequest;
+use App\Http\Requests\V1\UpdateServicedetailRequest;
 use App\Http\Resources\V1\ServicedetailResource;
 use App\Models\Servicedetail;
 use App\Models\Servicedetast;
@@ -16,22 +17,33 @@ class ServicedetailController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function updateService(UpdateServicedetailRequest $request, Servicedetail $servicedetail)
     {
-        $user = Auth::user();
-        // $data = Servicedetast::find(1)->servicedetail_id; // Cambia el 1 por el ID del usuario deseado
+        $servicedetail->update($request->validated());
+        // return ServicedetailResource::make($servicedetail)
+        //     ->additional([
+        //         'msg' => 'Registro Actualizado Correctamente',
+        //         'title' => 'Servicedetail',
+        //         'Error' => 0,
+        //     ]);
+        return "nada";
+    }
+
+    public function index(Request $request)
+    {
+        $user = $request->user ? (object)['id' => $request->user, 'role' => 'ayudante'] : Auth::user();
+
         $serviceDetIds = Servicedetast::where('user_id', $user->id)->pluck('servicedetail_id')->toArray();
 
-        $data = QueryBuilder::for(Servicedetail::class)
-            ->whereIn('id', $serviceDetIds)
-            ->get();
+        $data = Servicedetail::when(!in_array($user->role, ['admin', 'sadmin']), function ($query) use ($serviceDetIds) {
+            return $query->whereIn('id', $serviceDetIds);
+        })->get();
 
-        return ServicedetailResource::collection($data)
-            ->additional([
-                'msg' => 'Listado correcto',
-                'title' => 'Detalle de Servicios',
-                'Error' => 0,
-            ]);
+        return ServicedetailResource::collection($data)->additional([
+            'msg' => 'Listado correcto',
+            'title' => 'Detalle de Servicios',
+            'Error' => 0,
+        ]);
     }
 
     /**
@@ -62,9 +74,15 @@ class ServicedetailController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Servicedetail $servicedetail)
+    public function update(UpdateServicedetailRequest $request, Servicedetail $servicedetail)
     {
-        //
+        $servicedetail->update($request->validated());
+        return ServicedetailResource::make($servicedetail)
+            ->additional([
+                'msg' => 'Registro Actualizado Correctamente',
+                'title' => 'Servicedetail',
+                'Error' => 0,
+            ]);
     }
 
     /**
@@ -72,6 +90,12 @@ class ServicedetailController extends Controller
      */
     public function destroy(Servicedetail $servicedetail)
     {
-        //
+        $servicedetail->delete();
+        return ServicedetailResource::make($servicedetail)
+            ->additional([
+                'msg' => 'Registro Eliminado',
+                'title' => 'Servicedetail',
+                'Error' => 0,
+            ]);
     }
 }

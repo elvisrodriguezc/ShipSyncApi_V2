@@ -2,6 +2,22 @@
 
 namespace App\Providers;
 
+use App\Models\Guidecarrier;
+use App\Models\Order;
+use App\Models\Orderitem;
+use App\Models\Purchase;
+use App\Models\Requirement;
+use App\Models\Requirementdetail;
+use App\Models\Transfer;
+use App\Models\Warehousekardex;
+use App\Observers\GuidecarrierObserver;
+use App\Observers\OrderitemObserver;
+use App\Observers\OrderObserver;
+use App\Observers\PurchaseObserver;
+use App\Observers\RequirementdetailObserver;
+use App\Observers\RequirementObserver;
+use App\Observers\TransferObserver;
+use App\Observers\WarehousekardexObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -25,7 +41,14 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Order::observe(OrderObserver::class);
+        Orderitem::observe(OrderitemObserver::class);
+        Guidecarrier::observe(GuidecarrierObserver::class);
+        Purchase::observe(PurchaseObserver::class);
+        Warehousekardex::observe(WarehousekardexObserver::class);
+        Requirement::observe(RequirementObserver::class);
+        Requirementdetail::observe(RequirementdetailObserver::class);
+        Transfer::observe(TransferObserver::class);
     }
 
     /**

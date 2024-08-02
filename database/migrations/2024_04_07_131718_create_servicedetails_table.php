@@ -20,6 +20,8 @@ return new class extends Migration
             $table->foreignId('vehicle_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->unsignedInteger('initkm')->nullable();
             $table->unsignedInteger('finalkm')->nullable();
+            $table->unsignedInteger('initkmGPS')->nullable();
+            $table->unsignedInteger('finalkmGPS')->nullable();
             $table->unsignedTinyInteger('status')->default(1);
             $table->timestamps();
         });

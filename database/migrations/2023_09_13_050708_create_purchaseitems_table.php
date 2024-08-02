@@ -16,9 +16,9 @@ return new class extends Migration
             $table->foreignId('purchase_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->foreignId('product_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->foreignId('unity_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
-            $table->float('price');
-            $table->float('quantity')->default(1);
-            $table->float('discount')->nullable();
+            $table->decimal('price', 8, 4);
+            $table->decimal('quantity', 8, 4)->default(1);
+            $table->decimal('discount', 8, 4)->nullable();
             $table->integer('discount_percent')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->timestamps();

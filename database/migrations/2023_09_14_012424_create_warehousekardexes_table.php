@@ -13,16 +13,20 @@ return new class extends Migration
     {
         Schema::create('warehousekardexes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('company_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
             $table->foreignId('warehouse_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
             $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
+            $table->foreignId('product_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
+            $table->foreignId('unity_id')->constrained()->onUpdate('cascade')->onDelete('restrict');
+            $table->decimal('in', 8, 2)->comment("quantity");
+            $table->decimal('out', 8, 2)->comment("quantity");
+            $table->decimal('price', 8, 2);
             $table->decimal('prevstock', 8, 2);
-            $table->decimal('in', 8, 2);
-            $table->decimal('out', 8, 2);
             $table->decimal('stock', 8, 2);
-            $table->bigInteger('purchaseitem_id');
-            $table->bigInteger('orderitem_id');
-            $table->bigInteger('transfer_id');
-            $table->bigInteger('inventory_id');
+            $table->bigInteger('purchaseitem_id')->nullable()->comment("Just in case its the origen");
+            $table->bigInteger('orderitem_id')->nullable()->comment("Just in case its the origen");
+            $table->bigInteger('transferitem_id')->nullable()->comment("Just in case its the origen");
+            $table->bigInteger('inventoryitem_id')->nullable()->comment("Just in case its the origen");
             $table->string('detail')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->timestamps();

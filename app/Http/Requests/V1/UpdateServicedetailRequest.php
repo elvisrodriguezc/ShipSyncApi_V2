@@ -11,7 +11,7 @@ class UpdateServicedetailRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class UpdateServicedetailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'initkm' => 'sometimes|required',
+            'finalkm' => 'sometimes',
+            'initkmGPS' => 'sometimes',
+            'finalkmGPS' => 'sometimes',
+            'status' => 'sometimes',
+            'status' => 'sometimes',
         ];
     }
 }

@@ -18,15 +18,22 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'role' => $this->role,
             'user' => $this->user,
-            'name' => $this->name,
+            'names' => $this->name,
+            'lastname' => $this->lastname,
             'email' => $this->email,
             'doctipo' =>  $this->typevalue->name,
+            'doctipocod' =>  $this->typevalue->value,
             'documento' => $this->documento,
+            'licence' => $this->licence,
+            'licencecategory' => $this->licencecategory,
             'label' => $this->name,
             'value' => $this->id,
             'salario' =>  $this->salary,
             'adicional' =>  $this->additionalpay,
-            'afp' => $this->payrollafp->name
+            'isAF' =>  $this->isAF,
+            'isAFP' =>  $this->isAFP,
+            'afp' => $this->payrollafp->name,
+            'status' => $this->status
         ];
     }
 }

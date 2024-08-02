@@ -30,7 +30,6 @@ class Services extends Model
 
         self::creating(function ($service) {
             $user = Auth::user();
-            $service->date = now()->toDateString();
             $service->company_id = $user->company_id;
             $service->user_id = $user->id;
             $service->numerator_id = 1;

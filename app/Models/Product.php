@@ -10,20 +10,30 @@ class Product extends Model
     use HasFactory;
     protected $fillable = [
         'company_id',
+        'name',
+        'detail',
+        'barcode',
         'category_id',
         'unity_id',
-        'brand_id',
-        'clasificacion_sunat_id',
-        'currency_id',
-        'name',
         'model',
         'url',
         'image',
         'set_mode',
-        'minimal',
-        'detail',
-        'taxmode_id',
+        'currency_id',
         'price',
+        'minimal',
+        'brand_id',
+        'taxmode_id',
+        'unspsc_id',
+        'content',
+        'weight',
+        'height',
+        'length',
+        'width',
+        'condition_id',
+        'warrantytype_id',
+        'warrantymonths',
+        'depreciationmonths',
         'status',
     ];
 
@@ -49,6 +59,22 @@ class Product extends Model
     }
     public function taxmode()
     {
-        return $this->belongsTo(Taxmode::class);
+        return $this->belongsTo(Typevalue::class);
+    }
+    public function condition()
+    {
+        return $this->belongsTo(Typevalue::class);
+    }
+    public function warrantytype()
+    {
+        return $this->belongsTo(Typevalue::class);
+    }
+    public function warehousestocks()
+    {
+        return $this->hasMany(Warehousestock::class);
+    }
+    public function variants()
+    {
+        return $this->hasMany(Productvariant::class);
     }
 }

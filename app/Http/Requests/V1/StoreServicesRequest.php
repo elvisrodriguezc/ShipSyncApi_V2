@@ -22,6 +22,7 @@ class StoreServicesRequest extends FormRequest
     public function rules(): array
     {
         return [
+            "date" => 'required',
             "entity_id" => 'required',
             "note" => 'sometimes',
         ];

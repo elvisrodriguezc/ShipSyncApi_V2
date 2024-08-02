@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\V1;
 
+use App\Models\Servicedetail;
+use App\Models\Servicedettip;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -18,6 +20,11 @@ class ServicedetailResource extends JsonResource
             'id' => (int)$this->id,
             'serie' => $this->numerator->serie,
             'number' => $this->number,
+            'initkm' => $this->initkm,
+            'finalkm' => $this->finalkm,
+            'initkmGPS' => $this->initkmGPS,
+            'finalkmGPS' => $this->finalkmGPS,
+            'servicio' => $this->typevalue->name,
             'program' => [
                 'id' => $this->services->id,
                 'date' => $this->services->date,
@@ -33,9 +40,10 @@ class ServicedetailResource extends JsonResource
                 'denominacion' => $this->vehicle->denominacion,
                 'matricula' => $this->vehicle->matricula,
             ],
-            'folios' => $this->vehicle->folios,
-            'personal' => new ServicedetastCollection($this->Servicedetast),
-            'status' => $this->vehicle->status
+            'personal' => new ServicedetastCollection($this->servicedetast),
+            'documentos' => new ServicedetdocCollection($this->servicedetdoc),
+            'adicionales' => new ServicedettipCollection($this->servicedettip),
+            'status' => $this->status
         ];
     }
 }

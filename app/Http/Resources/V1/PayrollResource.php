@@ -22,6 +22,7 @@ class PayrollResource extends JsonResource
                 "name" => $this->user->name,
                 "user" => $this->user->user,
             ],
+            'usuarios' => PayrollUserResource::collection($this->payrollUsers),
             'serie' => $this->numerator->serie,
             'number' => $this->number,
             'startdate' => $this->startdate,

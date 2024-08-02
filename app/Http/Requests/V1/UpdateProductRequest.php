@@ -6,9 +6,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProductRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
@@ -23,21 +20,31 @@ class UpdateProductRequest extends FormRequest
     {
         return [
             "company_id" => "sometimes",
+            "name" => "required|max:255",
+            "detail" => "sometimes",
+            "barcode" => "sometimes",
             "category_id" => "sometimes",
             "unity_id" => "sometimes",
-            "brand_id" => "sometimes",
-            "clasificacion_sunat_id" => "sometimes",
-            "currency_id" => "sometimes",
-            "name" => "sometimes|max:255",
             "model" => "sometimes",
             "url" => "sometimes",
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:300|dimensions:min_width=200,min_height=200',
+            'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|dimensions:min_width=200,min_height=200',
             "set_mode" => "sometimes",
-            "detail" => "sometimes",
-            "minimal" => "sometimes",
+            "currency_id" => "sometimes",
             "price" => "sometimes",
+            "minimal" => "sometimes",
+            "brand_id" => "sometimes",
             "taxmode_id" => "sometimes",
-            "status" => "sometimes"
+            "unspsc_id" => "sometimes",
+            'content' => "sometimes",
+            'weight' => "sometimes",
+            'height' => "sometimes",
+            'length' => "sometimes",
+            'width' => "sometimes",
+            'condition_id' => "sometimes",
+            'warrantytype_id' => "sometimes",
+            'warrantymonths' => "sometimes",
+            'depreciationmonths' => "sometimes",
+            "status" => "sometimes",
         ];
     }
 }

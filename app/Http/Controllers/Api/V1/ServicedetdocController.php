@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\ServicedetdocResource;
 use App\Models\Servicedetdoc;
 use Illuminate\Http\Request;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ServicedetdocController extends Controller
 {
@@ -13,7 +15,15 @@ class ServicedetdocController extends Controller
      */
     public function index()
     {
-        //
+        $data = QueryBuilder::for(Servicedetdoc::class)
+            ->get();
+
+        return ServicedetdocResource::collection($data)
+            ->additional([
+                'msg' => 'Listado correcto',
+                'title' => 'Detalle de Documentos de Servicios',
+                'Error' => 0,
+            ]);
     }
 
     /**
@@ -29,7 +39,7 @@ class ServicedetdocController extends Controller
      */
     public function show(Servicedetdoc $servicedetdoc)
     {
-        //
+        return ServicedetdocResource::make($servicedetdoc);
     }
 
     /**

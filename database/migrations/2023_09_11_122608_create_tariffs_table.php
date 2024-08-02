@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('tariffs', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('office_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->string('name');
             $table->integer('rate')->default(10);
-            $table->foreignId('warehouse_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
-            $table->unique(['warehouse_id', 'name']);
+            $table->foreignId('currency_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->unique(['office_id', 'name']);
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });

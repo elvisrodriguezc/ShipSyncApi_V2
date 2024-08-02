@@ -7,7 +7,6 @@ use App\Http\Resources\V1\VehicleResource;
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Spatie\QueryBuilder\QueryBuilder;
 
 class VehicleController extends Controller
 {
@@ -17,16 +16,18 @@ class VehicleController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $data = QueryBuilder::for(Vehicle::class)
+        $data = Vehicle::where('status', 1)
+            ->where('company_id', $user->company_id)
             ->get();
 
         return VehicleResource::collection($data)
             ->additional([
                 'msg' => 'Listado correcto',
-                'title' => 'Entidades1',
+                'title' => 'Vehículos',
                 'Error' => 0,
             ]);
     }
+
 
     /**
      * Store a newly created resource in storage.

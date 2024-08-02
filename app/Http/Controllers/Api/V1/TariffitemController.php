@@ -8,25 +8,19 @@ use App\Http\Requests\V1\StoreTariffitemRequest;
 use App\Http\Requests\V1\UpdateTariffitemRequest;
 use App\Http\Resources\V1\TariffitemResource;
 use Illuminate\Http\Request;
-use Spatie\QueryBuilder\QueryBuilder;
 
 class TariffitemController extends Controller
 {
     public function index(Request $request)
     {
         if ($request->tariff) {
-            $data = QueryBuilder::for(Tariffitem::class)
-                ->where('tariff_id', $request->tariff)
-                ->allowedFilters(['id'])
-                ->defaultSort('-created_at')
-                ->allowedSorts(['id'])
+            $data = Tariffitem::where('tariff_id', $request->tariff)
                 ->get();
         } else {
-            $data = QueryBuilder::for(Tariffitem::class)
-                ->allowedFilters(['id'])
-                ->defaultSort('-created_at')
-                ->allowedSorts(['type'])
-                ->get();
+            return json_encode([
+                "data" => [],
+                "error" => "Ingrese una tarifa"
+            ]);
         }
         return TariffitemResource::collection($data)
             ->additional([

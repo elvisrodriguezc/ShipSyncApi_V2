@@ -8,8 +8,10 @@ use App\Http\Resources\V1\ServicesResource;
 use App\Models\Servicedetail;
 use App\Models\Servicedetast;
 use App\Models\Services;
+use GuzzleHttp\Psr7\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ServicesController extends Controller
@@ -22,41 +24,65 @@ class ServicesController extends Controller
         $formData = $request->validated();
         $service = Services::create($formData);
 
-        foreach ($request->programaciones as $programacion) {
-            $vehicle_id = $programacion['vehicle']['id'];
-            $typevalue_id = $programacion['type']['id'];
+        // Iniciar una transacción
+        DB::beginTransaction();
 
-            // Crear una instancia de Servicedetail
-            $servicedetail = new Servicedetail([
-                'services_id' => $service->id,
-                'vehicle_id' => $vehicle_id,
-                'typevalue_id' => $typevalue_id,
-            ]);
-            $servicedetail->save();
-            foreach ($programacion['personal'] as $persona) {
-                $servicedetast = new Servicedetast([
-                    'servicedetail_id' => $servicedetail->id,
-                    'user_id' => $persona['id'],
+        try {
+            foreach ($request->programaciones as $programacion) {
+                $vehicle_id = $programacion['vehicle']['id'];
+                $typevalue_id = $programacion['type']['id'];
+
+                // Crear una instancia de Servicedetail
+                $servicedetail = new Servicedetail([
+                    'services_id' => $service->id,
+                    'vehicle_id' => $vehicle_id,
+                    'typevalue_id' => $typevalue_id,
                 ]);
-                $servicedetast->save();
-            }
-        }
+                $servicedetail->save();
 
-        return ServicesResource::make($service);
+                foreach ($programacion['personal'] as $persona) {
+                    $servicedetast = new Servicedetast([
+                        'servicedetail_id' => $servicedetail->id,
+                        'user_id' => $persona['id'],
+                    ]);
+                    $servicedetast->save();
+                }
+            }
+
+            // Confirmar la transacción
+            DB::commit();
+
+            return ServicesResource::make($service);
+        } catch (\Exception $e) {
+            // Revertir la transacción en caso de error
+            DB::rollback();
+            // Manejar el error según tus necesidades
+            // Por ejemplo, puedes lanzar una excepción personalizada o registrar el error
+            return response()->json(['error' => 'Error al guardar los datos'], 500);
+        }
     }
 
 
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
+        if (!isset($request->startdate) || !isset($request->finishdate)) {
+            return [
+                "Message" => "Ingrese las variables",
+                "data" => []
+            ];
+        }
+
         $data = QueryBuilder::for(Services::class)
             ->where('company_id', $user->company_id)
+            ->where('status', 1)
+            ->whereBetween('date', [$request->startdate, $request->finishdate])
             ->get();
 
         return ServicesResource::collection($data)
             ->additional([
                 'msg' => 'Listado correcto',
-                'title' => 'Entidades',
+                'title' => 'Programaciones',
                 'Error' => 0,
             ]);
     }

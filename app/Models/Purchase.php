@@ -36,7 +36,7 @@ class Purchase extends Model
     }
     public function receipttype()
     {
-        return $this->belongsTo(Receipttype::class);
+        return $this->belongsTo(Typevalue::class);
     }
     public function warehouse()
     {

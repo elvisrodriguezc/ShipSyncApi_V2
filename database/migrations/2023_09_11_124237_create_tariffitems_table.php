@@ -14,10 +14,9 @@ return new class extends Migration
         Schema::create('tariffitems', function (Blueprint $table) {
             $table->id();
             $table->foreignId('tariff_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
-            $table->decimal('price', 8, 2);
             $table->foreignId('warehouse_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->foreignId('product_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
-            $table->foreignId('currency_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->decimal('price', 8, 2);
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
         });

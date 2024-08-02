@@ -24,10 +24,14 @@ class Entity extends Model
     ];
     public function idform(): BelongsTo
     {
-        return $this->belongsTo(Idform::class, 'idform_id');
+        return $this->belongsTo(Typevalue::class, 'idform_id');
     }
     public function ubigeodistrito(): BelongsTo
     {
         return $this->belongsTo(Ubigeodistrito::class, 'ubigeodistrito_id');
+    }
+    public function entitiebranches()
+    {
+        return $this->hasMany(Entitiebranch::class);
     }
 }

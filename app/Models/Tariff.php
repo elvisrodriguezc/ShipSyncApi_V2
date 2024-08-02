@@ -10,7 +10,7 @@ class Tariff extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'warehouse_id',
+        'office_id',
         'name',
         'rate',
         'status',
@@ -27,6 +27,11 @@ class Tariff extends Model
     public function office()
     {
         return $this->belongsTo(Office::class);
+    }
+
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class);
     }
 
     public static function boot()

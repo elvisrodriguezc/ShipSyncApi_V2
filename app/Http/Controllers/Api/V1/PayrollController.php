@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\StorePayrollRequest;
+use App\Http\Requests\V1\UpdatePayrollRequest;
 use App\Http\Resources\V1\PayrollResource;
 use App\Models\Payroll;
 use App\Models\PayrollUser;
 use Illuminate\Http\Request;
-use Spatie\QueryBuilder\QueryBuilder;
 
 class PayrollController extends Controller
 {
@@ -17,9 +17,8 @@ class PayrollController extends Controller
      */
     public function index()
     {
-        $data = QueryBuilder::for(Payroll::class)
-            ->get();
-        return PayrollResource::collection($data)
+        $query = Payroll::get();
+        return PayrollResource::collection($query)
             ->additional([
                 'msg' => 'Registro Creado Correctamente',
                 'title' => 'Planillas',
@@ -58,16 +57,24 @@ class PayrollController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Payroll $payroll)
+    public function update(UpdatePayrollRequest $request, Payroll $payroll)
     {
-        //
+        $payroll->update($request->all());
+        return PayrollResource::make($payroll)
+            ->additional([
+                'msg' => 'Registro Actualizado Correctamente',
+                'title' => 'Planilla',
+                'Error' => 0,
+            ]);
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Payroll $payroll)
     {
-        //
+        $payroll->delete();
+        return PayrollResource::make($payroll)
+            ->additional([
+                'msg' => 'Registro Eliminado',
+                'title' => 'Planilla',
+                'Error' => 0,
+            ]);
     }
 }

@@ -3,22 +3,19 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\StoreTypevalueRequest;
+use App\Http\Requests\V1\UpdateTypevalueRequest;
 use App\Http\Resources\V1\TypevalueResource;
 use App\Models\Typevalue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Spatie\QueryBuilder\QueryBuilder;
 
 class TypevalueController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $user = Auth::user();
-        $data = QueryBuilder::for(Typevalue::class)
-            ->where('type_id', $request->type)
+        $data = Typevalue::where('type_id', $request->type)
             ->get();
 
         return TypevalueResource::collection($data)
@@ -28,29 +25,36 @@ class TypevalueController extends Controller
                 'Error' => 0,
             ]);
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(StoreTypevalueRequest $request)
     {
-        //
+        $formData = $request->validated();
+        $data = Typevalue::create($formData);
+        return TypevalueResource::make($data)
+            ->additional([
+                'msg' => 'Registro Creado Correctamente',
+                'title' => 'Valor Tipo',
+                'Error' => 0,
+            ]);
     }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(Typevalue $typevalue)
     {
-        //
+        return TypevalueResource::make($typevalue);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Typevalue $typevalue)
+    public function update(UpdateTypevalueRequest $request, Typevalue $typevalue)
     {
-        //
+        $formData = $request->validated();
+        $typevalue->update($formData);
+
+        return TypevalueResource::make($typevalue)
+            ->additional([
+                'msg' => 'Registro Actualizado Correctamente',
+                'title' => 'Valor Tipo',
+                'Error' => 0,
+            ]);
     }
 
     /**
@@ -58,6 +62,12 @@ class TypevalueController extends Controller
      */
     public function destroy(Typevalue $typevalue)
     {
-        //
+        $typevalue->delete();
+
+        return response()->json([
+            'msg' => 'Registro Eliminado Correctamente',
+            'title' => 'Valor Tipo',
+            'Error' => 0,
+        ]);
     }
 }

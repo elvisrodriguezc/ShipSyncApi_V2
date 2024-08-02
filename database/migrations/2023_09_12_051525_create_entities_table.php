@@ -17,13 +17,15 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name')->nullable();
             $table->string('company_name')->nullable();
-            $table->foreignId('idform_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->unsignedBigInteger('idform_id');
             $table->string('idform_number', 15);
             $table->string('phone', 50)->nullable();
             $table->string('email', 50);
             $table->foreignId('ubigeodistrito_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->string('address', 100)->nullable();
             $table->string('remark', 200)->nullable();
+            $table->unsignedTinyInteger('status')->default(1);
+            $table->foreign('idform_id')->references('id')->on('typevalues')->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->timestamps();
         });
     }

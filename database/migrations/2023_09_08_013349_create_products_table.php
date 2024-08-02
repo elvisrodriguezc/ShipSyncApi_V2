@@ -24,10 +24,11 @@ return new class extends Migration
             $table->string('image');
             $table->string('set_mode', 10);
             $table->foreignId('currency_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
-            $table->decimal('price', 8, 2);
+            $table->decimal('price', 8, 2)->default(0);
             $table->decimal('minimal', 8, 2);
             $table->foreignId('brand_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
-            $table->foreignId('taxmode_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->unsignedBigInteger('taxmode_id'); //updatedBy
+            $table->foreign('taxmode_id')->references('id')->on('typevalues')->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->foreignId('unspsc_id')
                 ->nullable()
                 ->default(1)

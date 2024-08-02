@@ -20,7 +20,6 @@ class OrderitemResource extends JsonResource
         return [
             'id' => (int)$this->id,
             'order_id' => $this->order_id,
-            'tariffitem_id' => $this->tariffitem_id,
             'image' => $imageUrl,
             'title' => $this->tariffitem->product->name,
             'model' => $this->tariffitem->product->model,
@@ -28,7 +27,8 @@ class OrderitemResource extends JsonResource
             'category' => $this->tariffitem->product->category->text,
             'description' => $this->description,
             'currency' => $this->tariffitem->product->currency->symbol,
-            'tariff_item' => new TariffitemResource($this->tariffitem),
+            'tariffitem_id' => $this->tariffitem_id,
+            'tariffitem' => new TariffitemResource($this->tariffitem),
             'warehouse_id' => $this->tariffitem->warehouse_id,
             'product_serie_id' => $this->product_serie_id,
             'quantity' => $this->quantity,

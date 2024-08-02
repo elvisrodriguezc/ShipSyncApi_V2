@@ -7,8 +7,10 @@ use App\Models\Purchase;
 use App\Http\Resources\V1\PurchaseResource;
 use App\Http\Requests\V1\StorePurchaseRequest;
 use App\Http\Requests\V1\UpdatePurchaseRequest;
+use App\Models\Purchaseitem;
+use App\Models\Warehouse;
+use App\Models\Warehousekardex;
 use Illuminate\Support\Facades\Auth;
-use Spatie\QueryBuilder\QueryBuilder;
 
 class PurchaseController extends Controller
 {
@@ -18,14 +20,10 @@ class PurchaseController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $data = QueryBuilder::for(Purchase::class)
-            ->allowedFilters(['text'])
-            ->defaultSort('-created_at')
-            ->allowedSorts(['text'])
-            ->where('company_id', $user->company_id)
+        $query = Purchase::where('company_id', $user->company_id)
             ->get();
 
-        return PurchaseResource::collection($data)
+        return PurchaseResource::collection($query)
             ->additional([
                 'msg' => 'Listado correcto',
                 'title' => 'Categorias',
@@ -38,11 +36,42 @@ class PurchaseController extends Controller
      */
     public function store(StorePurchaseRequest $request)
     {
-        $user = Auth::user();
         $formData = $request->validated();
-        $formData['company_id'] = $user->company_id; // Add the company_id field with user company
-        $data = Purchase::create($formData);
-        return PurchaseResource::make($data)
+        $purchase = Purchase::create($formData);
+        foreach ($request->items as $item) {
+            $purchaseItem = Purchaseitem::create([
+                'purchase_id' => $purchase->id,
+                'product_id' => $item["product_id"],
+                'unity_id' => $item['unity_id'],
+                'price' => $item['price'],
+                'quantity' => $item['quantity'],
+                'discount' => $item['discount'],
+                'discount_percent' => $item['discount_percent'],
+            ]);
+            $stockValue = Warehousekardex::where('warehouse_id', $purchase['warehouse_id'])
+                ->where('product_id', $item['product_id'])
+                ->latest('created_at')
+                ->pluck('stock')
+                ->first(); // Obtiene el valor del campo 'stock' del primer registro
+
+            if ($stockValue !== null) {
+                $prevstock = $stockValue;
+            } else {
+                $prevstock = 0;
+            }
+            Warehousekardex::create([
+                'warehouse_id' => $purchase['warehouse_id'],
+                'product_id' => $item["product_id"],
+                'unity_id' => $item['unity_id'],
+                'in' => $item['quantity'],
+                'out' => 0,
+                'price' => $item['price'],
+                'purchaseitem_id' => $purchaseItem->id,
+                'prevstock' => $prevstock,
+                'stock' => $prevstock + $item['quantity'],
+            ]);
+        }
+        return PurchaseResource::make($purchase)
             ->additional([
                 'msg' => 'Registro Creado Correctamente',
                 'title' => 'Categorias',

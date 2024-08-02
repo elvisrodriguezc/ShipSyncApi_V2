@@ -17,8 +17,10 @@ class OfficeResource extends JsonResource
     {
         return [
             'id' => (int)$this->id,
+            'value' => (int)$this->id,
             'name' => $this->name,
-            'com<pany_id' => (int)$this->company_id,
+            'label' => $this->name,
+            'company_id' => (int)$this->company_id,
             'address' => $this->address,
             'phone' => $this->phone,
             'email' => $this->email,

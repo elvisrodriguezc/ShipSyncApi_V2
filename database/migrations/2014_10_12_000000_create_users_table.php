@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('company_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->foreignId('warehouse_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->string('name', 50);
+            $table->string('lastname', 50);
             $table->string('user', 20);
             $table->string('role', 20);
             $table->string('email')->unique();
@@ -24,14 +25,16 @@ return new class extends Migration
             $table->rememberToken();
             $table->foreignId('typevalue_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT')->default(3);
             $table->string('documento');
-            $table->string('cargo');
+            $table->string('licence');
+            $table->string('licencecategory');
             $table->unsignedTinyInteger('isAF');
             $table->unsignedTinyInteger('isAFP');
             $table->foreignId('payrollafp_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT')->default(1);
             $table->float('salary');
             $table->float('additionalpay');
+            $table->unsignedTinyInteger('status')->default(1);
             $table->timestamps();
-            $table->unique(['company_id', 'name']);
+            $table->unique(['company_id', 'name', 'lastname']);
         });
     }
 

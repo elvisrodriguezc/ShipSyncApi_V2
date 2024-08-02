@@ -16,6 +16,8 @@ class Servicedetail extends Model
         'vehicle_id',
         'initkm',
         'finalkm',
+        'initkmGPS',
+        'finalkmGPS',
         'status',
     ];
 
@@ -78,5 +80,13 @@ class Servicedetail extends Model
     public function servicedetast()
     {
         return $this->hasMany(Servicedetast::class);
+    }
+    public function servicedetdoc()
+    {
+        return $this->hasMany(Servicedetdoc::class);
+    }
+    public function servicedettip()
+    {
+        return $this->hasMany(Servicedettip::class);
     }
 }

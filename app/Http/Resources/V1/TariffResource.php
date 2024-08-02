@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\V1;
 
+use App\Models\Tariff;
+use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,12 +18,27 @@ class TariffResource extends JsonResource
     {
         return [
             'id' => (int)$this->id,
+            'value' => (int)$this->id,
             'name' => $this->name,
-            'warehouse_id' => $this->warehouse_id,
+            'label' => $this->name,
+            'office_id' => $this->office_id,
+            'office' => [
+                "id" => $this->office->id,
+                "name" => $this->office->name,
+            ],
+            'currency' => [
+                "name" => $this->currency->name,
+                "symbol" => $this->currency->symbol,
+                "rate" => $this->currency->rate,
+                "id" => $this->currency->id,
+            ],
             'rate' => $this->rate,
             'status' => $this->status,
-            'created_at' => $this->created_at->format('Y-m-d h:i:s'),
-            'updated_at' => $this->updated_at->format('Y-m-d h:i:s')
+            // 'items' => Tariff::collection($this->tariffitem),
+            'items' => TariffitemResource::collection($this->tariffitem),
+            // 'items' => collect($this->tariffitem),
+            'created_at' => $this->created_at?->format('Y-m-d h:i:s'),
+            'updated_at' => $this->updated_at?->format('Y-m-d h:i:s')
         ];
     }
 }

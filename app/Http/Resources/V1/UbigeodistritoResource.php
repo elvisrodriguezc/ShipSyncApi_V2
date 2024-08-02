@@ -16,6 +16,9 @@ class UbigeodistritoResource extends JsonResource
     {
         return [
             'id' => (int)$this->id,
+            'value' => (int)$this->id,
+            'label' => $this->ubigeoprovincia->ubigeodepartamento->code . $this->ubigeoprovincia->code . $this->code . ' ' . $this->name,
+            'label' => $this->name,
             'code' => $this->code,
             'name' => $this->name,
             'provincia' => [

@@ -16,7 +16,9 @@ class TypeResource extends JsonResource
     {
         return [
             'id' => (int)$this->id,
+            'company_id' => $this->company_id,
             'name' => $this->name,
+            'comment' => $this->comment,
             'values' => new TypevalueCollection($this->typevalue),
         ];
     }

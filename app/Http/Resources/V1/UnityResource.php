@@ -16,9 +16,11 @@ class UnityResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'label' => $this->name,
+            'value' => $this->id,
             'name' => $this->name,
             'abbreviation' => $this->abbreviation,
-            'value' => $this->value,
+            'valor' => $this->value,
             'status' => $this->status,
             // 'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             // 'updated_at' => $this->updated_at->format('Y-m-d H:i:s')

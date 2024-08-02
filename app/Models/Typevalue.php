@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Typevalue extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'type_id',
+        'name',
+        'value',
+        'abbrev',
+        'status',
+    ];
+    public function type()
+    {
+        return $this->belongsTo(Type::class);
+    }
 }

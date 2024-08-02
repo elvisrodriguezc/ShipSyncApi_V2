@@ -31,8 +31,8 @@ class ServicesResource extends JsonResource
                 'company_name' => $this->entity->company_name
             ],
             'note' => $this->note,
+            'servicios' => new ServicedetailCollection($this->Servicedetail),
             'status' => $this->status,
-            'detail' => new ServicedetailCollection($this->Servicedetail),
         ];
     }
 }

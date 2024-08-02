@@ -16,11 +16,14 @@ class TypevalueResource extends JsonResource
     {
         return [
             'id' => (int)$this->id,
-            'tipe_id' => $this->type_id,
+            'type_id' => $this->type->id,
+            'type' => $this->type->name,
             'name' => $this->name,
-            'value' => $this->value,
+            'valor' => $this->value,
+            'abbrev' => $this->abbrev,
             'value' => (int)$this->id,
             'label' => $this->name,
+            'status' => $this->status,
         ];
     }
 }

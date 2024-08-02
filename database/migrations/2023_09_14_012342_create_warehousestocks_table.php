@@ -13,10 +13,14 @@ return new class extends Migration
     {
         Schema::create('warehousestocks', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('company_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->foreignId('office_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->foreignId('warehouse_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->foreignId('product_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
-            $table->decimal('stock', 8, 2);
-            $table->decimal('reserved', 8, 2);
+            $table->decimal('stock', 8, 4);
+            $table->decimal('price', 8, 4);
+            $table->decimal('reserved', 8, 4);
+            $table->boolean('infinity')->default(0);
             $table->timestamps();
         });
     }

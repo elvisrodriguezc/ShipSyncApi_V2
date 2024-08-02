@@ -7,19 +7,17 @@ use App\Models\Sunatruc;
 use App\Http\Requests\V1\StoreSunatrucRequest;
 use App\Http\Requests\V1\UpdateSunatrucRequest;
 use App\Http\Resources\V1\SunatrucResource;
-use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Http\Request;
+
 
 class SunatrucController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = QueryBuilder::for(Sunatruc::class)
-            ->allowedFilters(['text'])
-            ->defaultSort('-created_at')
-            ->allowedSorts(['text'])
+        $data = Sunatruc::limit(20)
             ->get();
 
         return SunatrucResource::collection($data)
@@ -80,67 +78,22 @@ class SunatrucController extends Controller
                 'Error' => 0,
             ]);
     }
-
     public function searchByRuc($ruc)
     {
         try {
-            $data = QueryBuilder::for(Sunatruc::class)
-                ->where('ruc', $ruc)
-                ->firstOrFail();
+            $query = Sunatruc::where('ruc', $ruc)->firstOrFail();
 
-            return SunatrucResource::make($data)
-                ->additional([
-                    'msg' => 'Extraido de SUNAT',
-                    'find' => $ruc,
-                    'Error' => 0,
-                ]);
+            return SunatrucResource::make($query)->additional([
+                'msg' => 'Extraído del Padrón SUNAT',
+                'find' => $query,
+                'Error' => 0,
+            ]);
         } catch (\Exception $e) {
             return response()->json([
-                'msg' => 'Error en la búsqueda',
+                'msg' => 'Error en la búsqueda, no se encotró el RUC',
                 'find' => $ruc,
                 'Error' => 1,
             ], 404);
         }
-    }
-
-    public function searchByRazon($razon)
-    {
-        // $results = Sunatruc::where('idFormNumber', 'LIKE', '%' . $name . '%')->get();
-        $results = Sunatruc::where('idform_number', $razon)->get();
-
-
-        // $data = QueryBuilder::for(Sunatruc::class)
-        //     ->allowedFilters(['text'])
-        //     ->defaultSort('-created_at')
-        //     ->allowedSorts(['text'])
-        //     ->where('company_id', $user->company_id)
-        //     ->get();
-
-
-        return response()->json([
-            'message' => 'Búsqueda satisfactoria',
-            'Número' => $razon,
-            'data' => $results[0]
-        ], 200);
-    }
-    public function searchByNombre($nombre)
-    {
-        // $results = Sunatruc::where('idFormNumber', 'LIKE', '%' . $name . '%')->get();
-        $results = Sunatruc::where('idform_number', $nombre)->get();
-
-
-        // $data = QueryBuilder::for(Sunatruc::class)
-        //     ->allowedFilters(['text'])
-        //     ->defaultSort('-created_at')
-        //     ->allowedSorts(['text'])
-        //     ->where('company_id', $user->company_id)
-        //     ->get();
-
-
-        return response()->json([
-            'message' => 'Búsqueda satisfactoria',
-            'Número' => $nombre,
-            'data' => $results[0]
-        ], 200);
     }
 }

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Spatie\QueryBuilder\QueryBuilder;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -15,12 +15,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = QueryBuilder::for(User::class)
-            ->allowedFilters(['name', 'email'])
-            ->allowedSorts(['name', 'email'])
+
+        $user = Auth::user();
+        $query = User::where('company_id', $user->company_id)
             ->get();
 
-        return UserResource::collection($users)
+        return UserResource::collection($query)
             ->additional([
                 'msg' => 'Listado correcto',
                 'title' => 'Categorias',

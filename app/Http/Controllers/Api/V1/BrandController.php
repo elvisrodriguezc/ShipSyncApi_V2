@@ -38,7 +38,11 @@ class BrandController extends Controller
      */
     public function store(StoreBrandRequest $request)
     {
-        $brand = Brand::create($request->validated());
+        $user = Auth::user();
+        $formData = $request->validated();
+        $formData['company_id'] = $user->company_id; // Add the company_id field with user company
+
+        $brand = Brand::create($formData);
         return BrandResource::make($brand)
             ->additional([
                 'msg' => 'Registro Creado Correctamente',

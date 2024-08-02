@@ -23,7 +23,7 @@ class StoreOrderRequest extends FormRequest
     {
         return [
             'entity_id' => 'required',
-            'cashier_id' => 'required',
+            'cashier_id' => 'sometimes',
             'currency_id' => 'required',
             'table_id' => 'sometimes|required',
             'tariff_id' => 'required',
@@ -31,7 +31,7 @@ class StoreOrderRequest extends FormRequest
             'pax' => 'sometimes|required',
             'discount' => 'sometimes|required',
             'total' => 'sometimes|required',
-            'status' => 'required',
+            'status' => 'sometimes',
         ];
     }
 }

@@ -16,7 +16,9 @@ class CurrencyResource extends JsonResource
     {
         return [
             'id' => (int)$this->id,
+            'value' => (int)$this->id,
             'name' => ucwords($this->name),
+            'label' => ucwords($this->name),
             'symbol' => $this->symbol,
             'rate' => $this->rate,
             'status' => $this->status,

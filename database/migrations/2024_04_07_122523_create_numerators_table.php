@@ -13,13 +13,14 @@ return new class extends Migration
     {
         Schema::create('numerators', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
-            $table->foreignId('document_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->foreignId('office_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->unsignedBigInteger('documenttype_id');
             $table->string('serie', 4);
             $table->unsignedInteger('number')->default(1);
             $table->string('description')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
+            $table->foreign('documenttype_id')->references('id')->on('typevalues')->onUpdate('CASCADE')->onDelete('RESTRICT');
         });
     }
 

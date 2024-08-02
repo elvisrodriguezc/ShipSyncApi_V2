@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('servicedetdocs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('servicedetail_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->foreignId('typevalue_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->string('serie', 5);
             $table->string('number', 20);
+            $table->foreignId('ubigeodistrito_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->string('note')->nullable();
             $table->timestamps();
         });

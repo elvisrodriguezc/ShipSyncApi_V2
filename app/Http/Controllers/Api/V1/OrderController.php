@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\Office;
 use App\Http\Requests\V1\StoreOrderRequest;
 use App\Http\Requests\V1\UpdateOrderRequest;
 use App\Http\Resources\V1\OrderResource;
+use App\Models\Orderitem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Spatie\QueryBuilder\QueryBuilder;
 
 class OrderController extends Controller
 {
@@ -19,31 +20,11 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
+        $officeId = Office::where('company_id', $user->company_id)->pluck('id')->first();
+        $query = Order::where('office_id', $officeId)
+            ->get();
 
-        $data = QueryBuilder::for(Order::class)
-            ->allowedFilters(['id'])
-            ->defaultSort('-id')
-            ->allowedSorts(['id'])
-            ->where('company_id', $user->company_id);
-
-        // switch ($request->mode) {
-        //     case "cashier":
-        //         $data = $data->wherenot('status', 2);
-        //         break;
-        //     case "ip":
-        //         $data = $data->where('status', 2);
-        //         break;
-        //     case "customer":
-        //         // Agregar cualquier lógica adicional para el modo "customer" aquí
-        //         break;
-        //     default:
-        //         // Agregar cualquier lógica adicional para otros modos aquí
-        //         break;
-        // }
-
-        $data = $data->get();
-
-        return OrderResource::collection($data)
+        return OrderResource::collection($query)
             ->additional([
                 'msg' => 'Listado correcto',
                 'title' => 'Órdenes de Venta',
@@ -57,8 +38,32 @@ class OrderController extends Controller
         $formData = $request->validated();
         $formData['company_id'] = $user->company_id; // Add the company_id
         $formData['user_id'] = $user->id; // Add the user_id
-        $data = Order::create($formData);
-        return OrderResource::make($data)
+        $formData['cashier_id'] = 1; // Add the user_id
+        $formData['number'] = $request->number; // Add the user_id
+        $total = 0;
+        foreach ($request->items as $item) {
+            $total += $item['quantity'] * $item['price'];
+        }
+        $formData['total'] = $total;
+        $order = Order::create($formData);
+
+        foreach ($request->items as $item) {
+            // dd($item);
+            $orderitem = Orderitem::create([
+                'order_id' => $order->id,
+                'product_serie_id' => 1,
+                'splitfrom' => 0,
+                'tariffitem_id' => $item['tariffitem_id'],
+                'quantity' => $item['quantity'],
+                'price' => $item['price'],
+                'discount' => 0,
+                'discount_percent' => 0,
+                'description' => "",
+                'status_comment' => "",
+                'status' => 1,
+            ]);
+        }
+        return OrderResource::make($order)
             ->additional([
                 'msg' => 'Registro Creado Correctamente',
                 'title' => 'Órdenes de Venta',

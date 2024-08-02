@@ -23,7 +23,7 @@ class StoreCategoryRequest extends FormRequest
     {
         return [
             'text' => 'required|unique:categories,text',
-            'icon' => 'required',
+            'icon_id' => 'required',
             'description' => 'required',
             'price_rate' => "required",
             'status',

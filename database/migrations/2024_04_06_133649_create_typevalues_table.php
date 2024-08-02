@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('type_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->string('name')->nullable();
-            $table->float('value')->nullable();
+            $table->string('value', 100)->nullable();
+            $table->string('abbrev', 100)->nullable();
             $table->unsignedTinyInteger('status')->default(1);
             $table->timestamps();
         });

@@ -33,6 +33,7 @@ class EntityResource extends JsonResource
             'remark' => $this->remark,
             'value' => (int)$this->id,
             'label' => $this->company_name,
+            'branches' => new EntitiebranchCollection($this->entitiebranches),
         ];
     }
 }

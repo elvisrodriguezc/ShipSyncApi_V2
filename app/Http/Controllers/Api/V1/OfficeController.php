@@ -8,24 +8,19 @@ use App\Http\Requests\V1\StoreOfficeRequest;
 use App\Http\Requests\V1\UpdateOfficeRequest;
 use App\Http\Resources\V1\OfficeResource;
 use Illuminate\Support\Facades\Auth;
-use Spatie\QueryBuilder\QueryBuilder;
 
 class OfficeController extends Controller
 {
     public function index()
     {
         $user = Auth::user();
-        $data = QueryBuilder::for(Office::class)
-            ->allowedFilters(['name'])
-            ->defaultSort('-created_at')
-            ->allowedSorts(['name'])
-            ->where('company_id', $user->company_id)
+        $data = Office::where('company_id', $user->company_id)
             ->get();
 
         return OfficeResource::collection($data)
             ->additional([
                 'msg' => 'Listado correcto',
-                'title' => 'Oficinas Sucursales',
+                'title' => 'Oficinas > Sucursales',
                 'Error' => 0,
             ]);
     }

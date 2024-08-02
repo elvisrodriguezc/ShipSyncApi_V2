@@ -15,15 +15,20 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->foreignId('warehouse_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->foreignId('user_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->foreignId('numerator_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->unsignedInteger('number');
             $table->foreignId('entity_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
-            $table->foreignId('receipttype_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->unsignedBigInteger('receipttype_id');
             $table->string('document_serial', 10);
             $table->integer('document_number');
             $table->string('guide_number', 20)->nullable();
             $table->date('date');
-            $table->boolean('credit');
+            $table->boolean('credit')->default(0);
             $table->date('duedate')->nullable();
+            $table->boolean('taxincluded')->default(0);
             $table->tinyInteger('status')->default(1);
+            $table->foreign('receipttype_id')->references('id')->on('typevalues')->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->timestamps();
         });
     }

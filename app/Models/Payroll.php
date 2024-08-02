@@ -75,4 +75,8 @@ class Payroll extends Model
     {
         return $this->belongsTo(Numerator::class);
     }
+    public function payrollUsers()
+    {
+        return $this->hasMany(PayrollUser::class);
+    }
 }

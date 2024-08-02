@@ -4,11 +4,10 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\StoreTypeRequest;
+use App\Http\Requests\V1\UpdateTypeRequest;
 use App\Http\Resources\V1\TypeResource;
 use App\Models\Type;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Spatie\QueryBuilder\QueryBuilder;
 
 class TypeController extends Controller
 {
@@ -18,13 +17,12 @@ class TypeController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $data = QueryBuilder::for(Type::class)
-            ->get();
+        $data = Type::where('company_id', $user->company_id)->get();
 
         return TypeResource::collection($data)
             ->additional([
                 'msg' => 'Listado correcto',
-                'title' => 'Entidades1',
+                'title' => 'Tipos de dato',
                 'Error' => 0,
             ]);
     }
@@ -41,7 +39,7 @@ class TypeController extends Controller
         return TypeResource::make($data)
             ->additional([
                 'msg' => 'Registro Creado Correctamente',
-                'title' => 'Entidades',
+                'title' => 'Tipos de dato',
                 'Error' => 0,
             ]);
     }
@@ -51,15 +49,28 @@ class TypeController extends Controller
      */
     public function show(Type $tipo)
     {
-        return TypeResource::make($tipo);
+        return TypeResource::make($tipo)
+            ->additional([
+                'msg' => 'Registro actual',
+                'title' => 'Tipos de dato',
+                'Error' => 0,
+            ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Type $type)
+    public function update(UpdateTypeRequest $request, Type $type)
     {
-        //
+        $formData = $request->validated();
+        $type->update($formData);
+
+        return TypeResource::make($type)
+            ->additional([
+                'msg' => 'Registro Actualizado Correctamente',
+                'title' => 'Tipos de dato',
+                'Error' => 0,
+            ]);
     }
 
     /**
@@ -67,6 +78,12 @@ class TypeController extends Controller
      */
     public function destroy(Type $type)
     {
-        //
+        $type->delete();
+        return TypeResource::make($type)
+            ->additional([
+                'msg' => 'Registro Actualizado Correctamente',
+                'title' => 'Tipos de dato',
+                'Error' => 0,
+            ]);
     }
 }

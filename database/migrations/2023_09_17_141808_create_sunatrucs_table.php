@@ -16,10 +16,12 @@ return new class extends Migration
             $table->string('ruc', 11)->unique();
             $table->string('razon_social', 150);
             $table->string('estado', 15);
+            $table->string('condicion', 15);
             $table->string('ubigeo', 6);
             $table->string('tipo_via', 100);
             $table->string('nombre_via', 100);
             $table->string('codigo_zona', 30);
+            $table->string('tipo_zona', 100);
             $table->string('numero', 20);
             $table->string('interior', 50);
             $table->string('lote', 50);
