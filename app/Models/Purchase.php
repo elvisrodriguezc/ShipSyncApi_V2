@@ -11,6 +11,9 @@ class Purchase extends Model
     protected $fillable = [
         'company_id',
         'warehouse_id',
+        'user_id',
+        'numerator_id',
+        'number',
         'entity_id',
         'receipttype_id',
         'document_serial',
@@ -19,17 +22,13 @@ class Purchase extends Model
         'date',
         'credit',
         'duedate',
+        'taxincluded',
         'status'
     ];
-
-    protected $cast = [
-        'status',
-    ];
-
-    protected $hidden = [
-        'updated_at'
-    ];
-
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
     public function entity()
     {
         return $this->belongsTo(Entity::class);
@@ -41,6 +40,10 @@ class Purchase extends Model
     public function warehouse()
     {
         return $this->belongsTo(Warehouse::class);
+    }
+    public function numerator()
+    {
+        return $this->belongsTo(Numerator::class);
     }
     public function purchaseitems()
     {

@@ -8,7 +8,6 @@ use App\Http\Requests\V1\UpdateUnityRequest;
 use App\Http\Resources\V1\UnityResource;
 use App\Models\Unity;
 use Illuminate\Support\Facades\Auth;
-use Spatie\QueryBuilder\QueryBuilder;
 
 
 class UnityController extends Controller
@@ -19,11 +18,7 @@ class UnityController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $unities = QueryBuilder::for(Unity::class)
-            ->allowedFilters(['name', 'abbreviation'])
-            ->defaultSort('name')
-            ->allowedSorts(['name', 'abbreviation'])
-            ->where('company_id', $user->company_id)
+        $unities = Unity::orderBy('name')
             ->get();
         return UnityResource::collection($unities)
             ->additional([

@@ -22,16 +22,16 @@ class StoreEntityRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'company_id' => "sometimes",
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'company_name' => "sometimes",
-            'idform_id' => 'required',
+            'company_id' => "sometines",
+            'first_name' => 'sometimes',
+            'last_name' => 'sometimes',
+            'company_name' => "required",
+            'idform_id' => 'sometimes',
             'idform_number' => 'required',
             'phone' => "sometimes",
             'email' => "sometimes",
             'ubigeodistrito_id' => "sometimes",
-            'address' => 'required',
+            'address' => 'sometimes',
             'remark' => "sometimes",
         ];
     }

@@ -37,7 +37,7 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
-            $table->unique(['company_id', 'name']); // adds unicity restricxtion to the fields company_id and name
+            $table->unique(['company_id', 'name', 'brand_id', 'unity_id']); // adds unicity restricxtion to the fields company_id and name
         });
     }
 

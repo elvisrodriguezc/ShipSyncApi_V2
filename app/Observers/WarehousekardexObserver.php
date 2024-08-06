@@ -21,10 +21,12 @@ class WarehousekardexObserver
         $existingProduct = Warehousestock::where('warehouse_id', $warehousekardex->warehouse_id)
             ->where('product_id', $warehousekardex->product_id)
             ->first();
+        $roundedPrice = round($warehousekardex->price, 4); // Limitar a 4 dígitos decimales
+
         if ($existingProduct) {
             // El producto ya existe, actualiza stock y precio
             $existingProduct->stock = $warehousekardex->stock;
-            $existingProduct->price = $warehousekardex->price;
+            $existingProduct->price = $roundedPrice;
             $existingProduct->save();
         } else {
             // El producto no existe, crea un nuevo registro
@@ -35,12 +37,13 @@ class WarehousekardexObserver
                 'warehouse_id' => $warehousekardex->warehouse_id,
                 'product_id' => $warehousekardex->product_id,
                 'stock' => $warehousekardex->stock,
-                'price' => $warehousekardex->price,
+                'price' => $roundedPrice,
                 'reserved' => 0,
                 'infinity' => 0,
             ]);
         }
     }
+
 
     /**
      * Handle the Warehousekardex "updated" event.

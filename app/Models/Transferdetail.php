@@ -13,6 +13,7 @@ class Transferdetail extends Model
         "product_id",
         "unity_id",
         "quantity",
+        "quantityreceived",
         "comments",
         "receivinguser_id",
         "status",

@@ -17,15 +17,17 @@ class PurchaseResource extends JsonResource
         return [
             'id' => (int)$this->id,
             'company_id' => $this->company_id,
+            'company' => $this->company->name,
             'warehouse' => [
                 'id' => $this->warehouse->id,
                 'name' => $this->warehouse->name,
+                'office' => $this->warehouse->office->name,
+                'address' => $this->warehouse->office->address,
             ],
-            'entity' => [
-                'id' => $this->entity_id,
-                'company' => $this->entity->company_name,
-                'person' => $this->entity->first_name . ' ' . $this->entity->last_name,
-            ],
+            'user_id' => $this->user_id,
+            'serie' => $this->numerator->serie,
+            'number' => $this->number,
+            'entity' => new EntityResource($this->entity),
             'receipttype' => [
                 'id' => $this->receipttype_id,
                 'name' => $this->receipttype->name,

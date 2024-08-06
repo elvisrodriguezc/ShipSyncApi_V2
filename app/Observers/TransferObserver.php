@@ -34,12 +34,14 @@ class TransferObserver
         }
     }
 
-    /**
-     * Handle the Transfer "updated" event.
-     */
+    public function updating(Transfer $transfer): void
+    {
+        $user = Auth::user();
+        $transfer->receivinguser_id = $user->id;
+    }
+
     public function updated(Transfer $transfer): void
     {
-        //
     }
 
     /**

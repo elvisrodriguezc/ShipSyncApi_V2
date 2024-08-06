@@ -19,6 +19,11 @@ class TransferResource extends JsonResource
             "id" => $this->id,
             "company_id" => $this->company_id,
             "user_id" => $this->user_id,
+            "user" => [
+                'name' => $this->user->name . " " . $this->user->lastname,
+                'user' => $this->user->user,
+                'role' => $this->user->role,
+            ],
             "numerator_id" => $this->numerator_id,
             "numerator" => [
                 "id" => $this->numerator?->id,
@@ -30,12 +35,14 @@ class TransferResource extends JsonResource
                 "id" => $this->originwarehouse?->id,
                 "name" => $this->originwarehouse?->name,
                 "detail" => $this->originwarehouse?->detail,
+                "office" => $this->originwarehouse?->office->name,
             ],
             "destinationwarehouse_id" => $this->destinationwarehouse_id,
             "destinationwarehouse" => [
                 "id" => $this->destinationwarehouse?->id,
                 "name" => $this->destinationwarehouse?->name,
                 "detail" => $this->destinationwarehouse?->detail,
+                "office" => $this->destinationwarehouse?->office->name,
             ],
             "receivinguser_id" => $this->receivinguser_id,
             "receivinguser" => [
@@ -44,6 +51,7 @@ class TransferResource extends JsonResource
                 "apellido" => $this->receivinguser?->lastname,
             ],
             "detail" => $this->detail,
+            "detailrcv" => $this->detailrcv,
             'items' => new TransferdetailCollection($this->items),
             "status" => $this->status,
             "created_at" => $this->created_at?->format("Y-m-d H:i:s"),

@@ -85,11 +85,12 @@ class SunatrucController extends Controller
 
             return SunatrucResource::make($query)->additional([
                 'msg' => 'Extraído del Padrón SUNAT',
-                'find' => $query,
+                'find' => $ruc,
                 'Error' => 0,
             ]);
         } catch (\Exception $e) {
             return response()->json([
+                'data' => [],
                 'msg' => 'Error en la búsqueda, no se encotró el RUC',
                 'find' => $ruc,
                 'Error' => 1,

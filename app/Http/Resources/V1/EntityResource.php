@@ -16,6 +16,8 @@ class EntityResource extends JsonResource
     {
         return [
             'id' => (int)$this->id,
+            'value' => (int)$this->id,
+            'label' => $this->company_name . " " . $this->idform_number,
             'company_id' => $this->company_id,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
@@ -24,15 +26,13 @@ class EntityResource extends JsonResource
                 'doc' => $this->idform->abbrev,
                 'number' => $this->idform_number,
             ],
-            'region' => $this->ubigeodistrito->ubigeoprovincia->ubigeodepartamento->name,
-            'provincia' => $this->ubigeodistrito->ubigeoprovincia->name,
-            'distrito' => $this->ubigeodistrito->name,
+            'region' => $this->ubigeodistrito?->ubigeoprovincia?->ubigeodepartamento->name,
+            'provincia' => $this->ubigeodistrito?->ubigeoprovincia?->name,
+            'distrito' => $this->ubigeodistrito?->name,
             'address' => $this->address,
             'phone' => $this->phone,
             'email' => $this->email,
             'remark' => $this->remark,
-            'value' => (int)$this->id,
-            'label' => $this->company_name,
             'branches' => new EntitiebranchCollection($this->entitiebranches),
         ];
     }

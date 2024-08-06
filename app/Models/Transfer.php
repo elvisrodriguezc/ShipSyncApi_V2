@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\TransferObserver;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,6 +18,7 @@ class Transfer extends Model
         'destinationwarehouse_id',
         'receivinguser_id',
         'detail',
+        'detailrcv',
         'status',
     ];
 

@@ -7,6 +7,8 @@ use App\Models\Entity;
 use App\Http\Requests\V1\StoreEntityRequest;
 use App\Http\Requests\V1\UpdateEntityRequest;
 use App\Http\Resources\V1\EntityResource;
+use App\Models\Typevalue;
+use App\Models\Ubigeodistrito;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 
@@ -38,17 +40,24 @@ class EntityController extends Controller
      */
     public function store(StoreEntityRequest $request)
     {
-        $user = Auth::user();
-        $formData = $request->validated();
-        $formData['company_id'] = $user->company_id; // Add the company_id field with user company
-        $data = Entity::create($formData);
-        return EntityResource::make($data)
+        $data = $request->validated();
+        $typevalue = Typevalue::where('name', $request->idform)->first();
+        $ubigeo = Ubigeodistrito::where('ubigeo', $request->ubigeo)->first();
+        $data['idform_id'] = $typevalue->id;
+        if ($ubigeo) {
+            $data['ubigeodistrito_id'] = $ubigeo->id;
+        }
+        $entity = Entity::create($data);
+
+        return EntityResource::make($entity)
             ->additional([
                 'msg' => 'Registro Creado Correctamente',
                 'title' => 'Entidades',
                 'Error' => 0,
             ]);
     }
+
+
 
     /**
      * Display the specified resource.

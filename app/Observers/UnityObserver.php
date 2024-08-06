@@ -9,8 +9,6 @@ class UnityObserver
 {
     public function creating(Unity $unity): void
     {
-        $user = Auth::user();
-        $unity->company_id = $user->company_id;
     }
 
     public function created(Unity $unity): void

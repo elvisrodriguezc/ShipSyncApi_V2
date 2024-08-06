@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Entity;
 use App\Models\Guidecarrier;
 use App\Models\Order;
 use App\Models\Orderitem;
@@ -11,6 +12,7 @@ use App\Models\Requirementdetail;
 use App\Models\Transfer;
 use App\Models\Unity;
 use App\Models\Warehousekardex;
+use App\Observers\EntityObserver;
 use App\Observers\GuidecarrierObserver;
 use App\Observers\OrderitemObserver;
 use App\Observers\OrderObserver;
@@ -52,6 +54,7 @@ class EventServiceProvider extends ServiceProvider
         Requirementdetail::observe(RequirementdetailObserver::class);
         Transfer::observe(TransferObserver::class);
         Unity::observe(UnityObserver::class);
+        Entity::observe(EntityObserver::class);
     }
 
     /**

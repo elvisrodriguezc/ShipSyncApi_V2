@@ -42,7 +42,7 @@ class PurchaseController extends Controller
             $purchaseItem = Purchaseitem::create([
                 'purchase_id' => $purchase->id,
                 'product_id' => $item["product"]['id'],
-                'unity_id' => $item['unity']['id'],
+                'unity_id' => $item['product']['unity_id'],
                 'price' => $item['price'],
                 'quantity' => $item['quantity'],
                 'discount' => $item['discount'],
@@ -59,16 +59,18 @@ class PurchaseController extends Controller
             } else {
                 $prevstock = 0;
             }
+            $roundedPrice = round($item['price'], 4); // Limitar a 4 dígitos decimales
+
             Warehousekardex::create([
                 'warehouse_id' => $purchase['warehouse_id'],
                 'product_id' => $item["product"]["id"],
-                'unity_id' => $item['unity']['id'],
+                'unity_id' => $item['product']['unity_id'],
                 'in' => $item['quantity'],
                 'out' => 0,
-                'price' => $item['price'],
+                'price' => $roundedPrice,
                 'purchaseitem_id' => $purchaseItem->id,
                 'prevstock' => $prevstock,
-                'stock' => $prevstock + ($item['quantity'] * $item["unity"]["valor"]),
+                'stock' => round($prevstock + ($item['quantity'] * $item["unity"]["valor"] / $item['product']['unity_valor']), 2),
             ]);
         }
         return PurchaseResource::make($purchase)

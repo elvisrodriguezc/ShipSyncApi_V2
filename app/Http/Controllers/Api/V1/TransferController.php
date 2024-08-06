@@ -8,6 +8,7 @@ use App\Http\Requests\V1\UpdateTransferRequest;
 use App\Http\Resources\V1\TransferResource;
 use App\Models\Transfer;
 use App\Models\Transferdetail;
+use App\Models\Warehousekardex;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -72,6 +73,58 @@ class TransferController extends Controller
     public function update(UpdateTransferRequest $request, Transfer $transfer)
     {
         $transfer->update($request->validated());
+        foreach ($request->items as $item) {
+            $transferDetail = Transferdetail::find($item['id']);
+            if ($transferDetail) {
+                $transferDetail->update([
+                    'quantityreceived' => $item['quantityreceived'],
+                ]);
+            }
+            $stockValue = Warehousekardex::where('warehouse_id', $transfer['originwarehouse_id'])
+                ->where('product_id', $item['product_id'])
+                ->latest('created_at')
+                ->pluck('stock')
+                ->first(); // Obtiene el valor del campo 'stock' del primer registro
+
+            if ($stockValue !== null) {
+                $prevstock = $stockValue;
+            } else {
+                $prevstock = 0;
+            }
+            Warehousekardex::create([
+                'warehouse_id' => $transfer['originwarehouse_id'],
+                'product_id' => $item["product_id"],
+                'unity_id' => $item['unity_id'],
+                'in' => 0,
+                'out' => $item['quantityreceived'],
+                'price' => 0,
+                'transferitem_id' => $transferDetail->id,
+                'prevstock' => $prevstock,
+                'stock' => $prevstock - ($item['quantityreceived'] * $item["unity"]["valor"] / $item['product']['unity_valor']),
+            ]);
+            $stockValue = Warehousekardex::where('warehouse_id', $transfer['destinationwarehouse_id'])
+                ->where('product_id', $item['product_id'])
+                ->latest('created_at')
+                ->pluck('stock')
+                ->first(); // Obtiene el valor del campo 'stock' del primer registro
+
+            if ($stockValue !== null) {
+                $prevstock = $stockValue;
+            } else {
+                $prevstock = 0;
+            }
+            Warehousekardex::create([
+                'warehouse_id' => $transfer['destinationwarehouse_id'],
+                'product_id' => $item["product_id"],
+                'unity_id' => $item['unity_id'],
+                'in' => $item['quantityreceived'],
+                'out' => 0,
+                'price' => 0,
+                'transferitem_id' => $transferDetail->id,
+                'prevstock' => $prevstock,
+                'stock' => $prevstock + ($item['quantityreceived'] * $item["unity"]["valor"] / $item['product']['unity_valor']),
+            ]);
+        }
         return TransferResource::make($transfer)
             ->additional([
                 'msg' => 'Registro Actualizado Correctamente',

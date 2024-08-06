@@ -16,8 +16,7 @@ class TypeController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        $data = Type::where('company_id', $user->company_id)->get();
+        $data = Type::get();
 
         return TypeResource::collection($data)
             ->additional([
