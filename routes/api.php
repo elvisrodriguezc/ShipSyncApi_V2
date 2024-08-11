@@ -66,11 +66,9 @@ use Illuminate\Support\Facades\Artisan;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::post('/register', [AuthController::class, 'register']);
-
 
 Route::prefix('/v1')->middleware('auth:sanctum')->group(function () {
     Route::apiResource('/advancements', V1Advancement::class)
@@ -202,7 +200,7 @@ Route::prefix('/v1')->middleware('auth:sanctum')->group(function () {
     Route::post('/getTokenSunat', [V1Pse::class, 'getTokenSunat']);
     Route::post('/sendGuideCarrier', [V1Pse::class, 'sendGuideCarrier']);
     Route::get('/getTiketRequest', [V1Pse::class, 'getTiketRequest']);
-    Route::get('/crear-enlace', function () {
+    Route::get('/linkbuilder', function () {
         Artisan::call('storage:link');
         return 'Enlace simbólico creado correctamente.';
     });

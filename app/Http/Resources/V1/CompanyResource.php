@@ -27,8 +27,8 @@ class CompanyResource extends JsonResource
             'cta1' => $this->cta1,
             'cta2' => $this->cta2,
             'status' => (bool)$this->status,
-            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
-            'updated_at' => $this->updated_at->format('Y-m-d H:i:s'),
+            'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
+            'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
         ];
     }
 }

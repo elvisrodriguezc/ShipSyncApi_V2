@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\V1\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,20 +17,22 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
 
-        if (!Auth::attempt($validated)) {
-            // throw ValidationException::withMessages([
-            //     'email' => [
-            //         __('auth.failed')
-            //     ]
-            // ]);
+        $rememberme = true;
+
+        if (!Auth::attempt($validated, $rememberme)) {
             return response()->json([
                 'message' => 'Información de Acceso no Válidos',
-                'name' => 'Login'
+                'name' => 'Login',
+                'code' => 401
             ], 401);
         }
-        $user = User::where('email', $validated['email'])->first();
+
+        // $request->session()->regenerate(); // Regenerar la sesión para prevenir fijación de sesión
+
+        $user = Auth::user();
+
         return response()->json([
-            'user' => $user,
+            'user' => new UserResource($user),
             'access_token' => $user->createToken('api_token')->plainTextToken,
             'token_type' => 'Bearer',
             'message' => 'El usuario accedió correctamente'

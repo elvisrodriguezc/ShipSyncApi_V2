@@ -22,10 +22,10 @@ class ProductResource extends JsonResource
         return [
             'id' => (int) $this->id,
             'value' => $this->id,
-            'label' => $this->name,
+            'label' => $this->name . ' ' . $this->barcode,
             'type' => strtolower($this->category->text),
             'company_id' => $this->company_id,
-            'name' => $this->name,
+            'name' => $this->name . ' ' . $this->barcode,
             'detail' => $this->detail,
             'barcode' => $this->barcode,
             'category' => [

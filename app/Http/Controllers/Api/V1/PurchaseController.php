@@ -20,8 +20,14 @@ class PurchaseController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $query = Purchase::where('company_id', $user->company_id)
-            ->get();
+        if (in_array($user->role, ['admin', 'sadmin'])) {
+            $query = Purchase::where('company_id', $user->company_id)
+                ->where('user_id', $user->id)
+                ->get();
+        } else {
+            $query = Purchase::where('company_id', $user->company_id)
+                ->get();
+        }
 
         return PurchaseResource::collection($query)
             ->additional([
@@ -30,6 +36,7 @@ class PurchaseController extends Controller
                 'Error' => 0,
             ]);
     }
+
 
     /**
      * Store a newly created resource in storage.
