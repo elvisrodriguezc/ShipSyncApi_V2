@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\V1;
 
+use App\Models\Productaccesory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\URL;
@@ -17,6 +18,10 @@ class TariffitemResource extends JsonResource
     {
         $imagePath = $this->product?->image;
         $imageUrl = $imagePath ? URL::to('/') . env('APP_IMAGE_PATH') . '/' . $imagePath : "";
+        // Calcular la suma de los precios de los accesorios multiplicados por la cantidad
+        $accesoriesPrice = $this->product?->accesories->sum(function ($productaccesory) {
+            return $productaccesory->price * $productaccesory->quantity;
+        });
         return [
             'id' => (int)$this->id,
             // 'tariff'=>new TariffResource( $this->tariff),
@@ -26,9 +31,10 @@ class TariffitemResource extends JsonResource
             'tariff_currency' => (int)$this->tariff->currency->id,
             'product_price' => (float)$this->product?->price,
             'price_mode' => (float)$this->price == 0 ? 'A' : 'M',
+            'accesories_price' => $accesoriesPrice,
             'price' => (float)$this->price > 0
                 ? (float)$this->price
-                : ($this->product?->price * 1.18) * (($this->product?->category->price_rate + $this->tariff->rate) / 100 + 1) * ($this->product?->currency->rate / $this->tariff->currency->rate),
+                : (($this->product?->price + $accesoriesPrice) * 1.18) * (($this->product?->category->price_rate + $this->tariff->rate) / 100 + 1) * ($this->product?->currency->rate / $this->tariff->currency->rate),
             'total_rate' => ($this->product?->category->price_rate + $this->tariff->rate),
             'warehouse_id' => $this->warehouse_id,
             'warehouse' => [
@@ -41,7 +47,7 @@ class TariffitemResource extends JsonResource
             'type' => strtolower($this->product?->category->text),
             'icon' => strtolower($this->product?->category->icon),
             'detail' => $this->product?->detail,
-            'producto' => new ProductResource($this->product),
+            'product' => new ProductResource($this->product),
             'image' =>  $imageUrl,
             'hide' => false,
             'currency_id' => $this->currency_id,

@@ -77,4 +77,8 @@ class Product extends Model
     {
         return $this->hasMany(Productvariant::class);
     }
+    public function accesories()
+    {
+        return $this->hasMany(Productaccesory::class);
+    }
 }

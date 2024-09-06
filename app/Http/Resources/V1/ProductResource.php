@@ -39,6 +39,7 @@ class ProductResource extends JsonResource
                 'price_rate' => $this->category->price_rate,
             ],
             'unity_id' => $this->unity_id,
+            'unity_valor' => $this->unity->value,
             'unity' => new UnityResource($this->unity),
             'model' => $this->model,
             'url' => $this->url,
@@ -85,6 +86,7 @@ class ProductResource extends JsonResource
             // 'stock' => new WarehousestockResource($this->warehousestocks),
             'total_stock' => (float)$this->total_stock,
             'variants' => $this->variants ? ProductvariantResource::collection($this->variants) : null,
+            'accesories' => $this->accesories ? ProductaccesoryResource::collection($this->accesories) : null,
             'status' => $this->status,
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $this->updated_at?->format('Y-m-d H:i:s')

@@ -40,7 +40,8 @@ class OrderResource extends JsonResource
             'user_id' => $this->user_id,
             'user' => [
                 'id' => $this->user->id,
-                'name' => $this->user->name,
+                'name' => $this->user->name . ' ' . $this->user->lastname,
+                'user' => $this->user->user
             ],
             // 'user'=>new UserResource( $this->user),
             'entity_id' => $this->entity_id,

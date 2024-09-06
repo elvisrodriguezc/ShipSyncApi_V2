@@ -192,6 +192,7 @@ Route::prefix('/v1')->middleware('auth:sanctum')->group(function () {
         ->only(['index', 'show', 'store', 'update', 'destroy']);
     Route::apiResource('/warehousestocks', V1Warehousestock::class)
         ->only(['index', 'show', 'store', 'update', 'destroy']);
+
     Route::post('/guidexml', [V1Pse::class, 'creaxml']);
     Route::post('/xmlfirma', [V1Pse::class, 'xmlfirma']);
     Route::post('/sendguide', [V1Pse::class, 'guiatsendmanual']);

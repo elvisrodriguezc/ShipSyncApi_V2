@@ -22,10 +22,10 @@ class PurchaseController extends Controller
         $user = Auth::user();
         if (in_array($user->role, ['admin', 'sadmin'])) {
             $query = Purchase::where('company_id', $user->company_id)
-                ->where('user_id', $user->id)
                 ->get();
         } else {
             $query = Purchase::where('company_id', $user->company_id)
+                ->where('user_id', $user->id)
                 ->get();
         }
 
