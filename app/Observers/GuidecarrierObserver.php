@@ -17,7 +17,7 @@ class GuidecarrierObserver
         $user = Auth::user();
         $officeId = Warehouse::where('id', $user->warehouse_id)->pluck('office_id')->first();
         $numerator = Numerator::where('office_id', $officeId)
-            ->where('documenttype_id', 49)
+            ->where('documenttype_id', 22)
             ->first();
         $guidecarrier->user_id = $user->id;
         $guidecarrier->company_id = $user->company_id;
@@ -30,7 +30,7 @@ class GuidecarrierObserver
         $user = Auth::user();
         $officeId = Warehouse::where('id', $user->warehouse_id)->pluck('office_id')->first();
         $numerator = Numerator::where('office_id', $officeId)
-            ->where('documenttype_id', 49)
+            ->where('documenttype_id', 22)
             ->first();
         if ($numerator) {
             $numerator->increment('number'); // Incrementar el número en 1

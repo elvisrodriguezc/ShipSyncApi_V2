@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\StorePayrollUserRequest;
+use App\Http\Requests\V1\StoreUserRequest;
 use App\Http\Resources\V1\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -31,9 +33,19 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        //
+        $user = Auth::user();
+        $formData = $request->validated();
+        $formData['company_id'] = $user->company_id; // Add the company_id
+        $order = User::create($formData);
+
+        return UserResource::make($order)
+            ->additional([
+                'msg' => 'Registro Creado Correctamente',
+                'title' => 'Usuario nuevo',
+                'Error' => 0,
+            ]);
     }
 
     /**

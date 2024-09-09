@@ -32,9 +32,9 @@ class Services extends Model
             $user = Auth::user();
             $service->company_id = $user->company_id;
             $service->user_id = $user->id;
-            $service->numerator_id = 1;
+            $service->numerator_id = 2;
 
-            $numerator = Numerator::find(1);
+            $numerator = Numerator::find(2);
             if ($numerator) {
                 $service->number = $numerator->number;
             } else {
@@ -43,7 +43,7 @@ class Services extends Model
         });
 
         self::created(function ($service) {
-            $numerator = Numerator::find(1);
+            $numerator = Numerator::find(2);
             if ($numerator) {
                 $numerator->number++; // Incrementar el número en 1
                 $numerator->save();
@@ -56,8 +56,7 @@ class Services extends Model
             // ... code here
         });
 
-        self::updated(function ($order) {
-        });
+        self::updated(function ($order) {});
 
         self::deleting(function ($order) {
             // ... code here
