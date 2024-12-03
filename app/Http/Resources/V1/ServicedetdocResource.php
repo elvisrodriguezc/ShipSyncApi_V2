@@ -18,12 +18,13 @@ class ServicedetdocResource extends JsonResource
             'id' => $this->id,
             'servicedetail_id' => $this->servicedetail_id,
             'tipoDocId' => $this->typevalue_id,
-            'tipoDoc' => $this->typevalue->name,
+            'tipoDoc' => $this->typevalue,
             'serie' => $this->serie,
             'number' => $this->number,
             'distrito_id' => $this->ubigeodistrito_id,
-            'distrito' => $this->ubigeodistrito->name,
+            'distrito' => $this->ubigeodistrito,
             'note' => $this->note,
+            'status' => $this->status
         ];
     }
 }

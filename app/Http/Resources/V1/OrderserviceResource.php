@@ -43,7 +43,7 @@ class OrderserviceResource extends JsonResource
             "finishing" => $this->finishing,
             "note" => $this->note,
             'items' => new OrderserviceitemCollection($this->orderserviceitem),
-            "status" => $this->status,
+            "status" => (int)$this->status,
             "created_at" => $this->created_at?->format('Y-m-d H:i:s'),
             "updated_at" => $this->updated_at?->format('Y-m-d H:i:s'),
         ];

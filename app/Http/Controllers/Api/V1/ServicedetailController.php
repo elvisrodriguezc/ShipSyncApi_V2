@@ -65,9 +65,9 @@ class ServicedetailController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Servicedetail $servicedetail)
+    public function show($id)
     {
-        dd($servicedetail);
+        $servicedetail = Servicedetail::findOrFail($id);
         return ServicedetailResource::make($servicedetail);
     }
 

@@ -24,6 +24,7 @@ class ServicedetailResource extends JsonResource
             'finalkm' => $this->finalkm,
             'initkmGPS' => $this->initkmGPS,
             'finalkmGPS' => $this->finalkmGPS,
+            'tripLength' => $this->tripLength,
             'servicio' => $this->typevalue->name,
             'program' => [
                 'id' => $this->services->id,
@@ -42,7 +43,9 @@ class ServicedetailResource extends JsonResource
             ],
             'personal' => new ServicedetastCollection($this->servicedetast),
             'documentos' => new ServicedetdocCollection($this->servicedetdoc),
+            'spents' => new ServicedetspentCollection($this->servicedetspent),
             'adicionales' => new ServicedettipCollection($this->servicedettip),
+            'recorrido' => $this->tripLength,
             'status' => $this->status
         ];
     }

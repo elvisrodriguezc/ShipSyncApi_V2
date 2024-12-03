@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Models\Document;
 use App\Models\Numerator;
 use App\Models\Purchase;
 use App\Models\Warehouse;
@@ -12,26 +13,34 @@ class PurchaseObserver
     public function creating(Purchase $purchase): void
     {
         $user = Auth::user();
-        $officeId = Warehouse::where('id', $user->warehouse_id)->pluck('office_id')->first();
+        $warehouseId = $user->warehouse_id;
+        $officeId = Warehouse::where('id', $warehouseId)->value('office_id');
+        $document = Document::where('code', 'PUR')->first();
         $numerator = Numerator::where('office_id', $officeId)
-            ->where('description', 'Compras')
+            ->where('document_id', $document->id)
             ->first();
-        $purchase->company_id = $user->company_id;
-        $purchase->warehouse_id = $user->warehouse_id;
-        $purchase->user_id = $user->id;
-        $purchase->numerator_id = $numerator->id;
-        $purchase->number = $numerator->number + 1;
+        if ($numerator) {
+            $purchase->company_id = $user->company_id;
+            $purchase->warehouse_id = $user->warehouse_id;
+            $purchase->user_id = $user->id;
+            $purchase->numerator_id = $numerator->id;
+            $purchase->number = $numerator->number + 1;
+        } else {
+            dd('Numerodor no encontrado');
+        }
     }
 
     public function created(Purchase $purchase): void
     {
         $user = Auth::user();
-        $officeId = Warehouse::where('id', $user->warehouse_id)->pluck('office_id')->first();
+        $warehouseId = $user->warehouse_id;
+        $officeId = Warehouse::where('id', $warehouseId)->value('office_id');
+        $document = Document::where('code', 'PUR')->first();
         $numerator = Numerator::where('office_id', $officeId)
-            ->where('description', 'Compras')
+            ->where('document_id', $document->id)
             ->first();
         if ($numerator) {
-            $numerator->increment('number'); // Incrementar el número en 1
+            $numerator->increment('number');
         }
     }
 

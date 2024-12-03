@@ -31,6 +31,7 @@ use App\Http\Controllers\Api\V1\PayrollUserController as V1PayrollUser;
 use App\Http\Controllers\Api\V1\ProductController as V1Product;
 use App\Http\Controllers\Api\V1\ProductvariantController as V1Productvariant;
 use App\Http\Controllers\Api\V1\ProductvariantdetailController as V1Productvariantdetail;
+use App\Http\Controllers\Api\V1\PseController as V1Pse;
 use App\Http\Controllers\Api\V1\PurchaseController as V1Purchase;
 use App\Http\Controllers\Api\V1\PurchaseitemController as V1Purchaseitem;
 use App\Http\Controllers\Api\V1\RequirementController as V1Requirement;
@@ -60,7 +61,6 @@ use App\Http\Controllers\Api\V1\VehicleController as V1Vehicle;
 use App\Http\Controllers\Api\V1\WarehouseController as V1Warehouse;
 use App\Http\Controllers\Api\V1\WarehousekardexController as V1Warehousekardex;
 use App\Http\Controllers\Api\V1\WarehousestockController as V1Warehousestock;
-use App\Http\Controllers\Api\V1\PseController as V1Pse;
 use Illuminate\Support\Facades\Artisan;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

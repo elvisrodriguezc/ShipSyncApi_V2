@@ -17,6 +17,7 @@ class OrderserviceController extends Controller
     {
         $user = Auth::user();
         $query = Orderservice::where('warehouse_id', $user->warehouse_id)
+            ->orderBy('id')
             ->get();
 
         return OrderserviceResource::collection($query)

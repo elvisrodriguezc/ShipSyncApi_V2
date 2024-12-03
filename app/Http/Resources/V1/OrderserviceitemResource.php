@@ -4,6 +4,7 @@ namespace App\Http\Resources\V1;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Ramsey\Uuid\Type\Integer;
 
 class OrderserviceitemResource extends JsonResource
 {
@@ -24,7 +25,7 @@ class OrderserviceitemResource extends JsonResource
                 "user" => $this->updateby->user,
             ],
             "note" => $this->note,
-            "status" => $this->status,
+            "status" => (int)$this->status,
             "created_at" => $this->created_at?->format('Y-m-d H:i:s'), // Corregimos el formato
             "updated_at" => $this->updated_at?->format('Y-m-d H:i:s'), // Corregimos el formato
         ];

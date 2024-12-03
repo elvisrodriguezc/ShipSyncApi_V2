@@ -16,14 +16,8 @@ class NumeratorResource extends JsonResource
     {
         return [
             "id" => $this->id,
-            "office_id" => $this->office_id,
-            "office" => [
-                "id" => $this->office->id,
-                "name" => $this->office->name,
-                "company_id" => $this->office->company_id,
-                "company" => $this->office->company->name,
-            ],
-            "documenttype_id" => $this->documenttype_id,
+            "office" => $this->office,
+            "document" => $this->document,
             "serie" => $this->serie,
             "number" => $this->number,
             "description" => $this->description,

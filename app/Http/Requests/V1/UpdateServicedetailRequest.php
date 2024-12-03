@@ -22,11 +22,10 @@ class UpdateServicedetailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'initkm' => 'sometimes|required',
+            'tripLength' => 'sometimes',
             'finalkm' => 'sometimes',
             'initkmGPS' => 'sometimes',
             'finalkmGPS' => 'sometimes',
-            'status' => 'sometimes',
             'status' => 'sometimes',
         ];
     }

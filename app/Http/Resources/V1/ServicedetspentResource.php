@@ -14,6 +14,17 @@ class ServicedetspentResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'servicedetail_id' => $this->servicedetail_id,
+            'ruc' => $this->ruc,
+            'serie' => $this->serie,
+            'number' => $this->number,
+            'amount' => $this->amount,
+            'detail' => $this->detail,
+            'typecpe_id' => $this->typecpe_id,
+            'typecpe' => $this->typecpe,
+            'status' => $this->status,
+        ];
     }
 }

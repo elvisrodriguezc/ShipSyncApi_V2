@@ -10,7 +10,7 @@ class Numerator extends Model
     use HasFactory;
     protected $fillable = [
         'office_id',
-        'documenttype_id',
+        'document_id',
         'serie',
         'number',
         'description',
@@ -20,8 +20,8 @@ class Numerator extends Model
     {
         return $this->belongsTo(Office::class);
     }
-    public function documenttype()
+    public function document()
     {
-        return $this->belongsTo(Typevalue::class);
+        return $this->belongsTo(Document::class);
     }
 }

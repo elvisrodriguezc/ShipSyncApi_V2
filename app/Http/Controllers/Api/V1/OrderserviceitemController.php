@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\V1\UpdateOrderserviceitemRequest;
+use App\Http\Resources\V1\OrderserviceitemResource;
 use App\Models\Orderserviceitem;
 use Illuminate\Http\Request;
 
@@ -35,9 +37,15 @@ class OrderserviceitemController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Orderserviceitem $orderserviceitem)
+    public function update(UpdateOrderserviceitemRequest $request, Orderserviceitem $orderserviceitem)
     {
-        //
+        $orderserviceitem->update($request->validated());
+        return OrderserviceitemResource::make($orderserviceitem)
+            ->additional([
+                'msg' => 'Registro Actualizado Correctamente',
+                'title' => 'Órdenes de Servicio Item',
+                'Error' => 0,
+            ]);
     }
 
     /**

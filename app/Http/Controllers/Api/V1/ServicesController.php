@@ -105,10 +105,12 @@ class ServicesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Services $myservices)
+    public function show($id)
     {
-        return ServicesResource::make($myservices);
+        $program = Services::findOrFail($id);
+        return new ServicesResource($program);
     }
+
 
     /**
      * Update the specified resource in storage.

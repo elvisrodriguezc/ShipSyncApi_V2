@@ -17,22 +17,15 @@ class ServicesResource extends JsonResource
     {
         return [
             'id' => (int)$this->id,
-            'company_id' => $this->company_id,
+            'company_id' => (int)$this->company_id,
             'date' => $this->date,
             'serie' => $this->numerator->serie,
-            'number' => $this->number,
-            'user' => [
-                'id' => $this->user->id,
-                'name' => $this->user->name,
-                'role' => $this->user->role
-            ],
-            'entity' => [
-                'id' =>  $this->entity->id,
-                'company_name' => $this->entity->company_name
-            ],
+            'number' => (int)$this->number,
+            'user' => $this->user,
+            'entity' => $this->entity,
             'note' => $this->note,
             'servicios' => new ServicedetailCollection($this->Servicedetail),
-            'status' => $this->status,
+            'status' => (int) $this->status,
         ];
     }
 }

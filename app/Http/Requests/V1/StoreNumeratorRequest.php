@@ -11,18 +11,23 @@ class StoreNumeratorRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string=>"required", \Illuminate\Contracts\Validation\ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
-            //
+            'office_id' => "required",
+            'document_id' => "required",
+            'serie' => "required",
+            'number' => "required",
+            'description' => "sometimes",
+            'status' => "sometimes",
         ];
     }
 }

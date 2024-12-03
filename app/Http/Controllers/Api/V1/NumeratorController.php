@@ -26,7 +26,7 @@ class NumeratorController extends Controller
         return NumeratorResource::collection($query)
             ->additional([
                 'msg' => 'Listado satisfactorio',
-                'title' => 'Series',
+                'title' => 'Numerador',
                 'Error' => 0,
             ]);
     }
@@ -38,7 +38,7 @@ class NumeratorController extends Controller
         return NumeratorResource::make($newNumerator)
             ->additional([
                 'msg' => 'Registro Creado Correctamente',
-                'title' => 'Requerimiento',
+                'title' => 'Numerador',
                 'Error' => 0,
             ]);
     }
@@ -52,7 +52,7 @@ class NumeratorController extends Controller
         return NumeratorResource::make($requirement)
             ->additional([
                 'msg' => 'Registro Actualizado Correctamente',
-                'title' => 'Requerimiento',
+                'title' => 'Numerador',
                 'Error' => 0,
             ]);
     }
@@ -62,7 +62,7 @@ class NumeratorController extends Controller
         return NumeratorResource::make($requirement)
             ->additional([
                 'msg' => 'Registro Eliminado',
-                'title' => 'Requerimiento',
+                'title' => 'Numerador',
                 'Error' => 0,
             ]);
     }

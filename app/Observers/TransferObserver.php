@@ -14,7 +14,7 @@ class TransferObserver
         $user = Auth::user();
         $officeId = Warehouse::where('id', $user->warehouse_id)->pluck('office_id')->first();
         $numerator = Numerator::where('office_id', $officeId)
-            ->where('documenttype_id', 53)
+            ->where('description', 'Transferencias')
             ->first();
         $transfer->company_id = $user->company_id;
         $transfer->user_id = $user->id;
@@ -26,7 +26,7 @@ class TransferObserver
         $user = Auth::user();
         $officeId = Warehouse::where('id', $user->warehouse_id)->pluck('office_id')->first();
         $numerator = Numerator::where('office_id', $officeId)
-            ->where('documenttype_id', 53)
+            ->where('description', 'Transferencias')
             ->first();
 
         if ($numerator) {
@@ -40,9 +40,7 @@ class TransferObserver
         $transfer->receivinguser_id = $user->id;
     }
 
-    public function updated(Transfer $transfer): void
-    {
-    }
+    public function updated(Transfer $transfer): void {}
 
     /**
      * Handle the Transfer "deleted" event.

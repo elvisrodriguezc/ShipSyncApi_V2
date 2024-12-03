@@ -22,7 +22,7 @@ class StoreOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'entity_id' => 'required',
+            'entity_id' => 'sometimes',
             'cashier_id' => 'sometimes',
             'currency_id' => 'required',
             'table_id' => 'sometimes|required',
