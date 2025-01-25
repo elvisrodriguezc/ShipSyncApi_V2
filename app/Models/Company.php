@@ -10,6 +10,7 @@ class Company extends Model
     use HasFactory;
 
     protected $fillable = [
+        'companybtype_id',
         'name',
         'ruc',
         'address',
@@ -20,11 +21,11 @@ class Company extends Model
         'description',
     ];
 
-    public function location()
+    public function Companybtype()
     {
-        return $this->belongsTo(Location::class);
+        return $this->belongsTo(Companybtype::class);
     }
-    public function Office()
+    public function office()
     {
         return $this->hasMany(Office::class);
     }

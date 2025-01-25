@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\V1\StorePayrollUserRequest;
 use App\Http\Requests\V1\StoreUserRequest;
+use App\Http\Requests\V1\UpdateUserRequest;
 use App\Http\Resources\V1\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -59,9 +60,17 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request, string $id)
     {
-        //
+        $formData = $request->validated();
+        $user = User::find($id);
+        $user->update($formData);
+        return UserResource::make($user)
+            ->additional([
+                'msg' => 'Registro Actualizado Correctamente',
+                'title' => 'Usuario',
+                'Error' => 0,
+            ]);
     }
 
     /**
@@ -69,6 +78,13 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::find($id);
+        $user->delete();
+        return UserResource::make($user)
+            ->additional([
+                'msg' => 'Registro Eliminado Correctamente',
+                'title' => 'Usuario',
+                'Error' => 0,
+            ]);
     }
 }

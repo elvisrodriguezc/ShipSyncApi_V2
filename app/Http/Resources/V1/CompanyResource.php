@@ -16,6 +16,8 @@ class CompanyResource extends JsonResource
     {
         return [
             'id' => (int)$this->id,
+            'businesstype' => new CompanybtypeResource($this->companybtype),
+            'bt_id' => $this->companybtype_id,
             'name' => $this->name,
             'ruc' => $this->ruc,
             'address' => $this->address,
@@ -27,8 +29,8 @@ class CompanyResource extends JsonResource
             'cta1' => $this->cta1,
             'cta2' => $this->cta2,
             'status' => (bool)$this->status,
-            'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
-            'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
+            'created_at' => $this->created_at ? $this->created_at->format('Y-m-d H:i:s') : null,
+            'updated_at' => $this->updated_at ? $this->updated_at->format('Y-m-d H:i:s') : null,
         ];
     }
 }

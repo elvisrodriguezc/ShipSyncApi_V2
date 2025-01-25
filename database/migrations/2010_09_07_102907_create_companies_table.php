@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('companybtype_id')->constrained(); // Adds the foreign key linking to companybtypes
             $table->string('name');
             $table->string('ruc', 11);
             $table->string('address');

@@ -61,14 +61,19 @@ use App\Http\Controllers\Api\V1\VehicleController as V1Vehicle;
 use App\Http\Controllers\Api\V1\WarehouseController as V1Warehouse;
 use App\Http\Controllers\Api\V1\WarehousekardexController as V1Warehousekardex;
 use App\Http\Controllers\Api\V1\WarehousestockController as V1Warehousestock;
+use App\Http\Controllers\Api\V1\TaxController as V1Tax;
+use App\Http\Controllers\Api\V1\ProducttaxController as V1Producttax;
 use Illuminate\Support\Facades\Artisan;
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::post('/register', [AuthController::class, 'register']);
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    // $user = new UserResource($request->user());
+    // $data = $user->resolve(); // Convertir el recurso en un array
+    // return  response()->json($data);
+    return $request->user();
+});
 
 Route::prefix('/v1')->middleware('auth:sanctum')->group(function () {
     Route::apiResource('/advancements', V1Advancement::class)
@@ -111,6 +116,8 @@ Route::prefix('/v1')->middleware('auth:sanctum')->group(function () {
     Route::apiResource('/productvariants', V1Productvariant::class)
         ->only(['index', 'show', 'store', 'update', 'destroy']);
     Route::apiResource('/productvariantdetails', V1Productvariantdetail::class)
+        ->only(['index', 'show', 'store', 'update', 'destroy']);
+    Route::apiResource('/producttaxes', V1Producttax::class)
         ->only(['index', 'show', 'store', 'update', 'destroy']);
     Route::apiResource('/ubigeodptos', V1UDpto::class)
         ->only(['index', 'show']);
@@ -173,6 +180,8 @@ Route::prefix('/v1')->middleware('auth:sanctum')->group(function () {
     Route::apiResource('/tariffs', V1Tariff::class)
         ->only(['index', 'show', 'store', 'update', 'destroy']);
     Route::apiResource('/tariffitems', V1Tariffitem::class)
+        ->only(['index', 'show', 'store', 'update', 'destroy']);
+    Route::apiResource('/taxes', V1Tax::class)
         ->only(['index', 'show', 'store', 'update', 'destroy']);
     Route::apiResource('/types', V1Type::class)
         ->only(['index', 'show', 'store', 'update', 'destroy']);

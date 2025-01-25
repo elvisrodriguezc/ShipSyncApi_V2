@@ -16,11 +16,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $data = QueryBuilder::for(Company::class)
-            ->allowedFilters(['name', 'email'])
-            ->defaultSort('-created_at')
-            ->allowedSorts(['name', 'status'])
-            ->get();
+        $data = Company::get();
         return CompanyResource::collection($data)
             ->additional([
                 'msg' => 'Listado correcto',

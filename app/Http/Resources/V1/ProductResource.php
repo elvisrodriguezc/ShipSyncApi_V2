@@ -64,6 +64,7 @@ class ProductResource extends JsonResource
                 "name" => $this->taxmode->name,
                 "code" => (string)$this->taxmode->value,
             ],
+            'taxes' => $this->producttaxes ? ProducttaxResource::collection($this->producttaxes) : null,
             'unspsc_id' => $this->unspsc_id,
             'content' => $this->content,
             'weight' => $this->weight,

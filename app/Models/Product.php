@@ -81,4 +81,8 @@ class Product extends Model
     {
         return $this->hasMany(Productaccesory::class);
     }
+    public function producttaxes()
+    {
+        return $this->hasMany(Producttax::class);
+    }
 }

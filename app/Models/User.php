@@ -62,6 +62,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Company::class);
     }
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
     public function typevalue()
     {
         return $this->belongsTo(Typevalue::class);
