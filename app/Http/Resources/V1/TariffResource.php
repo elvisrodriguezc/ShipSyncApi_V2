@@ -34,11 +34,7 @@ class TariffResource extends JsonResource
             ],
             'rate' => $this->rate,
             'status' => $this->status,
-            // 'items' => Tariff::collection($this->tariffitem),
             'items' => TariffitemResource::collection($this->tariffitem),
-            // 'items' => collect($this->tariffitem),
-            'created_at' => $this->created_at?->format('Y-m-d h:i:s'),
-            'updated_at' => $this->updated_at?->format('Y-m-d h:i:s')
         ];
     }
 }

@@ -23,17 +23,19 @@ class ProductResource extends JsonResource
             'id' => (int) $this->id,
             'value' => $this->id,
             'label' => $this->name . ' ' . $this->barcode,
-            'type' => strtolower($this->category->text),
+            'accesoryamount' => $this->getAccesoryAmount(),
+            'type' => strtolower($this->category->name),
             'company_id' => $this->company_id,
             'name' => $this->name . ' ' . $this->barcode,
+            'purchaseprice' => (float) $this->getTotalCost(),
             'detail' => $this->detail,
             'barcode' => $this->barcode,
             'category' => [
                 'id' => $this->category->id,
-                'type' => strtolower($this->category->text),
+                'type' => strtolower($this->category->name),
                 'company_id' => $this->category->company_id,
                 'parent_id' => $this->category->parent_id,
-                'text' => $this->category->text,
+                'name' => $this->category->name,
                 'icon' => $this->category->icons->prefix . ' fa-' . $this->category->icons->name,
                 'description' => $this->category->description,
                 'price_rate' => $this->category->price_rate,
@@ -54,20 +56,13 @@ class ProductResource extends JsonResource
             'price' => (float) $this->price,
             'minimal' => (float)$this->minimal,
             'brand_id' => $this->brand_id,
-            'brand' => [
+            'brand' => $this->brand_id ? [
                 'id' => $this->brand->id,
                 'name' => $this->brand->name
-            ],
-            'taxmode_id' => $this->taxmode_id,
-            'taxmode' => [
-                "id" => $this->taxmode->id,
-                "name" => $this->taxmode->name,
-                "code" => (string)$this->taxmode->value,
-            ],
+            ] : null,
             'taxes' => $this->producttaxes ? ProducttaxResource::collection($this->producttaxes) : null,
             'unspsc_id' => $this->unspsc_id,
             'content' => $this->content,
-            'weight' => $this->weight,
             'height' => $this->height,
             'weight' => $this->weight,
             'length' => $this->length,
@@ -89,8 +84,38 @@ class ProductResource extends JsonResource
             'variants' => $this->variants ? ProductvariantResource::collection($this->variants) : null,
             'accesories' => $this->accesories ? ProductaccesoryResource::collection($this->accesories) : null,
             'status' => $this->status,
-            'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
-            'updated_at' => $this->updated_at?->format('Y-m-d H:i:s')
         ];
+    }
+    private function getAccesoryAmount(): float
+    {
+        $accesoryamount = 0;
+        if ($this->accesories && $this->accesories->isNotEmpty()) {
+            $this->accesories->each(function ($accesory) use (&$accesoryamount) {
+                $accesoryamount += $accesory->price;
+            });
+        }
+        return $accesoryamount;
+    }
+    private function getTaxAmount(): float
+    {
+        $taxamount = 0;
+        if ($this->producttaxes && $this->producttaxes->isNotEmpty()) {
+            $this->producttaxes->each(function ($tax) use (&$taxamount) {
+                if ($tax->tax->percentage_based) {
+                    $taxamount += ($this->price + $this->getAccesoryAmount()) * ($tax->rate / 100);
+                } else {
+                    $taxamount += $tax->value;
+                }
+            });
+        }
+        return $taxamount;
+    }
+    public function getTotalCost(): float
+    {
+        $totalCost = 0;
+        if ($this->price) {
+            $totalCost = $this->price + $this->getAccesoryAmount() + $this->getTaxAmount();
+        }
+        return $totalCost;
     }
 }

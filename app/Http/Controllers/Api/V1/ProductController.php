@@ -8,6 +8,10 @@ use App\Models\Tariffitem;
 use App\Http\Requests\V1\StoreProductRequest;
 use App\Http\Requests\V1\UpdateProductRequest;
 use App\Http\Resources\V1\ProductResource;
+use App\Models\Productaccesory;
+use App\Models\Productaddon;
+use App\Models\Productbom;
+use App\Models\Producttax;
 use App\Models\Productvariant;
 use App\Models\Productvariantdetail;
 use Illuminate\Support\Facades\Auth;
@@ -66,29 +70,69 @@ class ProductController extends Controller
 
         $data->save(); // Guardar los cambios en la base de datos
 
-        foreach ($request->tariffs as $tariffId) {
+        // Tarifas
+        foreach ($request->tariffs as $tariff) {
             TariffItem::create([
-                'tariff_id' => $tariffId,
-                'warehouse_id' => 1, // Valor fijo para el campo warehouse
+                'tariff_id' => $tariff,
+                'warehouse_id' => $request->warehouse_id, // Valor fijo para el campo warehouse
                 'product_id' => $data->id, // Asignar el ID del producto
             ]);
         }
 
+        // Impuestos
+        foreach ($request->taxes as $tax) {
+            Producttax::create([
+                'product_id' => $data->id, // Asignar el ID del producto
+                'tax_id' => $tax['id'], // Asignar el ID del producto
+                'rate' => $tax['rate'],
+                'value' => $tax['value'],
+            ]);
+        }
+
+        // Variantes
         if (!empty($request->variants)) {
             foreach ($request->variants as $variant) {
-                $productVariant = Productvariant::create([
+                Productvariant::create([
                     'product_id' => $data->id, // Asignar el ID del producto
-                    'sku' => $variant['sku'],
+                    'variant' => $variant['tag'],
+                    // 'sku' => $variant['sku'],
                     'price' => $variant['price'],
-                    'image' => $variant['image'],
-                    'warehouse_id' => 1, // Valor fijo para el campo warehouse
                 ]);
-                foreach ($variant['variantdetails'] as $Item) {
-                    Productvariantdetail::create([
-                        'productvariant_id' => $productVariant->id,
-                        'typevalue_id' => $Item['id'], // Asignar el ID del producto
-                    ]);
-                }
+            }
+        }
+
+        // BOM
+        if (!empty($request->boms)) {
+            foreach ($request->boms as $bom) {
+                Productbom::create([
+                    'product_id' => $data->id, // Asignar el ID del producto
+                    'bom_id' => $bom['product']['id'],
+                    'unity_id' => $bom['unity']['id'],
+                    'quantity' => $bom['quantity'],
+                ]);
+            }
+        }
+
+        // Accesorios
+        if (!empty($request->accesories)) {
+            foreach ($request->accesories as $accesory) {
+                $productAccessory = Productaccesory::create([
+                    'product_id' => $data->id, // Asignar el ID del producto
+                    'accesory_id' => $accesory['product']['id'],
+                    'unity_id' => $accesory['unity']['id'],
+                    'quantity' => $accesory['quantity'],
+                    'price' => $accesory['product']['price'],
+                ]);
+            }
+        }
+
+        // Addons
+        if (!empty($request->addons)) {
+            foreach ($request->addons as $addon) {
+                Productaddon::create([
+                    'product_id' => $data->id, // Asignar el ID del producto
+                    'addon_id' => $addon['id']
+                ]);
             }
         }
 

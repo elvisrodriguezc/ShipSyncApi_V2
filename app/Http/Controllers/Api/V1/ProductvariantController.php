@@ -28,12 +28,6 @@ class ProductvariantController extends Controller
     {
         $formData = $request->validated();
         $productvariant = Productvariant::create($formData);
-        foreach ($request->variants as $item) {
-            Productvariantdetail::create([
-                'productvariant_id' => $productvariant->id,
-                'typevalue_id' => $item["typevalue_id"],
-            ]);
-        }
         return ProductvariantResource::make($productvariant)
             ->additional([
                 'msg' => 'Registro Creado Correctamente',

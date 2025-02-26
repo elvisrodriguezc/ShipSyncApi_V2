@@ -33,7 +33,6 @@ class UpdateProductRequest extends FormRequest
             "price" => "sometimes",
             "minimal" => "sometimes",
             "brand_id" => "sometimes",
-            "taxmode_id" => "sometimes",
             "unspsc_id" => "sometimes",
             'content' => "sometimes",
             'weight' => "sometimes",

@@ -20,8 +20,8 @@ class ProducttaxResource extends JsonResource
             'product' => $this->product->name,
             'tax_id' => $this->tax_id,
             'tax' => $this->tax->name,
-            'rate' => $this->rate,
-            'value' => $this->value,
+            'rate' => (float)$this->rate,
+            'value' => (float)$this->value,
             'status' => $this->status,
         ];
     }

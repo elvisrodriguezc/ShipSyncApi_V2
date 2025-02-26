@@ -12,17 +12,13 @@ class Tax extends Model
         'percentage-based',
         'sunat_code',
         'sunat_namecode',
+        'sunat_operationcode',
         'name',
         'rate',
         'value',
         'description',
-        'operationtype_id',
         'start_date',
         'end_date',
         'status',
     ];
-    public function operationtype()
-    {
-        return $this->belongsTo(Typevalue::class);
-    }
 }

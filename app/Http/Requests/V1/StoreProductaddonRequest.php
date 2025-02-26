@@ -4,7 +4,7 @@ namespace App\Http\Requests\V1;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreProductaccesoryRequest extends FormRequest
+class StoreProductaddonRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,8 @@ class StoreProductaccesoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_id' => 'required|integer',
-            'accesory_id' => 'required|integer',
-            'unity_id' => 'required|integer',
-            'quantity' => 'required|numeric',
-            'price' => 'required|numeric',
+            'product_id' => ['required', 'integer'],
+            'addon_id' => ['required', 'integer'],
         ];
     }
 }

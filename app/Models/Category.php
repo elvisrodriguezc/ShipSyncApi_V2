@@ -12,12 +12,11 @@ class Category extends Model
 
     protected $fillable = [
         'company_id',
-        'text',
+        'name',
         'icon_id',
         'description',
         'price_rate',
     ];
-
     protected $cast = [
         'status',
     ];
@@ -35,11 +34,4 @@ class Category extends Model
     {
         return $this->belongsTo(Icon::class, 'icon_id');
     }
-
-    // protected static function booted(): void
-    // {
-    //     static::addGlobalScope('creator', function (Builder $builder) {
-    //         $builder->where('creator_id', Auth::id());
-    //     });
-    // }
 }

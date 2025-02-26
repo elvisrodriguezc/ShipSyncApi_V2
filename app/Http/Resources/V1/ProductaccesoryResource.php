@@ -17,6 +17,13 @@ class ProductaccesoryResource extends JsonResource
         return [
             'id' => (int) $this->id,
             'product_id' => $this->product_id,
+            'product' => [
+                'id' => $this->product->id,
+                'name' => $this->product->name,
+                'barcode' => $this->product->barcode,
+                'price' => (float)$this->product->price,
+            ],
+            'accesory_id' => $this->accesory_id,
             'accesory' => [
                 'id' => $this->accesory->id,
                 'name' => $this->accesory->name,

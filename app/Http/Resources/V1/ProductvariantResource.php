@@ -17,16 +17,10 @@ class ProductvariantResource extends JsonResource
         return [
             "id" => $this->id,
             "value" => $this->id,
-            "label" => $this->variants->pluck('typevalue.name')->implode(', '),
-            "product_id" => $this->product_id,
-            // "product" => [
-            //     "id" => $this->product->id,
-            //     "name" => $this->product->name,
-            // ],
+            "label" => $this->variant,
             "sku" => $this->sku,
             "price" => $this->price,
             "image" => $this->image,
-            "variantdetails" => ProductvariantdetailResource::collection($this->variants),
             "status" => $this->status,
             "created_at" => $this->created_at?->format("Y-m-d H:i:s"),
             "updated_at" => $this->updated_at?->format("Y-m-d H:i:s"),

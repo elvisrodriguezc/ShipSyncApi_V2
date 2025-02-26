@@ -17,19 +17,12 @@ class TariffController extends Controller
     {
         $user = Auth::user();
 
-        if (isset($request->office)) {
-            $data = Tariff::where('office_id', $request->office)
-                ->get();
-        } else {
-            $offices = Office::where('company_id', $user->company_id)
-                ->pluck('id')
-                ->toArray();
-            $data = Tariff::wherein('office_id', $offices)
-                ->get();
-            // return response()->json([
-            //     'data' => $data
-            // ]);
-        }
+        $offices = Office::where('company_id', $user->company_id)
+            ->pluck('id')
+            ->toArray();
+
+        $data = Tariff::wherein('office_id', $offices)
+            ->get();
 
         return TariffResource::collection($data)
             ->additional([

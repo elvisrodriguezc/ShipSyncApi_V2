@@ -63,6 +63,11 @@ use App\Http\Controllers\Api\V1\WarehousekardexController as V1Warehousekardex;
 use App\Http\Controllers\Api\V1\WarehousestockController as V1Warehousestock;
 use App\Http\Controllers\Api\V1\TaxController as V1Tax;
 use App\Http\Controllers\Api\V1\ProducttaxController as V1Producttax;
+use App\Http\Controllers\Api\V1\ProductaccesoryController as V1Productaccesory;
+use App\Http\Controllers\Api\V1\ProductaddonController as V1Productaddon;
+
+use App\Http\Controllers\Api\V1\VcandidateController as V1Vcandidate;
+
 use Illuminate\Support\Facades\Artisan;
 
 Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
@@ -118,6 +123,10 @@ Route::prefix('/v1')->middleware('auth:sanctum')->group(function () {
     Route::apiResource('/productvariantdetails', V1Productvariantdetail::class)
         ->only(['index', 'show', 'store', 'update', 'destroy']);
     Route::apiResource('/producttaxes', V1Producttax::class)
+        ->only(['index', 'show', 'store', 'update', 'destroy']);
+    Route::apiResource('/productaccesories', V1Productaccesory::class)
+        ->only(['index', 'show', 'store', 'update', 'destroy']);
+    Route::apiResource('/productaddons', V1Productaddon::class)
         ->only(['index', 'show', 'store', 'update', 'destroy']);
     Route::apiResource('/ubigeodptos', V1UDpto::class)
         ->only(['index', 'show']);
@@ -200,6 +209,9 @@ Route::prefix('/v1')->middleware('auth:sanctum')->group(function () {
     Route::apiResource('/warehousekardexs', V1Warehousekardex::class)
         ->only(['index', 'show', 'store', 'update', 'destroy']);
     Route::apiResource('/warehousestocks', V1Warehousestock::class)
+        ->only(['index', 'show', 'store', 'update', 'destroy']);
+
+    Route::apiResource('/candidates', V1Vcandidate::class)
         ->only(['index', 'show', 'store', 'update', 'destroy']);
 
     Route::post('/guidexml', [V1Pse::class, 'creaxml']);

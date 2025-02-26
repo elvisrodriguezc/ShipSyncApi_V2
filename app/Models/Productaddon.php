@@ -5,15 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Productaccesory extends Model
+class Productaddon extends Model
 {
     use HasFactory;
     protected $fillable = [
         'product_id',
-        'accesory_id',
-        'unity_id',
-        'quantity',
-        'price',
+        'addon_id',
         'status',
     ];
 
@@ -21,12 +18,8 @@ class Productaccesory extends Model
     {
         return $this->belongsTo(Product::class);
     }
-    public function accesory()
+    public function addon()
     {
         return $this->belongsTo(Product::class);
-    }
-    public function unity()
-    {
-        return $this->belongsTo(Unity::class);
     }
 }

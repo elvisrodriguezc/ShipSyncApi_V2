@@ -19,13 +19,15 @@ class TaxResource extends JsonResource
             'percentage-based' => $this->percentage_based,
             'sunat_code' => $this->sunat_code,
             'sunat_namecode' => $this->sunat_namecode,
+            'sunat_operationcode' => $this->operationtype_id,
             'name' => $this->name,
-            'rate' => $this->rate,
-            'value' => $this->value,
+            'rate' => (float)$this->rate,
+            'valor' => (float)$this->value,
             'description' => $this->description,
-            'operationtype_id' => $this->operationtype_id,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
+            'value' => $this->id,
+            'label' => $this->name,
             'status' => $this->status,
         ];
     }

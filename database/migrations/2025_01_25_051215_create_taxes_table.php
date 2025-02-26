@@ -16,16 +16,15 @@ return new class extends Migration
             $table->tinyInteger('percentage_based');
             $table->string('sunat_code', 4);
             $table->string('sunat_namecode', 4);
+            $table->string('sunat_operationcode', 4);
             $table->string('name', 50);
             $table->decimal('rate', 5, 2);
             $table->decimal('value', 5, 2);
             $table->text('description');
-            $table->unsignedBigInteger('operationtype_id');
             $table->date('start_date');
             $table->date('end_date')->nullable();
-            $table->enum('status', ['Activo', 'Inactivo']);
+            $table->enum('status', ['Activo', 'Inactivo', 'Unico', 'Predeterminado'])->default('Activo');
             $table->timestamps();
-            $table->foreign('operationtype_id')->references('id')->on('typevalues')->onUpdate('CASCADE')->onDelete('RESTRICT');
         });
     }
 

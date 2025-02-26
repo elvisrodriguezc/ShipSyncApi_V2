@@ -6,6 +6,7 @@ use App\Models\Productaccesory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\URL;
+use App\Http\Resources\V1\ProductResource;
 
 class TariffitemResource extends JsonResource
 {
@@ -18,10 +19,9 @@ class TariffitemResource extends JsonResource
     {
         $imagePath = $this->product?->image;
         $imageUrl = $imagePath ? URL::to('/') . env('APP_IMAGE_PATH') . '/' . $imagePath : "";
+        $productCurrent = new ProductResource($this->product);
+
         // Calcular la suma de los precios de los accesorios multiplicados por la cantidad
-        $accesoriesPrice = $this->product?->accesories->sum(function ($productaccesory) {
-            return $productaccesory->price * $productaccesory->quantity;
-        });
         return [
             'id' => (int)$this->id,
             // 'tariff'=>new TariffResource( $this->tariff),
@@ -29,12 +29,11 @@ class TariffitemResource extends JsonResource
             'category_rate' => (int)$this->product?->category->price_rate,
             'tariff_rate' => (int)$this->tariff->rate,
             'tariff_currency' => (int)$this->tariff->currency->id,
-            'product_price' => (float)$this->product?->price,
-            'price_mode' => (float)$this->price == 0 ? 'A' : 'M',
-            'accesories_price' => $accesoriesPrice,
+            'price_mode' => $this->price == 0 ? 'A' : 'M',
+            'cost' => (($productCurrent->getTotalCost()) * ($productCurrent->currency->rate)),
             'price' => (float)$this->price > 0
                 ? (float)$this->price
-                : (($this->product?->price + $accesoriesPrice) * 1.18) * (($this->product?->category->price_rate + $this->tariff->rate) / 100 + 1) * ($this->product?->currency->rate / $this->tariff->currency->rate),
+                : (($productCurrent->getTotalCost()) * (($productCurrent->category->price_rate + $this->tariff->rate) / 100 + 1) * ($productCurrent->currency->rate / $this->tariff->currency->rate)),
             'total_rate' => ($this->product?->category->price_rate + $this->tariff->rate),
             'warehouse_id' => $this->warehouse_id,
             'warehouse' => [
@@ -43,11 +42,10 @@ class TariffitemResource extends JsonResource
             ],
             // 'store'=>new StoreResource( $this->store),
             'title' => $this->product?->name,
-            'text' => $this->product?->category->text,
-            'type' => strtolower($this->product?->category->text),
+            'text' => $this->product?->category->name,
+            'type' => strtolower($this->product?->category->name),
             'icon' => strtolower($this->product?->category->icon),
-            'detail' => $this->product?->detail,
-            'product' => new ProductResource($this->product),
+            'product' => $productCurrent,
             'image' =>  $imageUrl,
             'hide' => false,
             'currency_id' => $this->currency_id,

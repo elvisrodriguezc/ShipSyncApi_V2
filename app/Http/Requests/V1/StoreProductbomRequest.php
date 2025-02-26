@@ -11,7 +11,7 @@ class StoreProductbomRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class StoreProductbomRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'product_id' => ['required', 'integer'],
+            'bom_id' => ['required', 'integer'],
+            'unity_id' => ['required', 'integer'],
+            'quantity' => ['required', 'numeric'],
+            'price' => ['required', 'numeric'],
         ];
     }
 }

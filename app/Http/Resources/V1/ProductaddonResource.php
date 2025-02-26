@@ -5,7 +5,7 @@ namespace App\Http\Resources\V1;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductbomResource extends JsonResource
+class ProductaddonResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -23,16 +23,12 @@ class ProductbomResource extends JsonResource
                 'barcode' => $this->product->barcode,
                 'price' => (float)$this->product->price,
             ],
-            'bom_id' => $this->bom_id,
-            'bom' => [
-                'id' => $this->bom->id,
-                'name' => $this->bom->name,
-                'barcode' => $this->bom->barcode,
-                'price' => (float)$this->bom->price,
+            'addon' => [
+                'id' => $this->addon->id,
+                'name' => $this->addon->name,
+                'unity' => new UnityResource($this->addon->unity),
+                'price' => (float)$this->addon->price,
             ],
-            'unity' => new UnityResource($this->unity),
-            'quantity' => $this->quantity,
-            'price' => (float)$this->price,
             'status' => $this->status,
         ];
     }

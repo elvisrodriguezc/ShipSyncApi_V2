@@ -14,12 +14,11 @@ return new class extends Migration
         Schema::create('productaccesories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
-            $table->unsignedBigInteger('accesory_id');
+            $table->foreignId('accesory_id')->constrained('products')->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->foreignId('unity_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->integer('quantity')->default(1);
             $table->float('price')->default(0);
-            $table->foreign('accesory_id')->references('id')->on('products')->onUpdate('CASCADE')->onDelete('RESTRICT');
-            $table->tinyInteger('status')->default(1);
+            $table->unsignedTinyInteger('status')->default(1);
             $table->timestamps();
         });
     }

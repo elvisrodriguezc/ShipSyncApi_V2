@@ -10,11 +10,12 @@ class Product extends Model
     use HasFactory;
     protected $fillable = [
         'company_id',
+        'barcode',
         'name',
         'detail',
-        'barcode',
         'category_id',
         'unity_id',
+        'brand_id',
         'model',
         'url',
         'image',
@@ -22,8 +23,6 @@ class Product extends Model
         'currency_id',
         'price',
         'minimal',
-        'brand_id',
-        'taxmode_id',
         'unspsc_id',
         'content',
         'weight',
@@ -56,10 +55,6 @@ class Product extends Model
     public function currency()
     {
         return $this->belongsTo(Currency::class);
-    }
-    public function taxmode()
-    {
-        return $this->belongsTo(Typevalue::class);
     }
     public function condition()
     {

@@ -11,7 +11,7 @@ class UpdateTaxRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,17 @@ class UpdateTaxRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'percentage_based' => 'required|boolean',
+            'sunat_code' => 'required|string',
+            'sunat_namecode' => 'required|string',
+            'sunat_operationcode' => 'required|integer',
+            'name' => 'required|string',
+            'rate' => 'required|numeric',
+            'value' => 'required|numeric',
+            'description' => 'required|string',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+            'status' => 'required|boolean',
         ];
     }
 }

@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('productboms', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('warehouse_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->foreignId('product_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->foreignId('bom_id')->constrained('products')->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->foreignId('unity_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->float('quantity')->default(1);
             $table->float('price')->default(0);
+            $table->unsignedTinyInteger('status')->default(1);
             $table->timestamps();
+            $table->unique(['product_id', 'bom_id', 'unity_id']);
         });
     }
 
