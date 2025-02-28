@@ -2,32 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Entity;
-use App\Models\Guidecarrier;
-use App\Models\Order;
-use App\Models\Orderitem;
-use App\Models\Orderserviceitem;
-use App\Models\Purchase;
-use App\Models\Requirement;
-use App\Models\Requirementdetail;
-use App\Models\Servicedetail;
-use App\Models\Services;
-use App\Models\Transfer;
-use App\Models\Unity;
-use App\Models\Warehousekardex;
-use App\Observers\EntityObserver;
-use App\Observers\GuidecarrierObserver;
-use App\Observers\OrderitemObserver;
-use App\Observers\OrderObserver;
-use App\Observers\OrderserviceitemObserver;
-use App\Observers\PurchaseObserver;
-use App\Observers\RequirementdetailObserver;
-use App\Observers\RequirementObserver;
-use App\Observers\ServicedetailObserver;
-use App\Observers\ServicesObserver;
-use App\Observers\TransferObserver;
-use App\Observers\UnityObserver;
-use App\Observers\WarehousekardexObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -49,22 +23,7 @@ class EventServiceProvider extends ServiceProvider
     /**
      * Register any events for your application.
      */
-    public function boot(): void
-    {
-        Order::observe(OrderObserver::class);
-        Orderitem::observe(OrderitemObserver::class);
-        Guidecarrier::observe(GuidecarrierObserver::class);
-        Purchase::observe(PurchaseObserver::class);
-        Warehousekardex::observe(WarehousekardexObserver::class);
-        Requirement::observe(RequirementObserver::class);
-        Requirementdetail::observe(RequirementdetailObserver::class);
-        Transfer::observe(TransferObserver::class);
-        Unity::observe(UnityObserver::class);
-        Entity::observe(EntityObserver::class);
-        Orderserviceitem::observe((OrderserviceitemObserver::class));
-        Servicedetail::observe((ServicedetailObserver::class));
-        Services::observe((ServicesObserver::class));
-    }
+    public function boot(): void {}
 
     /**
      * Determine if events and listeners should be automatically discovered.
