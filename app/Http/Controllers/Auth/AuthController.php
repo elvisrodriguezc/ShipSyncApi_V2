@@ -15,6 +15,35 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'Las Credeciales no son correctas',
+                'Error' => 1,
+            ], 401);
+        }
+
+        if (!Auth::attempt($request->only('email', 'password'))) {
+            throw ValidationException::withMessages([
+                'email' => 'Las Credeciales no son correctas',
+            ]);
+        }
+        $token = $user->createToken('token')->plainTextToken;
+
+        return response()->json([
+            'token' => $token,
+            'user' => $user,
+        ]);
+    }
+
+    public function loginName(Request $request)
+    {
+        $request->validate([
             'name' => 'required|string',
             'document' => 'required|string',
         ]);
@@ -86,11 +115,14 @@ class AuthController extends Controller
         ]);
     }
 
+
+
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
         return response()->json([
-            'message' => 'Token eliminado correctamente',
+            'message' => 'Sesion finalizada',
+            'Error' => 0,
         ]);
     }
 

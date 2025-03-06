@@ -4,10 +4,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 
-use App\Http\Controllers\Api\CandidateController as Candidate;
 use App\Http\Controllers\Api\CompanyController as Company;
 use App\Http\Controllers\Api\UserController as User;
-use App\Http\Controllers\Api\BallotController as Ballot;
+use App\Http\Controllers\Api\CategoryController as Category;
+use App\Http\Controllers\Api\ProductController as Product;
+use App\Http\Controllers\Api\ProgramationController as Programation;
+use App\Http\Controllers\Api\EntityController as Entity;
+use App\Http\Controllers\Api\TypeController as Type;
+use App\Http\Controllers\Api\TypevalueController as Typevalue;
+use App\Http\Controllers\Api\CarController as Car;
 
 use Illuminate\Support\Facades\Artisan;
 
@@ -41,7 +46,12 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
     Route::apiResource('companies', Company::class);
-    Route::apiResource('candidates', Candidate::class);
     Route::apiResource('users', User::class);
-    Route::apiResource('ballots', Ballot::class);
+    Route::apiResource('categories', Category::class);
+    Route::apiResource('products', Product::class);
+    Route::apiResource('programations', Programation::class);
+    Route::apiResource('entities', Entity::class);
+    Route::apiResource('types', Type::class);
+    Route::apiResource('typevalues', Typevalue::class);
+    Route::apiResource('cars', Car::class);
 });

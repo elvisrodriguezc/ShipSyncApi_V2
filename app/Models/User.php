@@ -19,11 +19,26 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'document',
         'company_id',
+        'headquarter_id',
+        'first_name',
+        'last_name',
+        'username',
+        'role',
+        'document_id',
+        'document',
+        'phone',
+        'address',
         'email',
+        'email_verified_at',
         'password',
+        'license',
+        'licencecategory',
+        'isAF',
+        'isAFP',
+        'payrollafp_id',
+        'salary',
+        'additionalpay',
         'status',
     ];
 
@@ -48,5 +63,37 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get the company that owns the user.
+     */
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    /**
+     * Get the headquarter that owns the user.
+     */
+    public function headquarter()
+    {
+        return $this->belongsTo(Headquarter::class);
+    }
+
+    /**
+     * Get the document that owns the user.
+     */
+    public function document()
+    {
+        return $this->belongsTo(TypeValue::class);
+    }
+
+    /**
+     * Get the payrollafp that owns the user.
+     */
+    public function payrollafp()
+    {
+        return $this->belongsTo(TypeValue::class);
     }
 }

@@ -11,12 +11,26 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
-            $table->string('name');
-            $table->string('document', 10)->unique();
+            $table->foreignId('headquarter_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->string('first_name', 50);
+            $table->string('last_name', 50);
+            $table->string('username', 50)->unique();
+            $table->string('role', 15);
+            $table->foreignId('document_id')->constrained('typevalues')->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->string('document_number', 10)->unique();
+            $table->string('phone', 15)->nullable();
+            $table->string('address', 100)->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->string('license', 10)->nullable();
+            $table->string('licencecategory', 10)->nullable();
+            $table->unsignedTinyInteger('isAF')->nullable();
+            $table->unsignedTinyInteger('isAFP')->nullable();
+            $table->foreignId('payrollafp_id')->nullable()->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT')->default(1);
+            $table->float('salary')->nullable();
+            $table->float('additionalpay')->nullable();
             $table->boolean('status')->default(1);
             $table->timestamps();
         });
