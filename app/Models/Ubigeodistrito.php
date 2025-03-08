@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Ubigeodistrito extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'code',
+        'ubigeoprovincia_id',
+    ];
+
+    public function ubigeoprovincia()
+    {
+        return $this->belongsTo(Ubigeoprovincia::class);
+    }
 }

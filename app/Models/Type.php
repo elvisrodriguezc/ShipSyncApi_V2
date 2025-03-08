@@ -20,4 +20,9 @@ class Type extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
+    public function typevalues()
+    {
+        return $this->hasMany(Typevalue::class);
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UbigeodepartamentoResource;
 use App\Models\Ubigeodepartamento;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,8 @@ class UbigeodepartamentoController extends Controller
      */
     public function index()
     {
-        //
+        $data = Ubigeodepartamento::all();
+        return UbigeodepartamentoResource::collection($data);
     }
 
     /**
@@ -27,9 +29,9 @@ class UbigeodepartamentoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Ubigeodepartamento $ubigeodepartamento)
+    public function show(Ubigeodepartamento $department)
     {
-        //
+        return UbigeodepartamentoResource::make($department);
     }
 
     /**

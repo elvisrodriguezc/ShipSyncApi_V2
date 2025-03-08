@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name', 50);
             $table->string('description', 100)->nullable();
             $table->string('abbreviation', 10)->nullable();
+            $table->decimal('value', 10, 2)->nullable();
             $table->unsignedTinyInteger('status')->default(1);
             $table->softDeletes();
             $table->timestamps();

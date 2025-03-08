@@ -11,7 +11,7 @@ class StoreTypevalueRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class StoreTypevalueRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'type_id' => 'required',
+            'name' => 'required',
+            'description' => 'sometimes',
+            'abbreviation' => 'required',
+            'value' => 'sometimes',
         ];
     }
 }

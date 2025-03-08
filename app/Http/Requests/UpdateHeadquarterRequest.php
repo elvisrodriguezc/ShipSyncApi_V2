@@ -11,7 +11,7 @@ class UpdateHeadquarterRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,14 @@ class UpdateHeadquarterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'ubigeodistrito_id' => 'required',
+            'name' => 'required',
+            'address' => 'required',
+            'phone' => 'sometimes',
+            'email' => 'sometimes',
+            'latitude' => 'sometimes',
+            'longitude' => 'sometimes',
+            'status' => 'sometimes',
         ];
     }
 }

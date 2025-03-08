@@ -17,10 +17,10 @@ return new class extends Migration
             $table->foreignId('ubigeodistrito_id')->nullable()->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->string('name');
             $table->string('address');
-            $table->string('phone');
-            $table->string('email');
-            $table->string('latitude');
-            $table->string('longitude');
+            $table->string('phone')->nullable();
+            $table->string('email')->nullable();
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
             $table->unsignedTinyInteger('status')->default(1);
             $table->softDeletes();
             $table->timestamps();

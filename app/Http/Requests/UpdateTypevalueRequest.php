@@ -11,7 +11,7 @@ class UpdateTypevalueRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class UpdateTypevalueRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'sometimes',
+            'description' => 'sometimes',
+            'abbreviation' => 'sometimes',
+            'value' => 'sometimes',
+            'status' => 'sometimes',
         ];
     }
 }

@@ -14,6 +14,12 @@ class Typevalue extends Model
         'name',
         'description',
         'abbreviation',
+        'value',
         'status',
     ];
+
+    public function type()
+    {
+        return $this->belongsTo(Type::class);
+    }
 }

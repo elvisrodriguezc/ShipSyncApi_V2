@@ -14,6 +14,15 @@ class UbigeodistritoResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'value' => $this->id,
+            'label' => $this->name,
+            'name' => $this->name,
+            'code' => $this->code,
+            'province_id' => $this->ubigeoprovincia_id,
+            'province' => UbigeoprovinciaResource::make($this->ubigeoprovincia),
+
+        ];
     }
 }

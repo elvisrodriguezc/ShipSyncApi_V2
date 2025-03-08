@@ -20,6 +20,7 @@ class TypeResource extends JsonResource
             'company' => $this->company->name,
             'name' => $this->name,
             'description' => $this->description,
+            'typevalues' => TypevalueResource::collection($this->typevalues),
             'status' => $this->status,
         ];
     }
