@@ -30,4 +30,9 @@ class Headquarter extends Model
     {
         return $this->belongsTo(Ubigeodistrito::class);
     }
+
+    public function warehouses()
+    {
+        return $this->hasMany(Warehouse::class);
+    }
 }

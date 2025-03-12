@@ -12,10 +12,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->foreignId('headquarter_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
+            $table->foreignId('warehouse_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->string('first_name', 50);
             $table->string('last_name', 50);
             $table->string('username', 50)->unique();
-            $table->string('role', 15);
+            $table->foreignId('role_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->foreignId('document_id')->constrained('typevalues')->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->string('document_number', 10)->unique();
             $table->string('phone', 15)->nullable();
@@ -32,6 +33,10 @@ return new class extends Migration
             $table->float('salary')->nullable();
             $table->float('additionalpay')->nullable();
             $table->boolean('status')->default(1);
+            $table->softDeletes();
+            $table->unique(['company_id', 'document_id', 'document_number']);
+            $table->unique(['company_id', 'username']);
+            $table->unique(['company_id', 'email']);
             $table->timestamps();
         });
     }

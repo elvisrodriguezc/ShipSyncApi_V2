@@ -58,11 +58,12 @@ class HeadquarterController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Headquarter $headquarter)
+    public function destroy(Headquarter $hquarter, $id)
     {
+        $hquarter = Headquarter::find($id);
         try {
-            $headquarter->delete();
-            return response()->json(['message' => 'Headquarter deleted'], 200);
+            $hquarter->delete();
+            return HeadquarterResource::make($hquarter);
         } catch (QueryException $e) {
             // Check if it's a foreign key constraint violation
             if ($e->getCode() == 23000) {
