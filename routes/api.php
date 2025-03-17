@@ -17,7 +17,6 @@ use App\Http\Controllers\Api\TypevalueController as TypevalueV1;
 use App\Http\Controllers\Api\UbigeodepartamentoController as UbigeodepartamentoV1;
 use App\Http\Controllers\Api\UbigeodistritoController as UbigeodistritoV1;
 use App\Http\Controllers\Api\UbigeoprovinciaController as UbigeoprovinciaV1;
-use App\Http\Controllers\Api\UbigeodistritoController as UbigeodistritoV1;
 
 use Illuminate\Support\Facades\Artisan;
 

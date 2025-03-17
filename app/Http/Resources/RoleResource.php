@@ -20,10 +20,7 @@ class RoleResource extends JsonResource
             'label' => $this->name,
             'company_id' => $this->company_id,
             'name' => $this->name,
-<<<<<<< HEAD
             'slug' => $this->slug,
-=======
->>>>>>> ed277305982a8e60c320f498a83adc2529a8873d
             'description' => $this->description,
             'status' => $this->status,
         ];

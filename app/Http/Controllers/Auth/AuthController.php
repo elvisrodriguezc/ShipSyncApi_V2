@@ -151,5 +151,5 @@ class AuthController extends Controller
             'token' => $token,
             'user' => $user,
         ]);
-    }git 
+    }
 }
