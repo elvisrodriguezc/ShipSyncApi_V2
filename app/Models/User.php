@@ -21,12 +21,13 @@ class User extends Authenticatable
     protected $fillable = [
         'company_id',
         'headquarter_id',
+        'warehouse_id',
         'first_name',
         'last_name',
         'username',
-        'role',
+        'role_id',
         'document_id',
-        'document',
+        'document_number',
         'phone',
         'address',
         'email',
@@ -81,6 +82,21 @@ class User extends Authenticatable
         return $this->belongsTo(Headquarter::class);
     }
 
+    /**
+     * Get the warehouse that owns the user.
+     */
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
+    /**
+     * Get the role that owns the user.
+     */
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
     /**
      * Get the document that owns the user.
      */

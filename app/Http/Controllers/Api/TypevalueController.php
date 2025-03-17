@@ -18,10 +18,20 @@ class TypevalueController extends Controller
      */
     public function index(Request $request)
     {
-        $typevalues = Typevalue::with('type')
-            ->orderBy('name')
-            ->get();
-        return TypevalueResource::collection($typevalues);
+        if ($request->has('type')) {
+            $type_id = Type::where('name', $request->type)->first()->id;
+            $typevalues = Typevalue::where('type_id', $type_id)
+                ->orderBy('name')
+                ->get();
+            return TypevalueResource::collection($typevalues);
+        } else {
+            $typevalues = Typevalue::orderBy('name')
+                ->get();
+            return response()->json([
+                'message' => 'Please provide a type parameter',
+                'error' => 1
+            ], 400); // 400 Bad Request
+        }
     }
 
     /**

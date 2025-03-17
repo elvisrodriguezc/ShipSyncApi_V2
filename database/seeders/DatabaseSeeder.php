@@ -11,9 +11,11 @@ use App\Models\Headquarter;
 use App\Models\Numerator;
 use App\Models\Payrollafp;
 use App\Models\Product;
+use App\Models\Role;
 use App\Models\Type;
 use App\Models\Typevalue;
 use App\Models\User;
+use App\Models\Warehouse;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -29,6 +31,8 @@ class DatabaseSeeder extends Seeder
     {
         Company::factory(2)->create();
         Headquarter::factory(4)->create();
+        Warehouse::factory(10)->create();
+        Role::factory(4)->create();
         Payrollafp::factory(2)->create();
         Type::factory()->create(
             [
@@ -92,7 +96,7 @@ class DatabaseSeeder extends Seeder
                 'first_name' => 'Elvis',
                 'last_name' => 'Rodríguez Cornejo',
                 'username' => 'elvisrodriguezc',
-                'role' => 'sadmin',
+                'role_id' => 1,
                 'document_id' => 1,
                 'document_number' => '12345678',
                 'phone' => '987654321',

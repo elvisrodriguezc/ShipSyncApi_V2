@@ -20,12 +20,14 @@ class UserFactory extends Factory
         return [
             'company_id' => 1,
             'headquarter_id' => 1,
+            'warehouse_id' => 1,
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
             'username' => fake()->unique()->userName(),
-            'role' => 'asistente',
+            'role_id' => fake()->randomElement([1, 2, 3, 4, 5]),
             'document_id' => 1,
             'document_number' => fake()->unique()->numerify('########'),
+
             'phone' => fake()->phoneNumber(),
             'address' => fake()->address(),
             'email' => fake()->unique()->safeEmail(),

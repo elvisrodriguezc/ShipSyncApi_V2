@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\Payrollafp;
-use App\Http\Requests\StorePayrollafpRequest;
-use App\Http\Requests\UpdatePayrollafpRequest;
+use App\Http\Controllers\Controller;
+use App\Models\Orderformitemcomment;
+use Illuminate\Http\Request;
 
-class PayrollafpController extends Controller
+class OrderformitemcommentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,7 +19,7 @@ class PayrollafpController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePayrollafpRequest $request)
+    public function store(Request $request)
     {
         //
     }
@@ -27,7 +27,7 @@ class PayrollafpController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Payrollafp $payrollafp)
+    public function show(Orderformitemcomment $orderformitemcomment)
     {
         //
     }
@@ -35,7 +35,7 @@ class PayrollafpController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePayrollafpRequest $request, Payrollafp $payrollafp)
+    public function update(Request $request, Orderformitemcomment $orderformitemcomment)
     {
         //
     }
@@ -43,7 +43,7 @@ class PayrollafpController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Payrollafp $payrollafp)
+    public function destroy(Orderformitemcomment $orderformitemcomment)
     {
         //
     }
