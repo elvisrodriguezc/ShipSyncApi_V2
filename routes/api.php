@@ -17,6 +17,10 @@ use App\Http\Controllers\Api\TypevalueController as TypevalueV1;
 use App\Http\Controllers\Api\UbigeodepartamentoController as UbigeodepartamentoV1;
 use App\Http\Controllers\Api\UbigeodistritoController as UbigeodistritoV1;
 use App\Http\Controllers\Api\UbigeoprovinciaController as UbigeoprovinciaV1;
+use App\Http\Controllers\Api\OrderformController as OrderformV1;
+use App\Http\Controllers\Api\OrderformitemController as OrderformitemV1;
+use App\Http\Controllers\Api\RoleController as RoleV1;
+use App\Http\Controllers\Api\UserController as UserV1;
 
 use Illuminate\Support\Facades\Artisan;
 
@@ -68,4 +72,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('provinces', UbigeoprovinciaV1::class);
     Route::apiResource('districts', UbigeodistritoV1::class);
     Route::apiResource('payrollafps', PayrollafpV1::class);
+    Route::apiResource('orderforms', OrderformV1::class);
+    Route::apiResource('orderformitems', OrderformitemV1::class);
+    Route::apiResource('roles', RoleV1::class);
+    Route::apiResource('users', UserV1::class);
 });

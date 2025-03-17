@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreEntityRequest;
 use App\Http\Resources\EntityResource;
 use App\Models\Entity;
 use Illuminate\Http\Request;
@@ -30,9 +31,15 @@ class EntityController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreEntityRequest $request)
     {
-        //
+        $user = auth()->user();
+        $company_id = $user->company_id;
+        $data = $request->validated();
+        $data['company_id'] = $company_id;
+        $entity = Entity::create($data);
+
+        return EntityResource::make($entity);
     }
 
     /**

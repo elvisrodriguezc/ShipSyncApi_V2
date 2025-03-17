@@ -102,7 +102,7 @@ class User extends Authenticatable
      */
     public function document()
     {
-        return $this->belongsTo(TypeValue::class);
+        return $this->belongsTo(Typevalue::class);
     }
 
     /**
@@ -110,6 +110,6 @@ class User extends Authenticatable
      */
     public function payrollafp()
     {
-        return $this->belongsTo(TypeValue::class);
+        return $this->belongsTo(Payrollafp::class);
     }
 }

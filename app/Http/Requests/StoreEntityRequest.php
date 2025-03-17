@@ -11,7 +11,7 @@ class StoreEntityRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,22 @@ class StoreEntityRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'mode' => ['required', 'string'],
+            'ruc' => ['required', 'string'],
+            'razon_social' => ['required', 'string'],
+            'estado' => ['required', 'string'],
+            'condicion' => ['required', 'string'],
+            'ubigeo' => ['required', 'string'],
+            'tipo_via' => ['required', 'string'],
+            'nombre_via' => ['required', 'string'],
+            'codigo_zona' => ['required', 'string'],
+            'tipo_zona' => ['required', 'string'],
+            'numero' => ['required', 'string'],
+            'interior' => ['required', 'string'],
+            'lote' => ['required', 'string'],
+            'departamento' => ['required', 'string'],
+            'manzana' => ['required', 'string'],
+            'kilometro' => ['required', 'string'],
         ];
     }
 }
