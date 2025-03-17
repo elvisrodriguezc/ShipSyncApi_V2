@@ -17,12 +17,7 @@ use App\Http\Controllers\Api\TypevalueController as TypevalueV1;
 use App\Http\Controllers\Api\UbigeodepartamentoController as UbigeodepartamentoV1;
 use App\Http\Controllers\Api\UbigeodistritoController as UbigeodistritoV1;
 use App\Http\Controllers\Api\UbigeoprovinciaController as UbigeoprovinciaV1;
-use App\Http\Controllers\Api\UserController as UserV1;
-use App\Http\Controllers\Api\WarehouseController as WarehouseV1;
-use App\Http\Controllers\Api\RoleController as RoleV1;
-use App\Http\Controllers\Api\OrderformController as OrderformV1;
-use App\Http\Controllers\Api\OrderformitemController as OrderformitemsV1;
-use App\Http\Controllers\Api\OrderformitemcommentController as OrderformitemscommentsV1;
+use App\Http\Controllers\Api\UbigeodistritoController as UbigeodistritoV1;
 
 use Illuminate\Support\Facades\Artisan;
 
@@ -68,11 +63,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('provinces', UbigeoprovinciaV1::class);
     Route::apiResource('types', TypeV1::class);
     Route::apiResource('typevalues', TypevalueV1::class);
-    Route::apiResource('users', UserV1::class);
-    Route::put('/users/changepassword/{user}', [UserV1::class, 'changePassword']);
-    Route::apiResource('warehouses', WarehouseV1::class);
-    Route::apiResource('roles', RoleV1::class);
-    Route::apiResource('orderforms', OrderformV1::class);
-    Route::apiResource('orderformitems', OrderformitemsV1::class);
-    Route::apiResource('orderformitemscomments', OrderformitemscommentsV1::class);
+    Route::apiResource('cars', CarV1::class);
+    Route::apiResource('headquarters', HeadquarterV1::class);
+    Route::apiResource('departments', UbigeodepartamentoV1::class);
+    Route::apiResource('provinces', UbigeoprovinciaV1::class);
+    Route::apiResource('districts', UbigeodistritoV1::class);
+    Route::apiResource('payrollafps', PayrollafpV1::class);
 });
