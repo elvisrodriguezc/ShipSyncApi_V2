@@ -47,9 +47,10 @@ class OrderformController extends Controller
         $orderform = new Orderform($request->all());
         $orderform->company_id = $user->company_id;
         $orderform->user_id = $user->id;
+        $orderform->warehouse_id = $user->warehouse_id;
+        $orderform->headquarter_id = $user->headquarter_id;
         $orderform->status = 1;
         $orderform->save();
-        $orderform->orderformitems()->createMany($request->items);
 
         return OrderformResource::make($orderform)->additional([
             'message' => 'Orden de pedido creada correctamente',

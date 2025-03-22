@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\OrderformController as OrderformV1;
 use App\Http\Controllers\Api\OrderformitemController as OrderformitemV1;
 use App\Http\Controllers\Api\RoleController as RoleV1;
 use App\Http\Controllers\Api\UserController as UserV1;
+use App\Http\Controllers\Api\ContactController as ContactV1;
 
 use Illuminate\Support\Facades\Artisan;
 
@@ -76,4 +77,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('orderformitems', OrderformitemV1::class);
     Route::apiResource('roles', RoleV1::class);
     Route::apiResource('users', UserV1::class);
+    Route::apiResource('contacts', ContactV1::class);
 });

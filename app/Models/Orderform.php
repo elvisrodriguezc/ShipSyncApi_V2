@@ -16,6 +16,8 @@ class Orderform extends Model
         'user_id',
         'entity_id',
         'typevalue_id',
+        'contact_id',
+        'order_line',
         'observation',
         'finished_at',
         'status'
@@ -49,6 +51,11 @@ class Orderform extends Model
     public function typevalue()
     {
         return $this->belongsTo(Typevalue::class);
+    }
+
+    public function contact()
+    {
+        return $this->belongsTo(Contact::class);
     }
 
     public function orderformitems()

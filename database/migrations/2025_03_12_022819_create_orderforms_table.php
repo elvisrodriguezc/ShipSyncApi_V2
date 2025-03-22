@@ -20,8 +20,10 @@ return new class extends Migration
             $table->foreignId('headquarter_id')->constrained()->update('cascade')->delete('restrict');
             $table->foreignId('warehouse_id')->constrained()->update('cascade')->delete('restrict');
             $table->foreignId('user_id')->constrained()->update('cascade')->delete('restrict');
-            $table->foreignId('entity_id')->constrained()->update('cascade')->delete('restrict');
-            $table->foreignId('ordertype_id')->constrained('typevalue_id')->update('cascade')->delete('restrict');
+            $table->foreignId('contact_id')->constrained()->update('cascade')->delete('restrict');
+            $table->foreignId('entity_id')->nullable()->constrained()->update('cascade')->delete('restrict');
+            $table->foreignId('ordertype_id')->nullable()->constrained('typevalues')->update('cascade')->delete('restrict');
+            $table->text('order_line');
             $table->text('observation')->nullable();
             $table->timestamp('finished_at')->nullable();
             $table->unsignedTinyInteger('status')->default(1);

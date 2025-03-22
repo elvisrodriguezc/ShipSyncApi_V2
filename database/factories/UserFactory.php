@@ -24,7 +24,7 @@ class UserFactory extends Factory
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
             'username' => fake()->unique()->userName(),
-            'role_id' => fake()->randomElement([1, 2, 3, 4, 5]),
+            'role_id' => fake()->randomElement([1, 2, 3, 4]),
             'document_id' => 1,
             'document_number' => fake()->unique()->numerify('########'),
 

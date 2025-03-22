@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Car;
 use App\Models\Category;
 use App\Models\Company;
+use App\Models\Contact;
 use App\Models\Document;
 use App\Models\Entity;
 use App\Models\Headquarter;
@@ -113,6 +114,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
         User::factory(3)->create();
+        Contact::factory(6)->create();
         Document::factory()->create(
             [
                 'headquarter_id' => 1,
