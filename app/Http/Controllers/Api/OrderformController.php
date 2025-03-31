@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\AlertTriggered;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOrderformRequest;
 use App\Http\Requests\UpdateOrderformRequest;
@@ -14,17 +15,16 @@ class OrderformController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $user = auth()->user();
-        if (strpos($user->role->name, 'admin') !== false) {
-            $data = Orderform::whereBetween('created_at', [now()->subDays(7), now()])
-                ->get();
-        } else {
-            $data = Orderform::where('warehouse_id', $user->warehouse_id)
-                ->whereBetween('created_at', [now()->subDays(1), now()])
-                ->get();
-        }
+        $request->validate([
+            'startdate' => 'required|date',
+            'enddate' => 'required|date',
+        ]);
+
+        $data = Orderform::whereBetween('created_at', [$request->startdate, $request->enddate . ' 23:59:59'])
+            ->orderBy('id', 'desc')
+            ->get();
 
         return OrderformResource::collection($data)
             ->additional([
@@ -51,6 +51,7 @@ class OrderformController extends Controller
         $orderform->headquarter_id = $user->headquarter_id;
         $orderform->status = 1;
         $orderform->save();
+        event(new AlertTriggered('¡Nueva alerta en tiempo real!'));
 
         return OrderformResource::make($orderform)->additional([
             'message' => 'Orden de pedido creada correctamente',
