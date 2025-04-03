@@ -17,7 +17,9 @@ class ContactController extends Controller
     public function index()
     {
         $company_id = auth()->user()->company_id;
-        $contacts = Contact::where('company_id', $company_id)->get();
+        $contacts = Contact::where('company_id', $company_id)
+            ->orderby('name', 'asc')
+            ->get();
         return ContactResource::collection($contacts);
     }
 
