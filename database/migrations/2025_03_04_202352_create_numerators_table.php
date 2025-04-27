@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('headquarter_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->foreignId('document_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
-            $table->string('serie', 4);
+            $table->string('serial', 4);
             $table->unsignedInteger('number')->default(1);
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
             //Indice compuesto
-            $table->unique(['headquarter_id', 'document_id', 'serie']);
+            $table->unique(['headquarter_id', 'document_id', 'serial']);
         });
     }
 

@@ -12,6 +12,10 @@ class Orderformitem extends Model
     protected $fillable = [
         'orderform_id',
         'orderline',
+        'product_id',
+        'unit_id',
+        'quantity',
+        'unit_price',
         'status'
     ];
 
@@ -23,5 +27,15 @@ class Orderformitem extends Model
     public function orderformitemcomments()
     {
         return $this->hasMany(Orderformitemcomment::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class);
     }
 }

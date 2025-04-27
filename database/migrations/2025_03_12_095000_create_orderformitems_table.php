@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('orderformitems', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('orderform_id')->constrained();
-            $table->text('orderline');
+            $table->foreignId('orderform_id')->constrained()->onDelete('restrict')->onUpdate('cascade');
+            $table->foreignId('product_id')->constrained()->onDelete('restrict')->onUpdate('cascade');
+            $table->foreignId('unit_id')->constrained()->onDelete('restrict')->onUpdate('cascade');
+            $table->decimal('quantity', 10, 2)->default(0);
+            $table->decimal('unit_price', 10, 2)->default(0);
             $table->unsignedTinyInteger('status')->default(1);
             $table->softDeletes();
             $table->timestamps();

@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Orderform;
+use App\Models\Orderformitem;
 use App\Models\Programation;
+use App\Observers\OrderformitemObserver;
+use App\Observers\OrderformObserver;
 use App\Observers\ProgramationObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -28,6 +32,8 @@ class EventServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Programation::observe(ProgramationObserver::class);
+        Orderform::observe(OrderformObserver::class);
+        Orderformitem::observe(OrderformitemObserver::class);
     }
 
     /**

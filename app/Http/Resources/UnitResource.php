@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BallotResource extends JsonResource
+class UnitResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,13 +16,14 @@ class BallotResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'label' => $this->name,
+            'value' => $this->id,
+            'valuex' => (float) $this->value,
             'company_id' => $this->company_id,
-            'user' => new UserResource($this->user),
-            'candidate' => new CandidateResource($this->candidate),
+            'company' => $this->company->name,
+            'name' => $this->name,
+            'symbol' => $this->symbol,
             'status' => $this->status,
-            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
-            'hash' =>  bcrypt($this->id . '-' . $this->company_id . '-' . $this->user_id . '-' . $this->candidate_id),
-            'error' => $this->error,
         ];
     }
 }

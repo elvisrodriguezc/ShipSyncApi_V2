@@ -27,8 +27,11 @@ class StoreOrderformRequest extends FormRequest
             'entity_id' => ['nullable', 'integer'],
             'contact_id' => ['required', 'integer'],
             'typevalue_id' => ['nullable', 'integer'],
-            'order_line' => ['required', 'string'],
+            'order_line' => ['nullable', 'string'],
             'observation' => ['nullable', 'string'],
+            'orderItems' => ['required', 'array'],
+            'orderItems.*.product_id' => ['required', 'integer'],
+            'orderItems.*.quantity' => ['required', 'numeric'],
         ];
     }
 }

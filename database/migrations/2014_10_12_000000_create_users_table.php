@@ -27,9 +27,6 @@ return new class extends Migration
             $table->rememberToken();
             $table->string('license', 10)->nullable();
             $table->string('licencecategory', 10)->nullable();
-            $table->unsignedTinyInteger('isAF')->nullable();
-            $table->unsignedTinyInteger('isAFP')->nullable();
-            $table->foreignId('payrollafp_id')->nullable()->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT')->default(1);
             $table->float('salary')->nullable();
             $table->float('additionalpay')->nullable();
             $table->boolean('status')->default(1);

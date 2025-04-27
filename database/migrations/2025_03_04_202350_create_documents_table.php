@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('headquarter_id')->constrained()->onUpdate('CASCADE')->onDelete('RESTRICT');
-            $table->string('code', 3);
+            $table->string('symbol', 3);
             $table->string('name', 100);
             $table->unsignedTinyInteger('status')->default(1);
             $table->timestamps();

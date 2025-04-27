@@ -10,7 +10,6 @@ use App\Models\Document;
 use App\Models\Entity;
 use App\Models\Headquarter;
 use App\Models\Numerator;
-use App\Models\Payrollafp;
 use App\Models\Product;
 use App\Models\Role;
 use App\Models\Type;
@@ -34,7 +33,7 @@ class DatabaseSeeder extends Seeder
         Headquarter::factory(4)->create();
         Warehouse::factory(10)->create();
         Role::factory(4)->create();
-        Payrollafp::factory(2)->create();
+        $this->call(UnitSeeder::class);
         Type::factory()->create(
             [
                 'company_id' => 1,
@@ -106,9 +105,6 @@ class DatabaseSeeder extends Seeder
                 'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
                 'license' => '1234567890',
                 'licencecategory' => 'A1',
-                'isAF' => 1,
-                'isAFP' => 1,
-                'payrollafp_id' => 1,
                 'salary' => 2000,
                 'additionalpay' => 200,
             ]
@@ -117,47 +113,18 @@ class DatabaseSeeder extends Seeder
         Contact::factory(6)->create();
         Document::factory()->create(
             [
-                'headquarter_id' => 1,
-                'code' => 'BOL',
-                'name' => 'Boleta',
+                'symbol' => 'ORD',
+                'name' => 'Orden de Reparto',
             ]
         );
-        Document::factory()->create(
+        Numerator::factory()->create(
             [
                 'headquarter_id' => 1,
-                'code' => 'FAC',
-                'name' => 'Factura',
+                'document_id' => 1,
+                'serial' => 'ORD1',
+                'number' => 1,
             ]
         );
-        Document::factory()->create(
-            [
-                'headquarter_id' => 1,
-                'code' => 'GRR',
-                'name' => 'Guía de Remisión Remitente',
-            ]
-        );
-        Document::factory()->create(
-            [
-                'headquarter_id' => 1,
-                'code' => 'GRT',
-                'name' => 'Guía de Remisión Trastransportista',
-            ]
-        );
-        Document::factory()->create(
-            [
-                'headquarter_id' => 1,
-                'code' => 'PRG',
-                'name' => 'Programación de Carga',
-            ]
-        );
-        Document::factory()->create(
-            [
-                'headquarter_id' => 1,
-                'code' => 'SRV',
-                'name' => 'Servicio de Transporte',
-            ]
-        );
-        Numerator::factory(4)->create();
         Category::factory(6)->create();
         Product::factory(20)->create();
         Entity::factory()->create(

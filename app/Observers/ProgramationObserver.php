@@ -14,7 +14,7 @@ class ProgramationObserver
     public function creating(Programation $programation): void
     {
         $user = auth()->user();
-        $document_id = Document::where('code', 'PRG')->first()->id;
+        $document_id = Document::where('symbol', 'PRG')->first()->id;
         $numerator = Numerator::where('headquarter_id', $user->headquarter_id)
             ->where('document_id', $document_id)
             ->first();

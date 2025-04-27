@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreignId('contact_id')->constrained()->update('cascade')->delete('restrict');
             $table->foreignId('entity_id')->nullable()->constrained()->update('cascade')->delete('restrict');
             $table->foreignId('ordertype_id')->nullable()->constrained('typevalues')->update('cascade')->delete('restrict');
-            $table->text('order_line');
+            $table->text('order_line')->nullable();
             $table->text('observation')->nullable();
             $table->timestamp('finished_at')->nullable();
             $table->unsignedTinyInteger('status')->default(1);

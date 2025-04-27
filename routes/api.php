@@ -5,23 +5,24 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 
 use App\Http\Controllers\Api\CarController as CarV1;
-use App\Http\Controllers\Api\CompanyController as CompanyV1;
 use App\Http\Controllers\Api\CategoryController as CategoryV1;
+use App\Http\Controllers\Api\CompanyController as CompanyV1;
+use App\Http\Controllers\Api\ContactController as ContactV1;
 use App\Http\Controllers\Api\EntityController as EntityV1;
 use App\Http\Controllers\Api\HeadquarterController as HeadquarterV1;
+use App\Http\Controllers\Api\OrderformController as OrderformV1;
+use App\Http\Controllers\Api\OrderformitemController as OrderformitemV1;
 use App\Http\Controllers\Api\PayrollafpController as PayrollafpV1;
 use App\Http\Controllers\Api\ProductController as ProductV1;
 use App\Http\Controllers\Api\ProgramationController as ProgramationV1;
+use App\Http\Controllers\Api\RoleController as RoleV1;
 use App\Http\Controllers\Api\TypeController as TypeV1;
 use App\Http\Controllers\Api\TypevalueController as TypevalueV1;
 use App\Http\Controllers\Api\UbigeodepartamentoController as UbigeodepartamentoV1;
-use App\Http\Controllers\Api\UbigeodistritoController as UbigeodistritoV1;
 use App\Http\Controllers\Api\UbigeoprovinciaController as UbigeoprovinciaV1;
-use App\Http\Controllers\Api\OrderformController as OrderformV1;
-use App\Http\Controllers\Api\OrderformitemController as OrderformitemV1;
-use App\Http\Controllers\Api\RoleController as RoleV1;
+use App\Http\Controllers\Api\UbigeodistritoController as UbigeodistritoV1;
+use App\Http\Controllers\Api\UnitController as UnitV1;
 use App\Http\Controllers\Api\UserController as UserV1;
-use App\Http\Controllers\Api\ContactController as ContactV1;
 
 use Illuminate\Support\Facades\Artisan;
 
@@ -76,6 +77,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('orderforms', OrderformV1::class);
     Route::apiResource('orderformitems', OrderformitemV1::class);
     Route::apiResource('roles', RoleV1::class);
+    Route::apiResource('units', UnitV1::class);
     Route::apiResource('users', UserV1::class);
     Route::apiResource('contacts', ContactV1::class);
 });

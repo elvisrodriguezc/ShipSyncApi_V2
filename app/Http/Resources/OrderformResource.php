@@ -35,6 +35,7 @@ class OrderformResource extends JsonResource
                 'username' => $this->user->username,
             ],
             'contact' => ContactResource::make($this->contact),
+            'orderformitems' => OrderformitemResource::collection($this->orderformitems),
             'order_line' => $this->order_line,
             'observation' => $this->observation,
             'created_at' => $this->created_at?->format('Y-m-d H:i:s'),

@@ -17,10 +17,13 @@ class OrderformitemResource extends JsonResource
         return [
             'id' => $this->id,
             'orderform_id' => $this->orderform_id,
-            'orderline' => $this->orderline,
+            'product_id' => $this->product_id,
+            'product' => ProductResource::make($this->product),
+            'unit_id' => $this->unit_id,
+            'unit' => UnitResource::make($this->unit),
+            'quantity' => $this->quantity,
+            'unit_price' => $this->unit_price,
             'status' => $this->status,
-            'created_at' => $this->created_at?->format('Y-m-d H:i:s'),
-            'updated_at' => $this->updated_at?->format('Y-m-d H:i:s'),
             'note' => OrderformitemcommentResource::collection($this->orderformitemcomments),
         ];
     }

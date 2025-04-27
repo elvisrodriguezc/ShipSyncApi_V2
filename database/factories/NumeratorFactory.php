@@ -19,7 +19,7 @@ class NumeratorFactory extends Factory
         return [
             'headquarter_id' => $this->faker->numberBetween(1, 4),
             'document_id' => $this->faker->numberBetween(1, 4),
-            'serie' => '001',
+            'serial' => '001',
             'number' => 1,
         ];
     }

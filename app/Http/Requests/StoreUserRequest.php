@@ -37,9 +37,6 @@ class StoreUserRequest extends FormRequest
             'address' => 'nullable|string|max:255',
             'license' => 'nullable|string|max:50',
             'licencecategory' => 'nullable|string|max:50',
-            'isAF' => 'sometimes|boolean',
-            'isAFP' => 'sometimes|boolean',
-            'payrollafp_id' => 'nullable|integer',
             'salary' => 'sometimes|numeric',
             'additionalpay' => 'sometimes|numeric',
         ];

@@ -44,14 +44,17 @@ class OrderformController extends Controller
     {
         $user = auth()->user();
         $request->validated();
+        // dd($request->orderItems);
+        $request->merge(['finished_at' => now()]);
+        $request->merge(['company_id' => $user->company_id]);
+        $request->merge(['headquarter_id' => $user->headquarter_id]);
+        $request->merge(['warehouse_id' => $user->warehouse_id]);
+        $request->merge(['user_id' => $user->id]);
         $orderform = new Orderform($request->all());
-        $orderform->company_id = $user->company_id;
-        $orderform->user_id = $user->id;
-        $orderform->warehouse_id = $user->warehouse_id;
-        $orderform->headquarter_id = $user->headquarter_id;
-        $orderform->status = 1;
         $orderform->save();
-        event(new AlertTriggered('¡Nueva alerta en tiempo real!'));
+        foreach ($request->orderItems as $item) {
+            $orderform->orderformitems()->create($item);
+        }
 
         return OrderformResource::make($orderform)->additional([
             'message' => 'Orden de pedido creada correctamente',

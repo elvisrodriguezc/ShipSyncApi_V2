@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payrollafps', function (Blueprint $table) {
+        Schema::create('units', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 50);
-            $table->float('contribution');
-            $table->float('comission');
-            $table->float('profit');
-            $table->unsignedTinyInteger('status')->default(1);
+            $table->foreignId('company_id')->constrained()->cascadeOnDelete();
+            $table->string('name')->unique();
+            $table->string('symbol')->unique();
+            $table->decimal('value', 8, 3)->nullable();
+            $table->tinyInteger('status')->default(1);
             $table->softDeletes();
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('payrollafps');
+        Schema::dropIfExists('units');
     }
 };
