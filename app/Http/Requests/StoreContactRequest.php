@@ -23,6 +23,7 @@ class StoreContactRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:50',
+            'bussiness_name' => 'sometimes|string|max:50',
             'email' => 'sometimes',
             'phone' => 'sometimes',
             'address' => 'sometimes',

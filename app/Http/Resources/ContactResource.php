@@ -19,6 +19,7 @@ class ContactResource extends JsonResource
             "value" => (int)$this->id,
             "label" => $this->name,
             "company_id" => $this->company_id,
+            "bussiness_name" => $this->bussiness_name,
             "name" => $this->name,
             "email" => $this->email,
             "phone" => $this->phone,

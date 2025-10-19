@@ -22,6 +22,7 @@ class StoreOrderformRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'date' => ['nullable', 'date'],
             'headquarter_id' => ['nullable', 'integer'],
             'warehouse_id' => ['nullable', 'integer'],
             'entity_id' => ['nullable', 'integer'],

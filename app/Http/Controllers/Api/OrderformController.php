@@ -21,8 +21,10 @@ class OrderformController extends Controller
             'startdate' => 'required|date',
             'enddate' => 'required|date',
         ]);
+        // quiero filtrar por date donde la fecha este a partir de startdate
 
-        $data = Orderform::whereBetween('created_at', [$request->startdate, $request->enddate . ' 23:59:59'])
+        $data = Orderform::where('date', '>=', $request->startdate)
+            ->orderBy('date', 'desc')
             ->orderBy('id', 'desc')
             ->get();
 
@@ -52,9 +54,7 @@ class OrderformController extends Controller
         $request->merge(['user_id' => $user->id]);
         $orderform = new Orderform($request->all());
         $orderform->save();
-        foreach ($request->orderItems as $item) {
-            $orderform->orderformitems()->create($item);
-        }
+        $orderform->orderformitems()->createMany($request->orderItems);
 
         return OrderformResource::make($orderform)->additional([
             'message' => 'Orden de pedido creada correctamente',

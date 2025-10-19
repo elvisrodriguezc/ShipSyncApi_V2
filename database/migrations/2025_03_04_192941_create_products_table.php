@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained()->onDelete('restrict')->onUpdate('cascade');
             $table->string('name')->unique();
             $table->text('description')->nullable();
+            $table->foreignId('stockdependency_id')->nullable()->constrained('products')->onDelete('restrict')->onUpdate('cascade');
             $table->string('image')->nullable();
             $table->foreignId('unit_id')->constrained()->onDelete('restrict')->onUpdate('cascade');
             $table->decimal('price', 8, 2)->nullable();

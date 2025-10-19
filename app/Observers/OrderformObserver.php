@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Orderform;
+use App\Models\Product;
 
 class OrderformObserver
 {
@@ -23,8 +24,14 @@ class OrderformObserver
             if ((int)$orderform->status === 4) {
                 foreach ($orderform->orderformitems as $item) {
                     $product = $item->product;
-                    $product->stock += $item->quantity;
-                    $product->save();
+                    if ($product->stockdependency_id) {
+                        $productStock = Product::where('id', $product->stockdependency_id)->first();
+                        $productStock->stock += $item->quantity;
+                        $productStock->save();
+                    } else {
+                        $product->stock += $item->quantity;
+                        $product->save();
+                    }
                 }
             }
             $orderform->orderformitems()->update(['status' => $orderform->status]);

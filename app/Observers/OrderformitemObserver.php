@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Orderformitem;
+use App\Models\Product;
 
 class OrderformitemObserver
 {
@@ -12,8 +13,14 @@ class OrderformitemObserver
     public function created(Orderformitem $orderformitem): void
     {
         $product = $orderformitem->product;
-        $product->stock -= $orderformitem->quantity;
-        $product->save();
+        if ($product->stockdependency_id) {
+            $productStock = Product::where('id', $product->stockdependency_id)->first();
+            $productStock->stock -= $orderformitem->quantity;
+            $productStock->save();
+        } else {
+            $product->stock -= $orderformitem->quantity;
+            $product->save();
+        }
     }
 
     /**

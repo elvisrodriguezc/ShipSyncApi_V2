@@ -17,7 +17,8 @@ class OrderformResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'company_id' => $this->company_id,
+            'date' => $this->date,
+            'company_id' => $this->compphpany_id,
             'headquarter_id' => $this->headquarter_id,
             'warehouse_id' => $this->warehouse_id,
             'user_id' => $this->user_id,

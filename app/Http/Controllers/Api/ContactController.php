@@ -11,9 +11,6 @@ use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $company_id = auth()->user()->company_id;
@@ -23,9 +20,6 @@ class ContactController extends Controller
         return ContactResource::collection($contacts);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreContactRequest $request)
     {
         $request = $request->validated();
@@ -34,17 +28,11 @@ class ContactController extends Controller
         return ContactResource::make($contact);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Contact $contact)
     {
         return ContactResource::make($contact);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateContactRequest $request, Contact $contact)
     {
         $request = $request->validated();
@@ -52,9 +40,6 @@ class ContactController extends Controller
         return ContactResource::make($contact);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Contact $contact)
     {
         $contact->delete();

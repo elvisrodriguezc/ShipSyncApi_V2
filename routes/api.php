@@ -12,7 +12,6 @@ use App\Http\Controllers\Api\EntityController as EntityV1;
 use App\Http\Controllers\Api\HeadquarterController as HeadquarterV1;
 use App\Http\Controllers\Api\OrderformController as OrderformV1;
 use App\Http\Controllers\Api\OrderformitemController as OrderformitemV1;
-use App\Http\Controllers\Api\PayrollafpController as PayrollafpV1;
 use App\Http\Controllers\Api\ProductController as ProductV1;
 use App\Http\Controllers\Api\ProgramationController as ProgramationV1;
 use App\Http\Controllers\Api\RoleController as RoleV1;
@@ -62,7 +61,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('districts', UbigeodistritoV1::class);
     Route::apiResource('entities', EntityV1::class);
     Route::apiResource('headquarters', HeadquarterV1::class);
-    Route::apiResource('payrollafps', PayrollafpV1::class);
     Route::apiResource('products', ProductV1::class);
     Route::apiResource('programations', ProgramationV1::class);
     Route::apiResource('provinces', UbigeoprovinciaV1::class);
@@ -73,7 +71,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('departments', UbigeodepartamentoV1::class);
     Route::apiResource('provinces', UbigeoprovinciaV1::class);
     Route::apiResource('districts', UbigeodistritoV1::class);
-    Route::apiResource('payrollafps', PayrollafpV1::class);
     Route::apiResource('orderforms', OrderformV1::class);
     Route::apiResource('orderformitems', OrderformitemV1::class);
     Route::apiResource('roles', RoleV1::class);

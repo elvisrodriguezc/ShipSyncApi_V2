@@ -16,6 +16,7 @@ return new class extends Migration
     {
         Schema::create('orderforms', function (Blueprint $table) {
             $table->id();
+            $table->timestamp('date')->nullable();
             $table->foreignId('company_id')->constrained()->update('cascade')->delete('restrict');
             $table->foreignId('headquarter_id')->constrained()->update('cascade')->delete('restrict');
             $table->foreignId('warehouse_id')->constrained()->update('cascade')->delete('restrict');
@@ -27,7 +28,6 @@ return new class extends Migration
             $table->text('observation')->nullable();
             $table->timestamp('finished_at')->nullable();
             $table->unsignedTinyInteger('status')->default(1);
-
             $table->softDeletes();
             $table->timestamps();
         });

@@ -19,7 +19,6 @@ class ProductController extends Controller
     {
         $user = auth()->user();
         $data = Product::where('company_id', $user->company_id)
-            ->orderBy('name', 'asc')
             ->get();
         return ProductResource::collection($data);
     }

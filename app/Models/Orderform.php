@@ -10,6 +10,7 @@ class Orderform extends Model
     use HasFactory;
 
     protected $fillable = [
+        'date',
         'company_id',
         'headquarter_id',
         'warehouse_id',

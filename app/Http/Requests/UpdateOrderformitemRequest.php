@@ -23,6 +23,8 @@ class UpdateOrderformitemRequest extends FormRequest
     {
         return [
             'orderline' => ['sometimes', 'string', 'max:255'],
+            'quantity' => ['sometimes', 'numeric', 'min:0'],
+            'unit_price' => ['sometimes', 'numeric', 'min:0'],
             'status' => ['sometimes', 'integer']
         ];
     }
