@@ -12,17 +12,19 @@ use Illuminate\Support\Str;
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Devuelve el listado de categorías de la empresa del usuario autenticado.
      */
     public function index()
     {
         $user = auth()->user();
-        $data = Category::where('company_id', $user->company_id)->get();
+        $data = Category::where('company_id', $user->company_id)
+            ->orderBy('name')
+            ->get();
         return CategoryResource::collection($data);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Crea una nueva categoría.
      */
     public function store(StoreCategoryRequest $request)
     {
@@ -30,33 +32,54 @@ class CategoryController extends Controller
         $request->validated();
         $request->merge([
             'company_id' => $user->company_id,
-            'slug' => Str::slug($request->name),
+            'slug'       => Str::slug($request->name),
+            'status'     => true,
         ]);
         $data = Category::create($request->all());
         return CategoryResource::make($data);
     }
 
     /**
-     * Display the specified resource.
+     * Muestra una categoría específica.
      */
-    public function show(Category $category)
+    public function show($id)
     {
-        //
+        $category = Category::where('company_id', auth()->user()->company_id)->findOrFail($id);
+        return CategoryResource::make($category);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza una categoría existente.
      */
-    public function update(Request $request, Category $category)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name'        => 'required|string|max:255',
+            'description' => 'nullable|string|max:500',
+            'status'      => 'nullable|boolean',
+        ]);
+
+        $category = Category::where('company_id', auth()->user()->company_id)->findOrFail($id);
+        $category->update([
+            'name'        => $request->name,
+            'slug'        => Str::slug($request->name),
+            'description' => $request->description,
+            'status'      => $request->has('status') ? $request->status : $category->status,
+        ]);
+
+        return CategoryResource::make($category->fresh());
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina una categoría.
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
-        //
+        $category = Category::where('company_id', auth()->user()->company_id)->findOrFail($id);
+        $category->delete();
+        return response()->json([
+            'id'      => $category->id,
+            'message' => 'Categoría eliminada correctamente.',
+        ]);
     }
 }

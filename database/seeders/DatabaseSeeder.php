@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
         Warehouse::factory(10)->create();
         Role::factory(4)->create();
         $this->call(UnitSeeder::class);
+        $this->call(BussinessTipeSeeder::class);
         Type::factory()->create(
             [
                 'company_id' => 1,
@@ -125,6 +126,20 @@ class DatabaseSeeder extends Seeder
                 'number' => 1,
             ]
         );
+        Document::factory()->create(
+            [
+                'symbol' => 'PED',
+                'name' => 'Pedido',
+            ]
+        );
+        Numerator::factory()->create(
+            [
+                'headquarter_id' => 1,
+                'document_id' => 2,
+                'serial' => 'PED1',
+                'number' => 1,
+            ]
+        );
         Category::factory(6)->create();
         Product::factory(20)->create();
         Entity::factory()->create(
@@ -134,19 +149,8 @@ class DatabaseSeeder extends Seeder
                 "mode" => "C",
                 "ruc" => "20100128056",
                 "razon_social" => "SAGA FALABELLA S A",
-                "estado" => "ACTIVO",
-                "condicion" => "HABIDO",
                 "ubigeo" => "150131",
-                "tipo_via" => "AV.",
-                "nombre_via" => "PASEO DE LA REPUBLICA",
-                "codigo_zona" => "URB.",
-                "tipo_zona" => "JARDIN",
-                "numero" => "3220",
-                "interior" => "-",
-                "lote" => "-",
-                "departamento" => "-",
-                "manzana" => "-",
-                "kilometro" => "-",
+                "address" => "AV. PASEO DE LA REPUBLICA 3220",
             ]
         );
         Entity::factory()->create(
@@ -157,21 +161,11 @@ class DatabaseSeeder extends Seeder
                 "mode" => "C",
                 "ruc" => "20337564373",
                 "razon_social" => "TIENDAS POR DEPARTAMENTO RIPLEY S.A.C.",
-                "estado" => "ACTIVO",
-                "condicion" => "HABIDO",
                 "ubigeo" => "150131",
-                "tipo_via" => "AV.",
-                "nombre_via" => "LAS BEGONIAS",
-                "codigo_zona" => "URB.",
-                "tipo_zona" => "JARDIN",
-                "numero" => "545",
-                "interior" => "-",
-                "lote" => "-",
-                "departamento" => "-",
-                "manzana" => "-",
-                "kilometro" => "-",
+                "address" => "AV. LAS BEGONIAS 545",
             ]
         );
         Car::factory(10)->create();
+        $this->call(MenuSeeder::class);
     }
 }

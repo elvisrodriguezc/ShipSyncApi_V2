@@ -7,11 +7,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class EntityResource extends JsonResource
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @return array<string, mixed>
-     */
     public function toArray(Request $request): array
     {
         return [
@@ -22,20 +17,9 @@ class EntityResource extends JsonResource
             'company' => $this->company,
             'mode' => $this->mode,
             'ruc' => $this->ruc,
-            'razón_social' => $this->razon_social,
-            'estado' => $this->estado,
-            'condición' => $this->condición,
+            'razon_social' => $this->razon_social,
             'ubigeo' => $this->ubigeo,
-            'tipo_via' => $this->tipo_via,
-            'nombre_via' => $this->nombre_via,
-            'codigo_zona' => $this->codigo_zona,
-            'tipo_zona' => $this->tipo_zona,
-            'numero' => $this->numero,
-            'interior' => $this->interior,
-            'lote' => $this->lote,
-            'departamento' => $this->departamento,
-            'manzana' => $this->manzana,
-            'kilometro' => $this->kilometro,
+            'address' => $this->address,
             'status' => $this->status,
         ];
     }

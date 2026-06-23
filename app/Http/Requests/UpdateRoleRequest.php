@@ -24,8 +24,11 @@ class UpdateRoleRequest extends FormRequest
         return [
             'company_id' => 'nullable|integer',
             'name' => 'nullable|string|max:50',
+            'slug' => 'nullable|string|max:50',
             'description' => 'nullable|string|max:255',
-            'status' => 'nullable',
+            'status' => 'nullable|boolean',
+            'permissions' => 'nullable|array',
+            'permissions.*' => 'integer|exists:permissions,id',
         ];
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Observers;
 
 use App\Models\Orderformitem;
-use App\Models\Product;
 
 class OrderformitemObserver
 {
@@ -13,13 +12,11 @@ class OrderformitemObserver
     public function created(Orderformitem $orderformitem): void
     {
         $product = $orderformitem->product;
+
         if ($product->stockdependency_id) {
-            $productStock = Product::where('id', $product->stockdependency_id)->first();
-            $productStock->stock -= $orderformitem->quantity;
-            $productStock->save();
+            $product->stockdependency->decrement('stock', $orderformitem->quantity);
         } else {
-            $product->stock -= $orderformitem->quantity;
-            $product->save();
+            $product->decrement('stock', $orderformitem->quantity);
         }
     }
 
@@ -28,7 +25,28 @@ class OrderformitemObserver
      */
     public function updated(Orderformitem $orderformitem): void
     {
-        //
+        if ($orderformitem->isDirty('quantity')) {
+            $diff = (float)$orderformitem->quantity - (float)$orderformitem->getOriginal('quantity');
+            $product = $orderformitem->product;
+
+            if ($product->stockdependency_id) {
+                $product->stockdependency->decrement('stock', $diff);
+            } else {
+                $product->decrement('stock', $diff);
+            }
+        }
+
+        if ($orderformitem->isDirty('status')) {
+            if ((int)$orderformitem->status === 4) {
+                $product = $orderformitem->product;
+
+                if ($product->stockdependency_id) {
+                    $product->stockdependency->increment('stock', $orderformitem->quantity);
+                } else {
+                    $product->increment('stock', $orderformitem->quantity);
+                }
+            }
+        }
     }
 
     /**
@@ -36,7 +54,15 @@ class OrderformitemObserver
      */
     public function deleted(Orderformitem $orderformitem): void
     {
-        //
+        if (in_array((int)$orderformitem->status, [1, 2])) {
+            $product = $orderformitem->product;
+
+            if ($product->stockdependency_id) {
+                $product->stockdependency->increment('stock', $orderformitem->quantity);
+            } else {
+                $product->increment('stock', $orderformitem->quantity);
+            }
+        }
     }
 
     /**

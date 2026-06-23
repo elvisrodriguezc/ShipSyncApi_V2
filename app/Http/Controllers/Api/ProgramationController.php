@@ -18,7 +18,7 @@ class ProgramationController extends Controller
     {
         $user = auth()->user();
         $company_id = $user->company_id;
-        $data = Programation::where('user_id', $company_id)->get();
+        $data = Programation::where('company_id', $company_id)->get();
         return ProgramationResource::collection($data);
     }
 
@@ -28,6 +28,7 @@ class ProgramationController extends Controller
     public function store(StoreProgramationRequest $request)
     {
         $formData = $request->validated();
+        $formData['company_id'] = auth()->user()->company_id;
         $programation = Programation::create($formData);
 
         // Iniciar una transacción
@@ -71,24 +72,29 @@ class ProgramationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Programation $programation)
+    public function show($id)
     {
-        //
+        $programation = Programation::where('company_id', auth()->user()->company_id)->findOrFail($id);
+        return ProgramationResource::make($programation);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Programation $programation)
+    public function update(Request $request, $id)
     {
-        //
+        $programation = Programation::where('company_id', auth()->user()->company_id)->findOrFail($id);
+        $programation->update($request->all());
+        return ProgramationResource::make($programation);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Programation $programation)
+    public function destroy($id)
     {
-        //
+        $programation = Programation::where('company_id', auth()->user()->company_id)->findOrFail($id);
+        $programation->delete();
+        return ProgramationResource::make($programation);
     }
 }

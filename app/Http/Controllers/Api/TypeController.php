@@ -36,17 +36,19 @@ class TypeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Type $type)
+    public function show($id)
     {
+        $type = Type::where('company_id', auth()->user()->company_id)->findOrFail($id);
         return TypeResource::make($type);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTypeRequest $request, Type $type)
+    public function update(UpdateTypeRequest $request, $id)
     {
         $data = $request->validated();
+        $type = Type::where('company_id', auth()->user()->company_id)->findOrFail($id);
         $type->update($data);
         return TypeResource::make($type);
     }
@@ -54,9 +56,10 @@ class TypeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Type $type)
+    public function destroy($id)
     {
         try {
+            $type = Type::where('company_id', auth()->user()->company_id)->findOrFail($id);
             $type->delete();
             return TypeResource::make($type)
                 ->additional([

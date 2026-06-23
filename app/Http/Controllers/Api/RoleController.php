@@ -17,7 +17,7 @@ class RoleController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $data = Role::where('company_id', $user->company_id)->get();
+        $data = Role::where('company_id', $user->company_id)->with(['permissions', 'menus'])->get();
         return RoleResource::collection($data)
             ->additional([
                 'meta' => [
@@ -37,6 +37,12 @@ class RoleController extends Controller
         $role->company_id = $user->company_id;
         $role->save();
 
+        if ($request->has('permissions')) {
+            $role->permissions()->sync($request->permissions);
+        }
+
+        $role->load(['permissions', 'menus']);
+
         return RoleResource::make($role)->additional([
             'message' => 'Rol creado correctamente',
             'error' => 0,
@@ -46,18 +52,26 @@ class RoleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Role $role)
+    public function show($id)
     {
+        $role = Role::where('company_id', auth()->user()->company_id)->with(['permissions', 'menus'])->findOrFail($id);
         return RoleResource::make($role);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateRoleRequest $request, Role $role)
+    public function update(UpdateRoleRequest $request, $id)
     {
         $request->validated();
+        $role = Role::where('company_id', auth()->user()->company_id)->with(['permissions', 'menus'])->findOrFail($id);
         $role->update($request->all());
+
+        if ($request->has('permissions')) {
+            $role->permissions()->sync($request->permissions);
+        }
+
+        $role->load(['permissions', 'menus']);
 
         return RoleResource::make($role)->additional([
             'message' => 'Rol actualizado correctamente',
@@ -68,8 +82,9 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Role $role)
+    public function destroy($id)
     {
+        $role = Role::where('company_id', auth()->user()->company_id)->findOrFail($id);
         $role->delete();
 
         return RoleResource::make($role)->additional([

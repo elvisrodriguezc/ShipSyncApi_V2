@@ -23,6 +23,24 @@ class RoleResource extends JsonResource
             'slug' => $this->slug,
             'description' => $this->description,
             'status' => $this->status,
+            'permissions' => $this->whenLoaded('permissions', function () {
+                return $this->permissions->map(fn($p) => [
+                    'id' => $p->id,
+                    'name' => $p->name,
+                    'slug' => $p->slug,
+                ]);
+            }),
+            'menus' => $this->whenLoaded('menus', function () {
+                return $this->menus->map(fn($m) => [
+                    'id' => $m->id,
+                    'name' => $m->name,
+                    'slug' => $m->slug,
+                    'route' => $m->route,
+                    'pivot' => [
+                        'order' => $m->pivot->order,
+                    ],
+                ]);
+            }),
         ];
     }
 }

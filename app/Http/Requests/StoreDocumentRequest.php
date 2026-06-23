@@ -11,7 +11,7 @@ class StoreDocumentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class StoreDocumentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'symbol' => 'required|string|max:3',
+            'name' => 'required|string|max:100',
+            'status' => 'sometimes|integer',
         ];
     }
 }

@@ -28,20 +28,23 @@ class ContactController extends Controller
         return ContactResource::make($contact);
     }
 
-    public function show(Contact $contact)
+    public function show($id)
     {
+        $contact = Contact::where('company_id', auth()->user()->company_id)->findOrFail($id);
         return ContactResource::make($contact);
     }
 
-    public function update(UpdateContactRequest $request, Contact $contact)
+    public function update(UpdateContactRequest $request, $id)
     {
         $request = $request->validated();
+        $contact = Contact::where('company_id', auth()->user()->company_id)->findOrFail($id);
         $contact->update($request);
         return ContactResource::make($contact);
     }
 
-    public function destroy(Contact $contact)
+    public function destroy($id)
     {
+        $contact = Contact::where('company_id', auth()->user()->company_id)->findOrFail($id);
         $contact->delete();
         return ContactResource::make($contact);
     }

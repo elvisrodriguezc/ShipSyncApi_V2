@@ -50,8 +50,9 @@ class UnitController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Unit $unit)
+    public function show($id)
     {
+        $unit = Unit::where('company_id', auth()->user()->company_id)->findOrFail($id);
         return UnitResource::make($unit)->additional([
             'meta' => [
                 'message' => 'Unit retrieved successfully',
@@ -62,9 +63,10 @@ class UnitController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUnitRequest $request, Unit $unit)
+    public function update(UpdateUnitRequest $request, $id)
     {
         $request->validated();
+        $unit = Unit::where('company_id', auth()->user()->company_id)->findOrFail($id);
         $unit->update([
             'name' => $request->name,
             'symbol' => $request->symbol,
@@ -81,8 +83,9 @@ class UnitController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Unit $unit)
+    public function destroy($id)
     {
+        $unit = Unit::where('company_id', auth()->user()->company_id)->findOrFail($id);
         $unit->delete();
         return UnitResource::make($unit)->additional([
             'meta' => [

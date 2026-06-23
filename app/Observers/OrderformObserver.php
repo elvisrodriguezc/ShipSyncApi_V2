@@ -21,19 +21,6 @@ class OrderformObserver
     public function updated(Orderform $orderform): void
     {
         if ($orderform->isDirty('status')) {
-            if ((int)$orderform->status === 4) {
-                foreach ($orderform->orderformitems as $item) {
-                    $product = $item->product;
-                    if ($product->stockdependency_id) {
-                        $productStock = Product::where('id', $product->stockdependency_id)->first();
-                        $productStock->stock += $item->quantity;
-                        $productStock->save();
-                    } else {
-                        $product->stock += $item->quantity;
-                        $product->save();
-                    }
-                }
-            }
             $orderform->orderformitems()->update(['status' => $orderform->status]);
         }
     }

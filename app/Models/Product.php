@@ -13,7 +13,11 @@ class Product extends Model
         'company_id',
         'category_id',
         'name',
+        'codigo',
         'description',
+        'peso',
+        'vida_util',
+        'requiere_lote',
         'stockdependency_id',
         'image',
         'unit_id',
@@ -35,5 +39,20 @@ class Product extends Model
     public function unit()
     {
         return $this->belongsTo(Unit::class);
+    }
+
+    public function stockdependency()
+    {
+        return $this->belongsTo(Product::class, 'stockdependency_id');
+    }
+
+    public function batches()
+    {
+        return $this->hasMany(Batch::class, 'id_producto');
+    }
+
+    public function movements()
+    {
+        return $this->hasMany(MovimientoInventario::class, 'id_producto');
     }
 }

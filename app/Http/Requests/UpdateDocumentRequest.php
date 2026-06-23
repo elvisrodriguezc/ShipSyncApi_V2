@@ -11,7 +11,7 @@ class UpdateDocumentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class UpdateDocumentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'symbol' => 'sometimes|required|string|max:3',
+            'name' => 'sometimes|required|string|max:100',
+            'status' => 'sometimes|required|integer',
         ];
     }
 }

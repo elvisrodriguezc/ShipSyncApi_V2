@@ -152,4 +152,14 @@ class AuthController extends Controller
             'user' => $user,
         ]);
     }
+
+    public function user(Request $request)
+    {
+        $user = $request->user();
+        // Cargamos relaciones para que vayan en el recurso (ejemplo: role, permissions, contact, etc.)
+        $user->load(['role', 'roles', 'contact', 'headquarter', 'warehouse', 'document']);
+
+        return UserResource::make($user);
+    }
+
 }

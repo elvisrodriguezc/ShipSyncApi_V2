@@ -23,11 +23,15 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'company_id' => 'nullable|integer',
-            'headquarter_id' => 'nullable|integer',
+            'headquarter_id' => 'required|integer',
+            'warehouse_id' => 'required|integer',
             'first_name' => 'required|string|max:50',
             'last_name' => 'required|string|max:50',
             'username' => 'required|string|max:50',
-            'role_id' => 'required|integer',
+            'role_id' => 'sometimes|nullable|integer',
+            'roles' => 'sometimes|array',
+            'roles.*' => 'integer|exists:roles,id',
+            'contact_id' => 'nullable|integer|exists:contacts,id',
             'document_id' => 'required|integer',
             'document_number' => 'required|string|max:20',
             'phone' => 'nullable|string|max:20',

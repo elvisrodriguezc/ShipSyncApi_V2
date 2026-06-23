@@ -49,17 +49,19 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Product $product)
+    public function show($id)
     {
+        $product = Product::where('company_id', auth()->user()->company_id)->findOrFail($id);
         return ProductResource::make($product);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProductRequest $request, Product $product)
+    public function update(UpdateProductRequest $request, $id)
     {
         $request->validated();
+        $product = Product::where('company_id', auth()->user()->company_id)->findOrFail($id);
         $product->update($request->all());
         return ProductResource::make($product);
     }
@@ -67,8 +69,9 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy($id)
     {
+        $product = Product::where('company_id', auth()->user()->company_id)->findOrFail($id);
         $product->delete();
         return ProductResource::make($product)->additional([
             'message' => 'Product deleted successfully',

@@ -24,7 +24,11 @@ class StoreRoleRequest extends FormRequest
         return [
             'company_id' => 'nullable|integer',
             'name' => 'required|string|max:50',
+            'slug' => 'required|string|max:50',
             'description' => 'nullable|string|max:255',
+            'status' => 'nullable|boolean',
+            'permissions' => 'nullable|array',
+            'permissions.*' => 'integer|exists:permissions,id',
         ];
     }
 }

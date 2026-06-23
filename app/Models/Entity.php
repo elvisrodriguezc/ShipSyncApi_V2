@@ -15,19 +15,8 @@ class Entity extends Model
         'mode',
         'ruc',
         'razon_social',
-        'estado',
-        'condicion',
         'ubigeo',
-        'tipo_via',
-        'nombre_via',
-        'codigo_zona',
-        'tipo_zona',
-        'numero',
-        'interior',
-        'lote',
-        'departamento',
-        'manzana',
-        'kilometro',
+        'address',
     ];
 
     public function company()

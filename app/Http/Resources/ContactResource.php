@@ -20,6 +20,8 @@ class ContactResource extends JsonResource
             "label" => $this->name,
             "company_id" => $this->company_id,
             "bussiness_name" => $this->bussiness_name,
+            "bussiness_tipe_id" => $this->bussiness_tipe_id ? (int)$this->bussiness_tipe_id : null,
+            "bussiness_tipe_name" => $this->bussinessTipe ? $this->bussinessTipe->name : null,
             "name" => $this->name,
             "email" => $this->email,
             "phone" => $this->phone,

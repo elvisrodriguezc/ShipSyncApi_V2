@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEntityRequest;
+use App\Http\Requests\UpdateEntityRequest;
 use App\Http\Resources\EntityResource;
 use App\Models\Entity;
 use Illuminate\Http\Request;
@@ -21,6 +22,8 @@ class EntityController extends Controller
         if ($request->has('mode')) {
             if ($request->mode === 'customers') {
                 $query->where('mode', 'like', '%C%');
+            } elseif ($request->mode === 'suppliers') {
+                $query->where('mode', 'like', '%P%');
             }
         }
         $data = $query->get();
@@ -53,9 +56,10 @@ class EntityController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Entity $entity)
+    public function update(UpdateEntityRequest $request, Entity $entity)
     {
-        //
+        $entity->update($request->validated());
+        return EntityResource::make($entity);
     }
 
     /**
@@ -63,6 +67,7 @@ class EntityController extends Controller
      */
     public function destroy(Entity $entity)
     {
-        //
+        $entity->delete();
+        return response()->json(['message' => 'Proveedor eliminado correctamente']);
     }
 }

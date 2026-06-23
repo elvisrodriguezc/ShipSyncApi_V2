@@ -15,6 +15,7 @@ class Orderformitem extends Model
         'product_id',
         'unit_id',
         'quantity',
+        'weight',
         'unit_price',
         'status'
     ];

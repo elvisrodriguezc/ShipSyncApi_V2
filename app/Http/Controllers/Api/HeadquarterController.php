@@ -40,7 +40,7 @@ class HeadquarterController extends Controller
      */
     public function show($id)
     {
-        $headquarter = Headquarter::find($id);
+        $headquarter = Headquarter::where('company_id', auth()->user()->company_id)->findOrFail($id);
         return HeadquarterResource::make($headquarter);
     }
 
@@ -50,7 +50,7 @@ class HeadquarterController extends Controller
     public function update(UpdateHeadquarterRequest $request, $id)
     {
         $data = $request->validated();
-        $headquarter = Headquarter::find($id);
+        $headquarter = Headquarter::where('company_id', auth()->user()->company_id)->findOrFail($id);
         $headquarter->update($data);
         return HeadquarterResource::make($headquarter);
     }
@@ -58,9 +58,9 @@ class HeadquarterController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Headquarter $hquarter, $id)
+    public function destroy($id)
     {
-        $hquarter = Headquarter::find($id);
+        $hquarter = Headquarter::where('company_id', auth()->user()->company_id)->findOrFail($id);
         try {
             $hquarter->delete();
             return HeadquarterResource::make($hquarter);

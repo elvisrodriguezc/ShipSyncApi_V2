@@ -13,7 +13,7 @@ class UserController extends Controller
 {
 
     // Change Password
-    public function changePassword(Request $request, User $user)
+    public function changePassword(Request $request, $id)
     {
         $request->validate([
             // 'password' => 'required|string',
@@ -27,6 +27,7 @@ class UserController extends Controller
         //     ], 400);
         // }
 
+        $user = User::where('company_id', auth()->user()->company_id)->findOrFail($id);
         $user->password = bcrypt($request->new_password);
         $user->save();
 
@@ -41,9 +42,11 @@ class UserController extends Controller
      */
     public function index()
     {
-
-
-        $data = User::where('status', 1)->get();
+        $company_id = auth()->user()->company_id;
+        $data = User::where('company_id', $company_id)
+            ->with(['company', 'headquarter', 'role', 'roles', 'document', 'contact'])
+            ->where('status', 1)
+            ->get();
         return UserResource::collection($data)->additional(['meta' => [
             'total' => $data->count(),
         ]]);
@@ -59,7 +62,18 @@ class UserController extends Controller
         $user = new User($request->all());
         $user->company_id = $company_id;
         $user->password = bcrypt($request->password);
+
+        if (!$user->role_id && $request->has('roles') && count($request->roles) > 0) {
+            $user->role_id = $request->roles[0];
+        }
+
         $user->save();
+
+        if ($request->has('roles')) {
+            $user->roles()->sync($request->roles);
+        }
+
+        $user->load(['company', 'headquarter', 'role', 'roles', 'document', 'contact']);
 
         return UserResource::make($user)->additional([
             'message' => 'Usuario creado correctamente',
@@ -70,18 +84,32 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show($id)
     {
+        $user = User::where('company_id', auth()->user()->company_id)->findOrFail($id);
         return new UserResource($user);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request, $id)
     {
         $request->validated();
-        $user->update($request->all());
+        $user = User::where('company_id', auth()->user()->company_id)->findOrFail($id);
+
+        $data = $request->all();
+        if ((!isset($data['role_id']) || !$data['role_id']) && $request->has('roles') && count($request->roles) > 0) {
+            $data['role_id'] = $request->roles[0];
+        }
+
+        $user->update($data);
+
+        if ($request->has('roles')) {
+            $user->roles()->sync($request->roles);
+        }
+
+        $user->load(['company', 'headquarter', 'role', 'roles', 'document', 'contact']);
 
         return UserResource::make($user)->additional([
             'message' => 'Usuario actualizado correctamente',
@@ -92,8 +120,9 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
+        $user = User::where('company_id', auth()->user()->company_id)->findOrFail($id);
         $user->delete();
         return UserResource::make($user)->additional([
             'message' => 'Usuario eliminado correctamente',

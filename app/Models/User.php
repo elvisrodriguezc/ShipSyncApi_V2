@@ -28,6 +28,7 @@ class User extends Authenticatable
         'role_id',
         'document_id',
         'document_number',
+        'contact_id',
         'phone',
         'address',
         'email',
@@ -94,6 +95,12 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'role_user')->withTimestamps();
+    }
+
     /**
      * Get the document that owns the user.
      */
@@ -103,10 +110,30 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the contact that owns the user.
+     */
+    public function contact()
+    {
+        return $this->belongsTo(Contact::class);
+    }
+
+    /**
      * Get the payrollafp that owns the user.
      */
     public function payrollafp()
     {
         return $this->belongsTo(Payrollafp::class);
+    }
+
+    public function hasPermission(string $slug): bool
+    {
+        // Check single role for backward compatibility
+        if ($this->role && $this->role->permissions->contains('slug', $slug)) {
+            return true;
+        }
+        // Check multiple roles
+        return $this->roles()->whereHas('permissions', function ($query) use ($slug) {
+            $query->where('slug', $slug);
+        })->exists();
     }
 }
