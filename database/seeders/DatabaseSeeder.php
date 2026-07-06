@@ -140,6 +140,20 @@ class DatabaseSeeder extends Seeder
                 'number' => 1,
             ]
         );
+        $docInv = Document::factory()->create(
+            [
+                'symbol' => 'INV',
+                'name' => 'Inventario Físico',
+            ]
+        );
+        Numerator::factory()->create(
+            [
+                'headquarter_id' => 1,
+                'document_id' => $docInv->id,
+                'serial' => 'INV1',
+                'number' => 1,
+            ]
+        );
         Category::factory(6)->create();
         Product::factory(20)->create();
         Entity::factory()->create(

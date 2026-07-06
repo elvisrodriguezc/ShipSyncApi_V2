@@ -15,6 +15,18 @@ class UpdateProductRequest extends FormRequest
     }
 
     /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        if ($this->has('requiere_lote')) {
+            $this->merge([
+                'requiere_lote' => filter_var($this->requiere_lote, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) ?? false,
+            ]);
+        }
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
@@ -32,8 +44,8 @@ class UpdateProductRequest extends FormRequest
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'unit_id' => 'sometimes|exists:units,id',
             'price' => 'sometimes|numeric|min:0',
-            'stock' => 'sometimes|integer|min:0',
             'status' => 'sometimes|boolean',
+            'stockdependency_id' => 'nullable|exists:products,id',
         ];
     }
 }

@@ -2,8 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Category;
-use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,18 +14,20 @@ class ProductResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $warehouseId = $request->query('warehouse_id') ? (int) $request->query('warehouse_id') : (auth()->user()?->warehouse_id ?? null);
+        $stockActual = $this->getStockActual($warehouseId);
+        $stockReservado = $this->getStockReservado($warehouseId);
+        $stockDisponible = $this->getStockDisponible($warehouseId);
+
         return [
             'id' => $this->id,
-            'label' => strtoupper(number_format($this->stock, 0) . " " . $this->name),
+            'label' => strtoupper(number_format($stockActual, 0) . " " . $this->name),
             'value' => (int)$this->id,
             'company_id' => $this->company_id,
-            // 'company' => $this->company->name,
             'category_id' => $this->category_id,
-
-            // 'category' => CategoryResource::make($this->category),
             'category' => [
                 'id' => $this->category_id,
-                'name' => $this->category->name,
+                'name' => $this->category->name ?? '',
             ],
             'name' => $this->name,
             'codigo' => $this->codigo,
@@ -35,12 +35,17 @@ class ProductResource extends JsonResource
             'peso' => $this->peso,
             'vida_util' => $this->vida_util,
             'requiere_lote' => (bool) $this->requiere_lote,
-            'stockdependency_id' => $this->stockdependency_id,
-            // 'image' => $this->image,
             'unit_id' => $this->unit_id,
-            // 'unit' => UnitResource::make($this->unit),
             'price' => (float) $this->price,
-            'stock' => (float)$this->stock,
+            'stock' => (float) $stockActual,
+            'stock_actual' => (float) $stockActual,
+            'stock_reservado' => (float) $stockReservado,
+            'stock_disponible' => (float) $stockDisponible,
+            'stockdependency_id' => $this->stockdependency_id ? (int) $this->stockdependency_id : null,
+            'stock_dependency' => $this->stockDependency ? [
+                'id' => $this->stockDependency->id,
+                'name' => $this->stockDependency->name,
+            ] : null,
             'status' => $this->status,
         ];
     }

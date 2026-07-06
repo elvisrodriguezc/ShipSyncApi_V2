@@ -35,12 +35,12 @@ use App\Http\Controllers\Api\StockReportController as StockReportV1;
 use Illuminate\Support\Facades\Artisan;
 
 Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
-Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::post('/register', [AuthController::class, 'register']);
 
 // Route::prefix('/v1')->middleware('auth:sanctum')->group(function () {
 Route::middleware('auth:sanctum')->group(function () {
 
+    Route::get('/logout', [AuthController::class, 'logout']);
     Route::get('/linkbuilder', function () {
         Artisan::call('storage:link');
         return 'Enlace simbólico creado correctamente.';
@@ -77,6 +77,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('districts', UbigeodistritoV1::class);
     Route::post('orderforms/{orderform}/approve', [App\Http\Controllers\Api\OrderformController::class, 'approve']);
     Route::post('orderforms/{orderform}/attend', [App\Http\Controllers\Api\OrderformController::class, 'attend']);
+    Route::post('orderforms/{orderform}/reopen', [App\Http\Controllers\Api\OrderformController::class, 'reopen']);
     Route::apiResource('orderforms', OrderformV1::class);
     Route::apiResource('orderformitems', OrderformitemV1::class);
     Route::apiResource('roles', RoleV1::class);
@@ -98,6 +99,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('documents', DocumentV1::class);
     Route::apiResource('batches', BatchV1::class);
     Route::apiResource('movimientos-inventario', MovimientoInventarioV1::class);
+    Route::post('inventories/{inventory}/complete', [App\Http\Controllers\Api\InventoryController::class, 'complete']);
+    Route::apiResource('inventories', App\Http\Controllers\Api\InventoryController::class);
     Route::get('ruc/{ruc}', [RucV1::class, 'search']);
     Route::get('reports/stock', [StockReportV1::class, 'index']);
 });

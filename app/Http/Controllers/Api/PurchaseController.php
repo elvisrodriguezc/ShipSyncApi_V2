@@ -33,7 +33,7 @@ class PurchaseController extends Controller
         $data = $query->with('details.product', 'details.batch')
             ->orderBy('created_at', 'desc')
             ->get();
-            
+
         return PurchaseResource::collection($data);
     }
 
@@ -55,17 +55,10 @@ class PurchaseController extends Controller
             'status' => 1, // 1: Pendiente
         ]);
 
-        foreach ($data['details'] as $detail) {
-            PurchaseDetail::create([
-                'purchase_id' => $purchase->id,
-                'product_id' => $detail['product_id'],
-                'cantidad' => $detail['cantidad'],
-                'costo_unitario' => $detail['costo_unitario'] ?? null,
-            ]);
-        }
-
-        $purchase->load('details.product');
-        return PurchaseResource::make($purchase);
+        return PurchaseResource::make($purchase)->additional([
+            'error' => 0,
+            'message' => 'Compra creada exitosamente'
+        ]);
     }
 
     public function receive(Request $request, $id)
@@ -101,12 +94,15 @@ class PurchaseController extends Controller
                         );
                     }
 
-                    // Create batch
+                    // Create batch with warehouse_id
                     $batch = \App\Models\Batch::create([
                         'company_id' => $purchase->company_id,
+                        'warehouse_id' => $purchase->warehouse_id,
+                        'purchase_id' => $purchase->id,
                         'id_producto' => $detail->product_id,
                         'in_date' => now()->toDateString(),
                         'fecha_vencimiento' => $input['fecha_vencimiento'],
+                        'stock_inicial' => $detail->cantidad,
                         'stock_actual' => $detail->cantidad,
                         'estado' => 1,
                     ]);
@@ -127,7 +123,17 @@ class PurchaseController extends Controller
                         'usuario_id' => $user->id,
                     ]);
                 } else {
-                    // Non-lot item: calculate latest running saldo for the product in this warehouse
+                    // Non-lot item: update ProductStock for this warehouse
+                    $prodStock = \App\Models\ProductStock::firstOrCreate(
+                        [
+                            'company_id' => $purchase->company_id,
+                            'warehouse_id' => $purchase->warehouse_id,
+                            'product_id' => $detail->product_id,
+                        ],
+                        ['stock_actual' => 0]
+                    );
+                    $prodStock->increment('stock_actual', $detail->cantidad);
+
                     $lastMov = MovimientoInventario::where('warehouse_id', $purchase->warehouse_id)
                         ->where('id_producto', $detail->product_id)
                         ->orderBy('id_movimiento', 'desc')
@@ -147,9 +153,6 @@ class PurchaseController extends Controller
                         'usuario_id' => $user->id,
                     ]);
                 }
-
-                // Increment global product stock cache
-                $product->increment('stock', $detail->cantidad);
             }
 
             $purchase->update(['status' => 2]); // 2: Recibido

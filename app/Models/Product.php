@@ -18,12 +18,11 @@ class Product extends Model
         'peso',
         'vida_util',
         'requiere_lote',
-        'stockdependency_id',
         'image',
         'unit_id',
         'price',
-        'stock',
         'status',
+        'stockdependency_id',
     ];
 
     public function company()
@@ -41,7 +40,7 @@ class Product extends Model
         return $this->belongsTo(Unit::class);
     }
 
-    public function stockdependency()
+    public function stockDependency()
     {
         return $this->belongsTo(Product::class, 'stockdependency_id');
     }
@@ -51,8 +50,61 @@ class Product extends Model
         return $this->hasMany(Batch::class, 'id_producto');
     }
 
+    public function stocks()
+    {
+        return $this->hasMany(ProductStock::class);
+    }
+
+    public function reservations()
+    {
+        return $this->hasMany(StockReservation::class);
+    }
+
     public function movements()
     {
         return $this->hasMany(MovimientoInventario::class, 'id_producto');
+    }
+
+    public function getStockActual(?int $warehouseId = null): float
+    {
+        if ($this->requiere_lote) {
+            $query = $this->batches()->where('estado', 1);
+            if ($warehouseId) {
+                $query->where(function ($q) use ($warehouseId) {
+                    $q->where('warehouse_id', $warehouseId)
+                      ->orWhereNull('warehouse_id');
+                });
+            }
+            $batchSum = (float) $query->sum('stock_actual');
+            if ($batchSum > 0) {
+                return $batchSum;
+            }
+            // Fallback to product_stocks if no active batch stock
+            $stockQuery = $this->stocks();
+            if ($warehouseId) {
+                $stockQuery->where('warehouse_id', $warehouseId);
+            }
+            return (float) $stockQuery->sum('stock_actual');
+        }
+
+        $query = $this->stocks();
+        if ($warehouseId) {
+            $query->where('warehouse_id', $warehouseId);
+        }
+        return (float) $query->sum('stock_actual');
+    }
+
+    public function getStockReservado(?int $warehouseId = null): float
+    {
+        $query = $this->reservations()->where('status', 1); // 1: Active
+        if ($warehouseId) {
+            $query->where('warehouse_id', $warehouseId);
+        }
+        return (float) $query->sum('quantity');
+    }
+
+    public function getStockDisponible(?int $warehouseId = null): float
+    {
+        return $this->getStockActual($warehouseId) - $this->getStockReservado($warehouseId);
     }
 }

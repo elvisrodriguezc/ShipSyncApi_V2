@@ -15,6 +15,7 @@ class Document extends Model
         'symbol',
         'name',
         'status',
+        'headquarter_id',
     ];
 
     /**

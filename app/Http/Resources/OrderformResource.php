@@ -18,7 +18,7 @@ class OrderformResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'date' => (new DateTime($this->date))->format('Y-m-d'),
+            'date' => $this->date,
             'company_id' => $this->company_id,
             'headquarter_id' => $this->headquarter_id,
             'warehouse_id' => $this->warehouse_id,

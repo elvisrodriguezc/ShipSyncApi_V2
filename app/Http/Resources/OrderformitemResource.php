@@ -30,11 +30,13 @@ class OrderformitemResource extends JsonResource
             'requiere_lote' => (bool) $this->product->requiere_lote,
         ];
 
-        if ($this->product->requiere_lote) {
-            $companyId = auth()->user()->company_id;
-            $service = new BatchStockService();
-            $data['batches'] = $service->getBatchesForProduct($companyId, $this->product_id);
-            $data['oldest_batch'] = collect($data['batches'])->firstWhere('es_mas_antiguo', true);
+        if ($this->product && $this->product->requiere_lote) {
+            $companyId = $this->orderform->company_id ?? $this->product->company_id ?? auth()->user()?->company_id;
+            if ($companyId) {
+                $service = new BatchStockService();
+                $data['batches'] = $service->getBatchesForProduct($companyId, $this->product_id);
+                $data['oldest_batch'] = collect($data['batches'])->firstWhere('es_mas_antiguo', true);
+            }
         }
 
         return $data;

@@ -14,9 +14,12 @@ class Batch extends Model
 
     protected $fillable = [
         'company_id',
+        'warehouse_id',
+        'purchase_id',
         'id_producto',
         'in_date',
         'fecha_vencimiento',
+        'stock_inicial',
         'stock_actual',
         'estado',
     ];
@@ -24,6 +27,16 @@ class Batch extends Model
     public function company()
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class);
+    }
+
+    public function purchase()
+    {
+        return $this->belongsTo(Purchase::class);
     }
 
     public function product()

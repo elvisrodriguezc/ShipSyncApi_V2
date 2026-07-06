@@ -39,6 +39,7 @@ class User extends Authenticatable
         'salary',
         'additionalpay',
         'status',
+        'autoaprobar',
     ];
 
     /**
@@ -61,6 +62,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'autoaprobar' => 'boolean',
         ];
     }
 

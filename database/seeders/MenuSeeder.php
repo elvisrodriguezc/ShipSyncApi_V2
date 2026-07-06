@@ -22,7 +22,7 @@ class MenuSeeder extends Seeder
             'status' => 1
         ]);
 
-        $pfadmin = Role::firstOrCreate(['slug' => 'pfadmin'], [
+        $admin = Role::firstOrCreate(['slug' => 'admin'], [
             'company_id' => 1,
             'name' => 'PuntoFresh Admin',
             'description' => 'PuntoFresh Administrator',
@@ -60,7 +60,7 @@ class MenuSeeder extends Seeder
                 'route' => '/dashboard',
                 'order' => 10,
                 'parent_slug' => null,
-                'roles' => ['sadmin', 'pfadmin']
+                'roles' => ['sadmin', 'admin']
             ],
             // Users
             [
@@ -70,7 +70,7 @@ class MenuSeeder extends Seeder
                 'route' => '/users/users',
                 'order' => 20,
                 'parent_slug' => null,
-                'roles' => ['sadmin', 'pfadmin']
+                'roles' => ['sadmin', 'admin']
             ],
             [
                 'name' => 'Roles y Permisos',
@@ -79,7 +79,7 @@ class MenuSeeder extends Seeder
                 'route' => '/users/roles',
                 'order' => 30,
                 'parent_slug' => null,
-                'roles' => ['sadmin', 'pfadmin']
+                'roles' => ['sadmin', 'admin']
             ],
             // Contactos
             [
@@ -89,7 +89,7 @@ class MenuSeeder extends Seeder
                 'route' => '/contacts/contacts',
                 'order' => 40,
                 'parent_slug' => null,
-                'roles' => ['sadmin', 'pfadmin']
+                'roles' => ['sadmin', 'admin']
             ],
             // Reportes Parent
             [
@@ -99,7 +99,7 @@ class MenuSeeder extends Seeder
                 'route' => '/reports',
                 'order' => 50,
                 'parent_slug' => null,
-                'roles' => ['sadmin', 'pfadmin']
+                'roles' => ['sadmin', 'admin']
             ],
             [
                 'name' => 'Stock de Productos',
@@ -108,7 +108,7 @@ class MenuSeeder extends Seeder
                 'route' => '/reports/stock',
                 'order' => 51,
                 'parent_slug' => 'reportes',
-                'roles' => ['sadmin', 'pfadmin']
+                'roles' => ['sadmin', 'admin']
             ],
             // Lotes
             [
@@ -118,7 +118,7 @@ class MenuSeeder extends Seeder
                 'route' => '/batches/batches',
                 'order' => 60,
                 'parent_slug' => null,
-                'roles' => ['sadmin', 'pfadmin']
+                'roles' => ['sadmin', 'admin']
             ],
             // Movimientos Inventario
             [
@@ -128,7 +128,7 @@ class MenuSeeder extends Seeder
                 'route' => '/movimientos-inventario/movimientos-inventario',
                 'order' => 70,
                 'parent_slug' => null,
-                'roles' => ['sadmin', 'pfadmin']
+                'roles' => ['sadmin', 'admin']
             ],
             // Productos
             [
@@ -138,7 +138,7 @@ class MenuSeeder extends Seeder
                 'route' => '/products/products',
                 'order' => 80,
                 'parent_slug' => null,
-                'roles' => ['sadmin', 'pfadmin']
+                'roles' => ['sadmin', 'admin']
             ],
             // Categorías
             [
@@ -148,7 +148,7 @@ class MenuSeeder extends Seeder
                 'route' => '/categories/categories',
                 'order' => 90,
                 'parent_slug' => null,
-                'roles' => ['sadmin', 'pfadmin']
+                'roles' => ['sadmin', 'admin']
             ],
             // Proveedores
             [
@@ -158,7 +158,7 @@ class MenuSeeder extends Seeder
                 'route' => '/proveedores/proveedores',
                 'order' => 100,
                 'parent_slug' => null,
-                'roles' => ['sadmin', 'pfadmin']
+                'roles' => ['sadmin', 'admin']
             ],
             // Compras
             [
@@ -168,7 +168,7 @@ class MenuSeeder extends Seeder
                 'route' => '/purchases/purchases',
                 'order' => 110,
                 'parent_slug' => null,
-                'roles' => ['sadmin', 'pfadmin']
+                'roles' => ['sadmin', 'admin']
             ],
             // Pedidos
             [
@@ -178,7 +178,7 @@ class MenuSeeder extends Seeder
                 'route' => '/orders/orders',
                 'order' => 115,
                 'parent_slug' => null,
-                'roles' => ['sadmin', 'pfadmin', 'pfproducer', 'user']
+                'roles' => ['sadmin', 'admin', 'pfproducer', 'user']
             ],
             // Almacén Parent
             [
@@ -188,7 +188,7 @@ class MenuSeeder extends Seeder
                 'route' => '/warehouse',
                 'order' => 120,
                 'parent_slug' => null,
-                'roles' => ['sadmin', 'pfadmin']
+                'roles' => ['sadmin', 'admin']
             ],
             [
                 'name' => 'Sucursales',
@@ -197,7 +197,7 @@ class MenuSeeder extends Seeder
                 'route' => '/warehouse/headquarters',
                 'order' => 121,
                 'parent_slug' => 'almacen',
-                'roles' => ['sadmin', 'pfadmin']
+                'roles' => ['sadmin', 'admin']
             ],
             [
                 'name' => 'Almacenes',
@@ -206,7 +206,7 @@ class MenuSeeder extends Seeder
                 'route' => '/warehouse/warehouses',
                 'order' => 122,
                 'parent_slug' => 'almacen',
-                'roles' => ['sadmin', 'pfadmin']
+                'roles' => ['sadmin', 'admin']
             ],
             // Ordenes de Producción Parent
             [
@@ -216,16 +216,7 @@ class MenuSeeder extends Seeder
                 'route' => '/orderform',
                 'order' => 130,
                 'parent_slug' => null,
-                'roles' => ['sadmin', 'pfadmin', 'pfproducer']
-            ],
-            [
-                'name' => 'Ordenes de Producción',
-                'slug' => 'ordenes-produccion-hijo',
-                'icon' => null,
-                'route' => '/orderform/productionorders',
-                'order' => 131,
-                'parent_slug' => 'orden-produccion',
-                'roles' => ['sadmin', 'pfadmin']
+                'roles' => ['sadmin', 'admin', 'pfproducer']
             ],
             [
                 'name' => 'Ordenes',
@@ -234,7 +225,7 @@ class MenuSeeder extends Seeder
                 'route' => '/orderform/orderforms',
                 'order' => 132,
                 'parent_slug' => 'orden-produccion',
-                'roles' => ['sadmin', 'pfadmin', 'user']
+                'roles' => ['sadmin', 'admin', 'user']
             ],
             [
                 'name' => 'Producción',

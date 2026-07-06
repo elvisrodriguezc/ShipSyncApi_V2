@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Models\Batch;
-use App\Models\MovimientoInventario;
 use App\Models\Product;
 
 class BatchStockService
@@ -16,28 +15,28 @@ class BatchStockService
             return [];
         }
 
-        $batches = Batch::where('company_id', $companyId)
+        $query = Batch::where('company_id', $companyId)
             ->where('id_producto', $productId)
-            ->get();
+            ->where('stock_actual', '>', 0);
+
+        if ($warehouseId) {
+            $query->where(function ($q) use ($warehouseId) {
+                $q->where('warehouse_id', $warehouseId)
+                    ->orWhereNull('warehouse_id');
+            });
+        }
+
+        $batches = $query->get();
 
         $batchItems = [];
         foreach ($batches as $batch) {
-            if ($warehouseId) {
-                $ultimoSaldo = MovimientoInventario::where('company_id', $companyId)
-                    ->whereNull('deleted_at')
-                    ->where('id_producto', $productId)
-                    ->where('id_lote', $batch->id_lote)
-                    ->where('warehouse_id', $warehouseId)
-                    ->max('saldo') ?? 0;
-            } else {
-                $ultimoSaldo = $batch->stock_actual ?? 0;
-            }
+            $stockActual = $batch->stock_actual ?? 0;
 
             $batchItems[] = [
                 'lote_id' => $batch->id_lote,
                 'lote_numero' => 'Lote #' . $batch->id_lote,
                 'lote_fecha_vencimiento' => $batch->fecha_vencimiento,
-                'stock' => (float) $ultimoSaldo,
+                'stock' => (float) $stockActual,
                 'batch' => $batch,
             ];
         }

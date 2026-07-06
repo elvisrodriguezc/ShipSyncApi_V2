@@ -14,11 +14,24 @@ class UpdateBatchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'numero_lote_proveedor' => 'sometimes|string|max:30',
+            'id_producto' => 'sometimes|exists:products,id',
+            'numero_lote_proveedor' => 'nullable|string|max:30',
             'in_date' => 'sometimes|date',
             'fecha_fabricacion' => 'nullable|date',
             'fecha_vencimiento' => 'sometimes|date|after:in_date',
             'estado' => 'nullable|integer|min:1|max:4',
+            'purchase_id' => 'nullable|integer|exists:purchases,id',
+            'stock_inicial' => 'sometimes|numeric|min:0',
+            'stock_actual' => 'sometimes|numeric|min:0',
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'purchase_id' => 'documento de compra',
+            'stock_inicial' => 'stock inicial',
+            'stock_actual' => 'stock actual',
         ];
     }
 }

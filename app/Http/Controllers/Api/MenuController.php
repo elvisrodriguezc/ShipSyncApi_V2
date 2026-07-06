@@ -124,12 +124,8 @@ class MenuController extends Controller
             }])
             ->get();
 
-        // Resolve order based on roles' pivot orders
-        $menus = $menus->map(function ($menu) {
-            $minOrder = $menu->roles->min('pivot.order') ?? $menu->order;
-            $menu->resolved_order = $minOrder;
-            return $menu;
-        })->sortBy('resolved_order')->values();
+        // Resolve order based on menus.order
+        $menus = $menus->sortBy('order')->values();
 
         // Build hierarchical tree
         $menuTree = [];
@@ -143,7 +139,7 @@ class MenuController extends Controller
                 'slug' => $menu->slug,
                 'icon' => $menu->icon,
                 'route' => $menu->route,
-                'order' => $menu->resolved_order,
+                'order' => $menu->order,
                 'children' => []
             ];
         }

@@ -16,12 +16,12 @@ class SuggestionController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        
+
         // Eager load the user relation
         $query = Suggestion::with('user');
 
-        // Non-admins can only see their own suggestions
-        if ($user->role && !in_array($user->role->slug ?? $user->role->name, ['sadmin', 'pfadmin'])) {
+        // Non-admins can only see their own suggestion
+        if ($user->role && !in_array($user->role->slug ?? $user->role->name, ['sadmin', 'admin'])) {
             $query->where('user_id', $user->id);
         }
 
@@ -65,7 +65,7 @@ class SuggestionController extends Controller
     {
         // Only admins can update the status of a suggestion
         $user = $request->user();
-        if ($user->role && !in_array($user->role->slug ?? $user->role->name, ['sadmin', 'pfadmin'])) {
+        if ($user->role && !in_array($user->role->slug ?? $user->role->name, ['sadmin', 'admin'])) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
 
@@ -87,7 +87,7 @@ class SuggestionController extends Controller
     {
         // Only admins can delete suggestions
         $user = $request->user();
-        if ($user->role && !in_array($user->role->slug ?? $user->role->name, ['sadmin', 'pfadmin'])) {
+        if ($user->role && !in_array($user->role->slug ?? $user->role->name, ['sadmin', 'admin'])) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
 

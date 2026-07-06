@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Orderformitem;
+use App\Models\StockReservation;
 
 class OrderformitemObserver
 {
@@ -11,13 +12,18 @@ class OrderformitemObserver
      */
     public function created(Orderformitem $orderformitem): void
     {
-        $product = $orderformitem->product;
+        $orderform = $orderformitem->orderform;
+        if (!$orderform) return;
 
-        if ($product->stockdependency_id) {
-            $product->stockdependency->decrement('stock', $orderformitem->quantity);
-        } else {
-            $product->decrement('stock', $orderformitem->quantity);
-        }
+        StockReservation::create([
+            'company_id' => $orderform->company_id,
+            'warehouse_id' => $orderform->warehouse_id,
+            'product_id' => $orderformitem->product_id,
+            'orderform_id' => $orderform->id,
+            'orderformitem_id' => $orderformitem->id,
+            'quantity' => $orderformitem->quantity,
+            'status' => 1, // 1: Reserved/Active
+        ]);
     }
 
     /**
@@ -25,25 +31,19 @@ class OrderformitemObserver
      */
     public function updated(Orderformitem $orderformitem): void
     {
-        if ($orderformitem->isDirty('quantity')) {
-            $diff = (float)$orderformitem->quantity - (float)$orderformitem->getOriginal('quantity');
-            $product = $orderformitem->product;
+        $reservation = StockReservation::where('orderformitem_id', $orderformitem->id)->first();
 
-            if ($product->stockdependency_id) {
-                $product->stockdependency->decrement('stock', $diff);
-            } else {
-                $product->decrement('stock', $diff);
+        if ($reservation) {
+            if ($orderformitem->isDirty('quantity')) {
+                $reservation->update(['quantity' => $orderformitem->quantity]);
             }
-        }
 
-        if ($orderformitem->isDirty('status')) {
-            if ((int)$orderformitem->status === 4) {
-                $product = $orderformitem->product;
-
-                if ($product->stockdependency_id) {
-                    $product->stockdependency->increment('stock', $orderformitem->quantity);
-                } else {
-                    $product->increment('stock', $orderformitem->quantity);
+            if ($orderformitem->isDirty('status')) {
+                $statusInt = (int) $orderformitem->status;
+                if ($statusInt === 4 || $statusInt === 0) {
+                    $reservation->update(['status' => 0]); // 0: Released/Canceled
+                } elseif ($statusInt === 3) {
+                    $reservation->update(['status' => 2]); // 2: Consumed
                 }
             }
         }
@@ -54,14 +54,9 @@ class OrderformitemObserver
      */
     public function deleted(Orderformitem $orderformitem): void
     {
-        if (in_array((int)$orderformitem->status, [1, 2])) {
-            $product = $orderformitem->product;
-
-            if ($product->stockdependency_id) {
-                $product->stockdependency->increment('stock', $orderformitem->quantity);
-            } else {
-                $product->increment('stock', $orderformitem->quantity);
-            }
+        $reservation = StockReservation::where('orderformitem_id', $orderformitem->id)->first();
+        if ($reservation) {
+            $reservation->update(['status' => 0]); // 0: Released
         }
     }
 
@@ -70,14 +65,9 @@ class OrderformitemObserver
      */
     public function restored(Orderformitem $orderformitem): void
     {
-        //
-    }
-
-    /**
-     * Handle the Orderformitem "force deleted" event.
-     */
-    public function forceDeleted(Orderformitem $orderformitem): void
-    {
-        //
+        $reservation = StockReservation::where('orderformitem_id', $orderformitem->id)->first();
+        if ($reservation) {
+            $reservation->update(['status' => 1]); // 1: Active
+        }
     }
 }

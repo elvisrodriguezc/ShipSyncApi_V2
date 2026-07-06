@@ -13,7 +13,7 @@ class BatchController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $data = Batch::where('company_id', $user->company_id)->get();
+        $data = Batch::with(['product', 'purchase', 'movements.usuario'])->where('company_id', $user->company_id)->orderBy('id_lote', 'desc')->get();
         return BatchResource::collection($data);
     }
 
@@ -25,12 +25,13 @@ class BatchController extends Controller
             'company_id' => $user->company_id,
         ]);
         $data = Batch::create($request->all());
+        $data->load(['product', 'purchase', 'movements.usuario']);
         return BatchResource::make($data);
     }
 
     public function show($id_lote)
     {
-        $batch = Batch::where('company_id', auth()->user()->company_id)->findOrFail($id_lote);
+        $batch = Batch::with(['product', 'purchase', 'movements.usuario'])->where('company_id', auth()->user()->company_id)->findOrFail($id_lote);
         return BatchResource::make($batch);
     }
 
@@ -39,6 +40,7 @@ class BatchController extends Controller
         $request->validated();
         $batch = Batch::where('company_id', auth()->user()->company_id)->findOrFail($id_lote);
         $batch->update($request->all());
+        $batch->load(['product', 'purchase', 'movements.usuario']);
         return BatchResource::make($batch);
     }
 

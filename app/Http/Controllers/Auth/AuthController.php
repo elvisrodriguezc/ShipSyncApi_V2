@@ -24,14 +24,19 @@ class AuthController extends Controller
 
         if (!$user) {
             return response()->json([
-                'message' => 'Las Credeciales no son correctas',
-                'Error' => 1,
-            ], 401);
+                'token' => null,
+                'user' => null,
+                'Error' => 2,
+                'message' => 'El correo electrónico no existe',
+            ]);
         }
 
         if (!Auth::attempt($request->only('email', 'password'))) {
-            throw ValidationException::withMessages([
-                'email' => 'Las Credeciales no son correctas',
+            return response()->json([
+                'token' => null,
+                'user' => null,
+                'Error' => 1,
+                'message' => 'Las Credeciales no son correctas',
             ]);
         }
         $token = $user->createToken('token')->plainTextToken;
@@ -39,6 +44,8 @@ class AuthController extends Controller
         return response()->json([
             'token' => $token,
             'user' => UserResource::make($user),
+            'Error' => 0,
+            'message' => 'Inicio de sesion exitoso',
         ]);
     }
 
@@ -159,7 +166,10 @@ class AuthController extends Controller
         // Cargamos relaciones para que vayan en el recurso (ejemplo: role, permissions, contact, etc.)
         $user->load(['role', 'roles', 'contact', 'headquarter', 'warehouse', 'document']);
 
-        return UserResource::make($user);
+        return [
+            'user' => UserResource::make($user),
+            'permissions' => $user->roles()->with('permissions')->get()->pluck('permissions')->flatten()->pluck('slug')->unique(),
+        ];
     }
 
 }

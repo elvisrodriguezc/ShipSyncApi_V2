@@ -24,7 +24,7 @@ class HelpController extends Controller
     public function store(Request $request)
     {
         $user = $request->user();
-        if ($user->role && !in_array($user->role->slug ?? $user->role->name, ['sadmin', 'pfadmin'])) {
+        if ($user->role && !in_array($user->role->slug ?? $user->role->name, ['sadmin', 'admin'])) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
 
@@ -57,7 +57,7 @@ class HelpController extends Controller
     public function update(Request $request, Help $help)
     {
         $user = $request->user();
-        if ($user->role && !in_array($user->role->slug ?? $user->role->name, ['sadmin', 'pfadmin'])) {
+        if ($user->role && !in_array($user->role->slug ?? $user->role->name, ['sadmin', 'admin'])) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
 
@@ -82,7 +82,7 @@ class HelpController extends Controller
     public function destroy(Request $request, Help $help)
     {
         $user = $request->user();
-        if ($user->role && !in_array($user->role->slug ?? $user->role->name, ['sadmin', 'pfadmin'])) {
+        if ($user->role && !in_array($user->role->slug ?? $user->role->name, ['sadmin', 'admin'])) {
             return response()->json(['message' => 'No autorizado'], 403);
         }
 
