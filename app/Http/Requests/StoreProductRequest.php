@@ -39,7 +39,7 @@ class StoreProductRequest extends FormRequest
             'codigo' => 'nullable|string|max:15',
             'description' => 'nullable|string|max:1000',
             'peso' => 'nullable|integer|min:0',
-            'vida_util' => 'nullable|integer|min:0|max:255',
+            'vida_util' => 'nullable|integer|min:0|max:65535',
             'requiere_lote' => 'nullable|boolean',
             'image' => 'nullable|image|max:2048',
             'unit_id' => 'required|integer',

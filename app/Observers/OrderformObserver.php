@@ -22,6 +22,20 @@ class OrderformObserver
     {
         if ($orderform->isDirty('status')) {
             $orderform->orderformitems()->update(['status' => $orderform->status]);
+
+            $newStatus = (int) $orderform->status;
+            $reservationStatus = 1; // Default 1: Reserved
+
+            if ($newStatus === 4 || $newStatus === 0) {
+                $reservationStatus = 0; // Released / Canceled
+            } elseif ($newStatus === 3) {
+                $reservationStatus = 2; // Consumed
+            } elseif ($newStatus === 1 || $newStatus === 2) {
+                $reservationStatus = 1; // Active
+            }
+
+            \App\Models\StockReservation::where('orderform_id', $orderform->id)
+                ->update(['status' => $reservationStatus]);
         }
     }
 
@@ -30,7 +44,8 @@ class OrderformObserver
      */
     public function deleted(Orderform $orderform): void
     {
-        //
+        \App\Models\StockReservation::where('orderform_id', $orderform->id)
+            ->update(['status' => 0]);
     }
 
     /**

@@ -37,7 +37,18 @@ class OrderformController extends Controller
         $user = auth()->user();
         $company_id = $user->company_id;
 
-        $query = Orderform::where('company_id', $company_id);
+        $query = Orderform::where('company_id', $company_id)->with([
+            'company',
+            'headquarter',
+            'warehouse',
+            'user.role',
+            'user.headquarter',
+            'user.warehouse',
+            'contact',
+            'orderformitems.product',
+            'orderformitems.unit',
+            'orderformitems.orderformitemcomments'
+        ]);
 
         // Filter by user role or permissions: sadmin, pfadmin, admin and pfproducer see all; or anyone with orderforms.edit/delete permissions
         if (
@@ -141,8 +152,12 @@ class OrderformController extends Controller
             // Find all item IDs that are being kept/updated
             $keptIds = collect($submittedItems)->pluck('id')->filter()->all();
 
-            // Delete items that were removed in the frontend
-            $orderform->orderformitems()->whereNotIn('id', $keptIds)->delete();
+            // Delete items that were removed in the frontend and release their stock reservations
+            $removedIds = $orderform->orderformitems()->whereNotIn('id', $keptIds)->pluck('id');
+            if ($removedIds->isNotEmpty()) {
+                \App\Models\StockReservation::whereIn('orderformitem_id', $removedIds)->update(['status' => 0]);
+                $orderform->orderformitems()->whereNotIn('id', $keptIds)->delete();
+            }
 
             // Update existing items or create new ones
             foreach ($submittedItems as $itemData) {
@@ -385,7 +400,7 @@ class OrderformController extends Controller
         $request->validated();
         $orderform = Orderform::where('company_id', auth()->user()->company_id)->findOrFail($id);
 
-        if ($orderform->status != 1) {
+        if ($orderform->status != 1 && !(($orderform->status == 2 || $orderform->status == 1) && (int) $request->input('status') === 4)) {
             return response()->json([
                 'message' => 'No se puede modificar una orden que ya no está pendiente',
                 'error' => 1
@@ -568,12 +583,6 @@ class OrderformController extends Controller
             );
             $prodStock->decrement('stock_actual', $quantity);
 
-            $lastMov = MovimientoInventario::where('warehouse_id', $orderform->warehouse_id)
-                ->where('id_producto', $product->id)
-                ->orderBy('id_movimiento', 'desc')
-                ->first();
-            $ultimoSaldo = $lastMov ? $lastMov->saldo : 0;
-
             MovimientoInventario::create([
                 'company_id' => $orderform->company_id,
                 'id_lote' => null,
@@ -581,7 +590,7 @@ class OrderformController extends Controller
                 'warehouse_id' => $orderform->warehouse_id,
                 'tipo_movimiento' => 2, // Egreso_Venta
                 'cantidad' => -1 * $quantity,
-                'saldo' => (float) $ultimoSaldo - (float) $quantity,
+                'saldo' => $prodStock->fresh()->stock_actual,
                 'fecha_movimiento' => now(),
                 'documento_referencia' => 'Salida por Orden de Producción #' . $orderform->id . $reasonSuffix,
                 'usuario_id' => $user->id,

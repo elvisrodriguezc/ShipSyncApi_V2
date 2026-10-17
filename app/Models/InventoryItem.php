@@ -12,6 +12,7 @@ class InventoryItem extends Model
     protected $fillable = [
         'inventory_id',
         'product_id',
+        'id_lote',
         'system_stock',
         'physical_stock',
         'difference',
@@ -26,5 +27,10 @@ class InventoryItem extends Model
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id');
+    }
+
+    public function batch()
+    {
+        return $this->belongsTo(Batch::class, 'id_lote');
     }
 }

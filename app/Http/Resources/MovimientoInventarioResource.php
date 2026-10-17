@@ -37,7 +37,7 @@ class MovimientoInventarioResource extends JsonResource
             'fecha_movimiento' => $this->fecha_movimiento ? $this->fecha_movimiento->format('Y-m-d H:i:s') : null,
             'documento_referencia' => $this->documento_referencia,
             'usuario_id' => $this->usuario_id,
-            'usuario' => $this->usuario ? [
+            'usuario' => $this->usuario_id ? [
                 'id' => $this->usuario->id,
                 'name' => $this->usuario->name,
             ] : null,

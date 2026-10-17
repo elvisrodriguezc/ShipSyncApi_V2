@@ -127,6 +127,14 @@ class User extends Authenticatable
         return $this->belongsTo(Payrollafp::class);
     }
 
+    /**
+     * Get the inventory movements for the user.
+     */
+    public function movimientosInventario()
+    {
+        return $this->hasMany(MovimientoInventario::class, 'usuario_id');
+    }
+
     public function hasPermission(string $slug): bool
     {
         // Check single role for backward compatibility
@@ -137,5 +145,13 @@ class User extends Authenticatable
         return $this->roles()->whereHas('permissions', function ($query) use ($slug) {
             $query->where('slug', $slug);
         })->exists();
+    }
+
+    /**
+     * Get the user's full name.
+     */
+    public function getNameAttribute(): string
+    {
+        return trim("{$this->first_name} {$this->last_name}");
     }
 }

@@ -75,16 +75,7 @@ class Product extends Model
                       ->orWhereNull('warehouse_id');
                 });
             }
-            $batchSum = (float) $query->sum('stock_actual');
-            if ($batchSum > 0) {
-                return $batchSum;
-            }
-            // Fallback to product_stocks if no active batch stock
-            $stockQuery = $this->stocks();
-            if ($warehouseId) {
-                $stockQuery->where('warehouse_id', $warehouseId);
-            }
-            return (float) $stockQuery->sum('stock_actual');
+            return (float) $query->sum('stock_actual');
         }
 
         $query = $this->stocks();
@@ -98,13 +89,16 @@ class Product extends Model
     {
         $query = $this->reservations()->where('status', 1); // 1: Active
         if ($warehouseId) {
-            $query->where('warehouse_id', $warehouseId);
+            $query->where(function ($q) use ($warehouseId) {
+                $q->where('warehouse_id', $warehouseId)
+                  ->orWhereNull('warehouse_id');
+            });
         }
         return (float) $query->sum('quantity');
     }
 
     public function getStockDisponible(?int $warehouseId = null): float
     {
-        return $this->getStockActual($warehouseId) - $this->getStockReservado($warehouseId);
+        return max(0, $this->getStockActual($warehouseId) - $this->getStockReservado($warehouseId));
     }
 }

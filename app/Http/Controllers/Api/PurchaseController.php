@@ -134,12 +134,6 @@ class PurchaseController extends Controller
                     );
                     $prodStock->increment('stock_actual', $detail->cantidad);
 
-                    $lastMov = MovimientoInventario::where('warehouse_id', $purchase->warehouse_id)
-                        ->where('id_producto', $detail->product_id)
-                        ->orderBy('id_movimiento', 'desc')
-                        ->first();
-                    $ultimoSaldo = $lastMov ? $lastMov->saldo : 0;
-
                     MovimientoInventario::create([
                         'company_id' => $purchase->company_id,
                         'id_lote' => null,
@@ -147,7 +141,7 @@ class PurchaseController extends Controller
                         'warehouse_id' => $purchase->warehouse_id,
                         'tipo_movimiento' => 1, // Ingreso_Compra
                         'cantidad' => $detail->cantidad,
-                        'saldo' => (float) $ultimoSaldo + (float) $detail->cantidad,
+                        'saldo' => $prodStock->fresh()->stock_actual,
                         'fecha_movimiento' => now(),
                         'documento_referencia' => $purchase->numero_comprobante,
                         'usuario_id' => $user->id,
@@ -234,11 +228,18 @@ class PurchaseController extends Controller
                             $batch->delete();
                         }
                     } else {
-                        $lastMov = MovimientoInventario::where('warehouse_id', $purchase->warehouse_id)
-                            ->where('id_producto', $detail->product_id)
-                            ->orderBy('id_movimiento', 'desc')
+                        // Revert non-lot product stock in ProductStock
+                        $prodStock = \App\Models\ProductStock::where('company_id', $purchase->company_id)
+                            ->where('warehouse_id', $purchase->warehouse_id)
+                            ->where('product_id', $detail->product_id)
                             ->first();
-                        $ultimoSaldo = $lastMov ? $lastMov->saldo : 0;
+
+                        if ($prodStock) {
+                            $prodStock->decrement('stock_actual', $detail->cantidad);
+                            $newSaldo = $prodStock->fresh()->stock_actual;
+                        } else {
+                            $newSaldo = 0;
+                        }
 
                         MovimientoInventario::create([
                             'company_id' => $purchase->company_id,
@@ -247,14 +248,12 @@ class PurchaseController extends Controller
                             'warehouse_id' => $purchase->warehouse_id,
                             'tipo_movimiento' => 4, // Ajuste
                             'cantidad' => -1 * $detail->cantidad,
-                            'saldo' => (float) $ultimoSaldo - (float) $detail->cantidad,
+                            'saldo' => $newSaldo,
                             'fecha_movimiento' => now(),
                             'documento_referencia' => 'Reversión por eliminación de compra ' . $purchase->numero_comprobante,
                             'usuario_id' => $user->id,
                         ]);
                     }
-
-                    $product->decrement('stock', $detail->cantidad);
                 }
             });
         }

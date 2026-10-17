@@ -31,6 +31,10 @@ use App\Http\Controllers\Api\BatchController as BatchV1;
 use App\Http\Controllers\Api\MovimientoInventarioController as MovimientoInventarioV1;
 use App\Http\Controllers\Api\RucController as RucV1;
 use App\Http\Controllers\Api\StockReportController as StockReportV1;
+use App\Http\Controllers\Api\IdCardTypeController as IdCardTypeV1;
+use App\Http\Controllers\Api\PositionController as PositionV1;
+use App\Http\Controllers\Api\PersonController as PersonV1;
+use App\Http\Controllers\Api\OrderformDeliveryController as OrderformDeliveryV1;
 
 use Illuminate\Support\Facades\Artisan;
 
@@ -103,4 +107,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('inventories', App\Http\Controllers\Api\InventoryController::class);
     Route::get('ruc/{ruc}', [RucV1::class, 'search']);
     Route::get('reports/stock', [StockReportV1::class, 'index']);
+    Route::apiResource('id-card-types', IdCardTypeV1::class);
+    Route::apiResource('positions', PositionV1::class);
+    Route::apiResource('persons', PersonV1::class);
+    Route::apiResource('orderform-deliveries', OrderformDeliveryV1::class);
 });

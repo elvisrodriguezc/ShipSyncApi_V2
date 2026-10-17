@@ -62,6 +62,7 @@ class InventoryController extends Controller
             'notes' => 'nullable|string',
             'items' => 'required|array',
             'items.*.product_id' => 'required|exists:products,id',
+            'items.*.id_lote' => 'nullable|exists:batches,id_lote',
             'items.*.physical_stock' => 'nullable|numeric|min:0',
             'items.*.observation' => 'nullable|string',
             'complete' => 'sometimes|boolean',
@@ -114,13 +115,22 @@ class InventoryController extends Controller
                 }
 
                 $product = Product::findOrFail($itemData['product_id']);
-                $systemStock = $product->getStockActual($request->warehouse_id);
+                $idLote = $itemData['id_lote'] ?? null;
+
+                if ($idLote) {
+                    $batch = \App\Models\Batch::findOrFail($idLote);
+                    $systemStock = (float) $batch->stock_actual;
+                } else {
+                    $systemStock = $product->getStockActual($request->warehouse_id);
+                }
+
                 $physicalStock = (float) $itemData['physical_stock'];
                 $difference = $physicalStock - $systemStock;
 
                 $item = InventoryItem::create([
                     'inventory_id' => $inventory->id,
                     'product_id' => $product->id,
+                    'id_lote' => $idLote,
                     'system_stock' => $systemStock,
                     'physical_stock' => $physicalStock,
                     'difference' => $difference,
@@ -128,7 +138,44 @@ class InventoryController extends Controller
                 ]);
 
                 if ($status === 2) {
-                    $this->consolidateProductStock($user, $request->warehouse_id, $product, $physicalStock, $difference, 'Ajuste por Inventario Físico #' . $numberFormatted);
+                    if ($idLote) {
+                        $batch = \App\Models\Batch::findOrFail($idLote);
+                        $batch->stock_actual = $physicalStock;
+                        $batch->estado = ($physicalStock > 0) ? 1 : 5;
+                        $batch->save();
+
+                        // Recalculate warehouse total product stock
+                        $newProductStock = \App\Models\Batch::where('id_producto', $product->id)
+                            ->where('warehouse_id', $request->warehouse_id)
+                            ->where('estado', 1)
+                            ->sum('stock_actual');
+
+                        \App\Models\ProductStock::updateOrCreate(
+                            [
+                                'company_id' => $user->company_id,
+                                'warehouse_id' => $request->warehouse_id,
+                                'product_id' => $product->id,
+                            ],
+                            ['stock_actual' => $newProductStock]
+                        );
+
+                        if (abs($difference) > 0.0001) {
+                            \App\Models\MovimientoInventario::create([
+                                'company_id' => $user->company_id,
+                                'id_lote' => $batch->id_lote,
+                                'id_producto' => $product->id,
+                                'warehouse_id' => $request->warehouse_id,
+                                'tipo_movimiento' => 4, // Ajuste_Inventario
+                                'cantidad' => $difference,
+                                'saldo' => $physicalStock,
+                                'fecha_movimiento' => now(),
+                                'documento_referencia' => 'Ajuste por Inventario Físico #' . $numberFormatted,
+                                'usuario_id' => $user->id,
+                            ]);
+                        }
+                    } else {
+                        $this->consolidateProductStock($user, $request->warehouse_id, $product, $physicalStock, $difference, 'Ajuste por Inventario Físico #' . $numberFormatted);
+                    }
                 }
             }
 
@@ -177,6 +224,7 @@ class InventoryController extends Controller
             'notes' => 'nullable|string',
             'items' => 'required|array',
             'items.*.product_id' => 'required|exists:products,id',
+            'items.*.id_lote' => 'nullable|exists:batches,id_lote',
             'items.*.physical_stock' => 'nullable|numeric|min:0',
             'items.*.observation' => 'nullable|string',
             'complete' => 'sometimes|boolean',
@@ -199,13 +247,22 @@ class InventoryController extends Controller
                 }
 
                 $product = Product::findOrFail($itemData['product_id']);
-                $systemStock = $product->getStockActual($inventory->warehouse_id);
+                $idLote = $itemData['id_lote'] ?? null;
+
+                if ($idLote) {
+                    $batch = \App\Models\Batch::findOrFail($idLote);
+                    $systemStock = (float) $batch->stock_actual;
+                } else {
+                    $systemStock = $product->getStockActual($inventory->warehouse_id);
+                }
+
                 $physicalStock = (float) $itemData['physical_stock'];
                 $difference = $physicalStock - $systemStock;
 
                 InventoryItem::create([
                     'inventory_id' => $inventory->id,
                     'product_id' => $product->id,
+                    'id_lote' => $idLote,
                     'system_stock' => $systemStock,
                     'physical_stock' => $physicalStock,
                     'difference' => $difference,
@@ -213,7 +270,44 @@ class InventoryController extends Controller
                 ]);
 
                 if ($status === 2) {
-                    $this->consolidateProductStock($user, $inventory->warehouse_id, $product, $physicalStock, $difference, 'Ajuste por Inventario Físico #' . $inventory->number);
+                    if ($idLote) {
+                        $batch = \App\Models\Batch::findOrFail($idLote);
+                        $batch->stock_actual = $physicalStock;
+                        $batch->estado = ($physicalStock > 0) ? 1 : 5;
+                        $batch->save();
+
+                        // Recalculate warehouse total product stock
+                        $newProductStock = \App\Models\Batch::where('id_producto', $product->id)
+                            ->where('warehouse_id', $inventory->warehouse_id)
+                            ->where('estado', 1)
+                            ->sum('stock_actual');
+
+                        \App\Models\ProductStock::updateOrCreate(
+                            [
+                                'company_id' => $user->company_id,
+                                'warehouse_id' => $inventory->warehouse_id,
+                                'product_id' => $product->id,
+                            ],
+                            ['stock_actual' => $newProductStock]
+                        );
+
+                        if (abs($difference) > 0.0001) {
+                            \App\Models\MovimientoInventario::create([
+                                'company_id' => $user->company_id,
+                                'id_lote' => $batch->id_lote,
+                                'id_producto' => $product->id,
+                                'warehouse_id' => $inventory->warehouse_id,
+                                'tipo_movimiento' => 4, // Ajuste_Inventario
+                                'cantidad' => $difference,
+                                'saldo' => $physicalStock,
+                                'fecha_movimiento' => now(),
+                                'documento_referencia' => 'Ajuste por Inventario Físico #' . $inventory->number,
+                                'usuario_id' => $user->id,
+                            ]);
+                        }
+                    } else {
+                        $this->consolidateProductStock($user, $inventory->warehouse_id, $product, $physicalStock, $difference, 'Ajuste por Inventario Físico #' . $inventory->number);
+                    }
                 }
             }
 

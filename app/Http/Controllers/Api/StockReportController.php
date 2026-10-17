@@ -70,17 +70,23 @@ class StockReportController extends Controller
                         'es_mas_antiguo' => false,
                     ];
                 } else {
+                    $remainingReservation = $stockReservado;
                     foreach ($batches as $batch) {
+                        $batchStock = (float) $batch['stock'];
+                        $batchReserved = min($batchStock, $remainingReservation);
+                        $batchDisponible = max(0, $batchStock - $batchReserved);
+                        $remainingReservation -= $batchReserved;
+
                         $result[] = [
                             'producto_id' => $product->id,
                             'producto_nombre' => $product->name,
                             'requiere_lote' => true,
                             'categoria_id' => $product->category_id,
                             'categoria_nombre' => $product->category->name ?? '',
-                            'stock' => (float) $batch['stock'],
-                            'stock_actual' => (float) $batch['stock'],
-                            'stock_reservado' => (float) $stockReservado,
-                            'stock_disponible' => (float) ($batch['stock'] - $stockReservado),
+                            'stock' => $batchStock,
+                            'stock_actual' => $batchStock,
+                            'stock_reservado' => (float) $batchReserved,
+                            'stock_disponible' => (float) $batchDisponible,
                             'lote_id' => $batch['lote_id'],
                             'lote_numero' => $batch['lote_numero'],
                             'lote_fecha_vencimiento' => $batch['lote_fecha_vencimiento'],

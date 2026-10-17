@@ -14,6 +14,7 @@ class BatchResource extends JsonResource
             'company_id' => $this->company_id,
             'id_producto' => $this->id_producto,
             'product_name' => $this->product?->name ?? '—',
+            'warehouse_name' => $this->warehouse?->name ?? '—',
             'product' => $this->product ? [
                 'id' => $this->product->id,
                 'name' => $this->product->name,

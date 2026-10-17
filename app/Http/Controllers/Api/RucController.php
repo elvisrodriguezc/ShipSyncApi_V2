@@ -10,8 +10,8 @@ class RucController extends Controller
 {
     public function search($ruc)
     {
-        $url = env('DNIRUC_URL');
-        $token = env('DNIRUC_TOKEN');
+        $url = config('services.dniruc.url');
+        $token = config('services.dniruc.token');
 
         if (!$url || !$token) {
             return response()->json([
